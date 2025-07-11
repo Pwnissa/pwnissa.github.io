@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MemberCard from '../components/PetCard.astro';
+import PetCard from '../components/PetCard.astro';
+
+const pets = [
+  {
+    name: "LUPINA",
+    species: "Dog",
+    photo: "/images/pets/max.jpg", // Make sure to have these image paths
+    tags: ["Dog"],
+  },
+  {
+    name: "Tofu",
+    species: "Cat",
+    photo: "/images/pets/luna.jpg",
+    tags: ["Cat"],
+  },
+  {
+    name: "Pip",
+    species: "Parrot",
+    photo: "/images/pets/pip.jpg",
+    tags: ["Bird", "Exotic"],
+  },
+  {
+    name: "Nemo",
+    species: "Clownfish",
+    photo: "/images/pets/nemo.jpg",
+    tags: ["Fish"],
+  },
+  {
+    name: "Rocky",
+    species: "Bearded Dragon",
+    photo: "/images/pets/rocky.jpg",
+    tags: ["Reptile", "Exotic"],
+  },
+];
+---
+
+<Layout title="CTF Team UniGe - Cybersecurity Team">
+
+    <div class="team-section">
+      <div class="container">
+        <h2>Our pets </h2>
+        <div class="team-grid">
+            {pets.map(pet => (
+                <PetCard
+                  name={pet.name}
+                  species={pet.species}
+                  photo={pet.photo}
+                  tags={pet.tags}
+                />
+              ))}
+        </div>
+      </div>
+    </div>
+
+  </Layout>

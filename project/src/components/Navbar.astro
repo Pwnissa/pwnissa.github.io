@@ -1,0 +1,123 @@
+---
+---
+
+<nav id="navbar" class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <a href="/">Pwnissa</a>
+      </div>
+      <div class="navbar-menu">
+        <a href="/blog" class="navbar-link">Blog</a>
+      </div>
+    </div>
+  </nav>
+  
+  <script>
+    // Gestione apparizione navbar al scroll
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      const scrollPosition = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      
+      if (scrollPosition > viewportHeight * 0.8) {
+        navbar.classList.add('visible');
+      } else {
+        navbar.classList.remove('visible');
+      }
+    });
+  </script>
+  
+  <style>
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transform: translateY(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+  
+    .navbar.visible {
+      transform: translateY(0);
+    }
+  
+    .navbar-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+  
+    .navbar-brand a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+      background: var(--accent-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all 0.3s ease;
+    }
+  
+    .navbar-brand a:hover {
+      filter: brightness(1.2);
+    }
+  
+    .navbar-menu {
+      display: flex;
+      gap: 30px;
+    }
+  
+    .navbar-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+  
+    .navbar-link:hover {
+      color: var(--accent-gold);
+      background: rgba(237, 192, 30, 0.1);
+    }
+  
+    .navbar-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--accent-gold);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+  
+    .navbar-link:hover::after {
+      width: 80%;
+    }
+  
+    @media (max-width: 768px) {
+      .navbar-container {
+        padding: 0 15px;
+      }
+      
+      .navbar-brand a {
+        font-size: 1.3rem;
+      }
+      
+      .navbar-menu {
+        gap: 20px;
+      }
+    }
+  </style>

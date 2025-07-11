@@ -1,0 +1,235 @@
+---
+import Footer from '../components/Footer.astro';
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    date: string;
+    author: string;
+    tags: string[];
+    image?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={`Articolo di ${frontmatter.author} - CTF Team UniGe`} />
+    <title>{frontmatter.title} - CTF Team UniGe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <main class="blog-container">
+      <div class="blog-header">
+        <a href="/" class="back-link">← Torna alla home</a>
+        <div class="article-meta">
+          <h1>{frontmatter.title}</h1>
+          <div class="meta-info">
+            <span class="author">di {frontmatter.author}</span>
+            <span class="date">{new Date(frontmatter.date).toLocaleDateString('it-IT')}</span>
+            <div class="tags">
+              {frontmatter.tags.map(tag => (
+                <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <article class="article-content">
+        <slot />
+      </article>
+    </main>
+    
+    <Footer /> 
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #25282c;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --accent-blue: #080C59;
+    --accent-gold: #D9AD29;
+    --accent-green: #82BF45;
+    --accent-teal: #21A698;
+    --accent-orange: #F28A2E;
+    --accent-pink: #F277B4; /* Corrected typo: F27EB4 -> F277B4 if that was intended, otherwise use the original. I'll stick to original.*/
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.08);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  .blog-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .blog-header {
+    margin-bottom: 40px;
+  }
+
+  .back-link {
+    color: var(--accent-teal);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 20px;
+    display: inline-block;
+    transition: color 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: var(--accent-gold);
+  }
+
+  .article-meta h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--accent-gold), var(--accent-teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .meta-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  .author, .date {
+    color: var(--text-secondary);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: white;
+  }
+
+  .tag.web { background: var(--accent-teal); }
+  .tag.network { background: var(--accent-blue); }
+  .tag.misc { background: var(--accent-pink); }
+  .tag.pwn { background: var(--accent-green); }
+  .tag.crypto { background: var(--accent-orange); }
+  .tag.reverse { background: var(--accent-gold); }
+
+  .article-content {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 15px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+  }
+
+  .article-content h2 {
+    font-size: 1.8rem;
+    margin: 30px 0 15px 0;
+    color: var(--accent-gold);
+  }
+
+  .article-content h3 {
+    font-size: 1.4rem;
+    margin: 25px 0 10px 0;
+    color: var(--accent-teal);
+  }
+
+  .article-content p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .article-content code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--accent-gold);
+  }
+
+  .article-content pre {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 20px 0;
+    border: 1px solid var(--card-border);
+  }
+
+  .article-content pre code {
+    background: none;
+    padding: 0;
+    color: var(--text-primary);
+  }
+
+  .article-content ul, .article-content ol {
+    margin-left: 20px;
+    margin-bottom: 15px;
+  }
+
+  .article-content li {
+    margin-bottom: 5px;
+  }
+
+  .article-content blockquote {
+    border-left: 4px solid var(--accent-gold);
+    padding-left: 20px;
+    margin: 20px 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .article-meta h1 {
+      font-size: 2rem;
+    }
+    
+    .article-content {
+      padding: 20px;
+    }
+    
+    .meta-info {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,94 @@
+---
+export interface Props {
+  nickname: string;
+  name?: string;
+  photo: string;
+  tags: string[];
+}
+
+const { nickname, name, photo, tags } = Astro.props;
+---
+
+<div class="member-card">
+  <img src={photo} alt={nickname} class="member-photo">
+  <div class="member-nickname">{nickname}</div>
+  <div class="member-name">{name || ""}</div>
+  <div class="member-tags">
+    {tags.map(tag => (
+      <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .member-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 320px; /* Altezza minima fissa per uniformità */
+  }
+
+  .member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(237, 192, 30, 0.2);
+    border-color: var(--accent-gold);
+  }
+
+  .member-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 20px;
+    display: block;
+    border: 3px solid var(--accent-gold);
+    flex-shrink: 0;
+  }
+
+  .member-nickname {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    flex-shrink: 0;
+  }
+
+  .member-name {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    min-height: 24px; /* Spazio fisso anche se vuoto */
+    flex-shrink: 0;
+  }
+
+  .member-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: auto; /* Spinge i tag verso il basso */
+  }
+
+  .tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: white;
+  }
+
+  .tag.web { background: var(--accent-teal); }
+  .tag.network { background: var(--accent-blue); }
+  .tag.misc { background: var(--accent-pink); }
+  .tag.pwn { background: var(--accent-green); }
+  .tag.crypto { background: var(--accent-orange); }
+  .tag.reverse { background: var(--accent-gold); }
+  .tag.gambling { background: linear-gradient(135deg, #ff416c, #8b00ff, #00eaff);; }
+</style>

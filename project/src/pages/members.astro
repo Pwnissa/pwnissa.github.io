@@ -1,0 +1,154 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MemberCard from '../components/MemberCard.astro';
+
+const members = [
+  {
+    nickname: "Stealth Guy",
+    name: "Gigi D'Agostino",
+    photo: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["web", "network", "misc"]
+  },
+  {
+    nickname: "Ub1k",
+    name: "",
+    photo: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["crypto", "web"]
+  },
+  {
+    nickname: "andrea",
+    name: "",
+    photo: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["pwn", "network"]
+  },
+  {
+    nickname: "the pirate",
+    name: "Peter",
+    photo: "https://static.wikia.nocookie.net/spongebob/images/f/fc/SpongeBob_SquarePants_Theme_Song_%281999%29_01.png",
+    tags: ["reverse", "misc"]
+  },
+  {
+    nickname: "redistan",
+    name: "",
+    photo: "https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["crypto", "web"]
+  },
+  {
+    nickname: "goglix",
+    name: "",
+    photo: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["pwn", "reverse"]
+  },
+  {
+    nickname: "PWNY",
+    name: "Pwny the Horse",
+    photo: "https://images.pexels.com/photos/635499/pexels-photo-635499.jpeg?w=300&h=300&fit=crop",
+    tags: ["pwn", "gambling"]
+  },
+  {
+    nickname: "Stealth Guy",
+    name: "Gigi D'Agostino",
+    photo: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["web", "network", "misc"]
+  },
+  {
+    nickname: "Ub1k",
+    name: "",
+    photo: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["crypto", "web"]
+  },
+  {
+    nickname: "andrea",
+    name: "",
+    photo: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["pwn", "network"]
+  },
+  {
+    nickname: "the pirate",
+    name: "Peter",
+    photo: "https://static.wikia.nocookie.net/spongebob/images/f/fc/SpongeBob_SquarePants_Theme_Song_%281999%29_01.png",
+    tags: ["reverse", "misc"]
+  },
+  {
+    nickname: "redistan",
+    name: "",
+    photo: "https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["crypto", "web"]
+  },
+  {
+    nickname: "goglix",
+    name: "",
+    photo: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["pwn", "reverse"]
+  },
+  {
+    nickname: "PWNY",
+    name: "Pwny the Horse",
+    photo: "https://images.pexels.com/photos/635499/pexels-photo-635499.jpeg?w=300&h=300&fit=crop",
+    tags: ["pwn", "gambling"]
+  },
+  {
+    nickname: "Stealth Guy",
+    name: "Gigi D'Agostino",
+    photo: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["web", "network", "misc"]
+  },
+  {
+    nickname: "Ub1k",
+    name: "",
+    photo: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["crypto", "web"]
+  },
+  {
+    nickname: "andrea",
+    name: "",
+    photo: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["pwn", "network"]
+  },
+  {
+    nickname: "the pirate",
+    name: "Peter",
+    photo: "https://static.wikia.nocookie.net/spongebob/images/f/fc/SpongeBob_SquarePants_Theme_Song_%281999%29_01.png",
+    tags: ["reverse", "misc"]
+  },
+  {
+    nickname: "redistan",
+    name: "",
+    photo: "https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["crypto", "web"]
+  },
+  {
+    nickname: "goglix",
+    name: "",
+    photo: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    tags: ["pwn", "reverse"]
+  },
+  {
+    nickname: "PWNY",
+    name: "Pwny the Horse",
+    photo: "https://images.pexels.com/photos/635499/pexels-photo-635499.jpeg?w=300&h=300&fit=crop",
+    tags: ["pwn", "gambling"]
+  }
+];
+
+---
+
+<Layout title="CTF Team UniGe - Cybersecurity Team">
+
+    <div class="team-section">
+      <div class="container">
+        <h2>🧑‍💻 Tutti i membri di Pwnissa </h2>
+        <div class="team-grid">
+          {members.map(member => (
+            <MemberCard 
+              nickname={member.nickname}
+              name={member.name}
+              photo={member.photo}
+              tags={member.tags}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+
+  </Layout>

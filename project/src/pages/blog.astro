@@ -1,0 +1,202 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const posts = await Astro.glob('../pages/blog/*.md');
+const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+---
+
+<Layout title="Blog - CTF Team UniGe">
+  <div class="blog-listing">
+    <div class="container">
+      <div class="blog-header">
+        <a href="/" class="back-link">← Torna alla home</a>
+        <h1>📝 I nostri articoli</h1>
+        <p>Scopri le nostre analisi tecniche, writeup e guide di cybersecurity</p>
+      </div>
+      
+      <div class="posts-grid">
+        {sortedPosts.map(post => (
+          <article class="post-card">
+            <div class="post-image">
+              <img src={post.frontmatter.image || "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop"} alt={post.frontmatter.title} />
+            </div>
+            <div class="post-content">
+              <div class="post-meta">
+                <span class="post-author">di {post.frontmatter.author}</span>
+                <span class="post-date">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</span>
+              </div>
+              <h2 class="post-title">
+                <a href={post.url}>{post.frontmatter.title}</a>
+              </h2>
+              <div class="post-tags">
+                {post.frontmatter.tags.map(tag => (
+                  <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
+                ))}
+              </div>
+              <a href={post.url} class="read-more">Leggi l'articolo →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .blog-listing {
+    min-height: 100vh;
+    padding: 60px 0;
+    background: var(--bg-primary);
+  }
+
+  .blog-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .back-link {
+    color: var(--accent-teal);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 20px;
+    display: inline-block;
+    transition: color 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: var(--accent-gold);
+  }
+
+  .blog-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: var(--accent-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .blog-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .post-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 15px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(237, 192, 30, 0.2);
+    border-color: var(--accent-gold);
+  }
+
+  .post-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .post-card:hover .post-image img {
+    transform: scale(1.05);
+  }
+
+  .post-content {
+    padding: 25px;
+  }
+
+  .post-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .post-title {
+    margin-bottom: 15px;
+  }
+
+  .post-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .post-title a:hover {
+    color: var(--accent-gold);
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: white;
+  }
+
+  .tag.web { background: var(--accent-teal); }
+  .tag.network { background: var(--accent-blue); }
+  .tag.misc { background: var(--accent-pink); }
+  .tag.pwn { background: var(--accent-green); }
+  .tag.crypto { background: var(--accent-orange); }
+  .tag.reverse { background: var(--accent-gold); }
+
+  .read-more {
+    color: var(--accent-teal);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .read-more:hover {
+    color: var(--accent-gold);
+  }
+
+  @media (max-width: 768px) {
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .blog-header h1 {
+      font-size: 2rem;
+    }
+    
+    .post-meta {
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+</style>
