@@ -1,0 +1,149 @@
+---
+export interface Props {
+  type?: 'notice' | 'warning' | 'alert' | 'info' | 'success';
+  title?: string;
+}
+
+const { type = 'notice', title } = Astro.props;
+
+const calloutConfig = {
+  notice: {
+    icon: '💡',
+    bgColor: 'rgba(33, 166, 152, 0.05)', // Ridotta opacità per un migliore contrasto
+    borderColor: 'var(--accent-teal)',
+    iconColor: 'var(--accent-teal)',
+    defaultTitle: 'Nota'
+  },
+  warning: {
+    icon: '⚠️',
+    bgColor: 'rgba(242, 138, 46, 0.05)', // Ridotta opacità
+    borderColor: 'var(--accent-orange)',
+    iconColor: 'var(--accent-orange)',
+    defaultTitle: 'Attenzione'
+  },
+  alert: {
+    icon: '🚨',
+    bgColor: 'rgba(242, 128, 175, 0.05)', // Ridotta opacità
+    borderColor: 'var(--accent-pink)',
+    iconColor: 'var(--accent-pink)',
+    defaultTitle: 'Importante'
+  },
+  info: {
+    icon: '📋',
+    bgColor: 'rgba(204, 204, 204, 0.05)', 
+    borderColor: 'var(--text-secondary)',
+    iconColor: 'var(--text-secondary)',
+    defaultTitle: 'Informazione'
+  },
+  success: {
+    icon: '✅',
+    bgColor: 'rgba(237, 192, 30, 0.05)', // Ridotta opacità
+    borderColor: 'var(--accent-gold)',
+    iconColor: 'var(--accent-gold)',
+    defaultTitle: 'Successo'
+  }
+};
+
+const config = calloutConfig[type];
+const displayTitle = title || config.defaultTitle;
+---
+
+<div class="callout" data-type={type}>
+  <div class="callout-header">
+    <span class="callout-icon">{config.icon}</span>
+    <span class="callout-title">{displayTitle}</span>
+  </div>
+  <div class="callout-content">
+    <slot />
+  </div>
+</div>
+
+<style define:vars={{
+  bgColor: config.bgColor,
+  borderColor: config.borderColor,
+  iconColor: config.iconColor
+}}>
+  .callout {
+    background: var(--bgColor);
+    border: 1px solid var(--borderColor);
+    border-left: 4px solid var(--borderColor);
+    border-radius: 8px;
+    margin: 24px 0;
+    padding: 0;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .callout:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .callout-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px 12px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .callout-icon {
+    font-size: 1.2rem;
+    color: var(--iconColor);
+  }
+
+  .callout-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--iconColor);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .callout-content {
+    padding: 16px 20px 20px 20px;
+    color: var(--text-primary);
+  }
+
+  .callout-content :global(p) {
+    margin: 0 0 12px 0;
+    line-height: 1.6;
+  }
+
+  .callout-content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .callout-content :global(code) {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--iconColor);
+  }
+
+  .callout-content :global(ul),
+  .callout-content :global(ol) {
+    margin: 12px 0;
+    padding-left: 20px;
+  }
+
+  .callout-content :global(li) {
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 768px) {
+    .callout-header {
+      padding: 14px 16px 10px 16px;
+    }
+    
+    .callout-content {
+      padding: 14px 16px 18px 16px;
+    }
+    
+    .callout-title {
+      font-size: 0.9rem;
+    }
+  }
+</style>

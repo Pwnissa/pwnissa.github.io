@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { BLOG_TITLE } from '../consts';
 
-const posts = await Astro.glob('../pages/blog/*.md');
+const posts = await Astro.glob('../pages/blog/*.{md,mdx}');
 const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
 ---
 
