@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import MemberCard from '../components/MemberCard.astro';
+import { SITE_TITLE } from '../consts';
 
 const members = [
   {
@@ -133,7 +134,7 @@ const members = [
 
 ---
 
-<Layout title="CTF Team UniGe - Cybersecurity Team">
+<Layout title={SITE_TITLE}>
 
     <div class="team-section">
       <div class="container">

@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import MemberCard from '../components/MemberCard.astro';
-
+import {SITE_TITLE } from '../consts';
 const members = [
   {
     nickname: "Stealth Guy",
@@ -60,7 +60,7 @@ const ctfLogos = [
 const carouselLogos = [...ctfLogos, ...ctfLogos];
 ---
 
-<Layout title="CTF Team UniGe - Cybersecurity Team">
+<Layout title={SITE_TITLE}>
   <div class="hero-fullscreen">
     <div class="container">
       <img src="/pwnissa-logo.png" alt="CTF Team Logo" class="logo">

@@ -1,4 +1,5 @@
 ---
+import { navLinks } from '../consts';
 ---
 
 <nav id="navbar" class="navbar">
@@ -7,7 +8,8 @@
         <a href="/">Pwnissa</a>
       </div>
       <div class="navbar-menu">
-        <a href="/blog" class="navbar-link">Blog</a>
+        {navLinks.map(link => (
+          <a href={link.href} class="navbar-link">{link.name}</a>))}
       </div>
     </div>
   </nav>

@@ -1,0 +1,134 @@
+---
+// src/components/fixed-navbar.astro
+import { navLinks } from '../consts';
+---
+
+<nav id="fixedNavbar" class="fixed-navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a href="/">Pwnissa</a>
+    </div>
+    <div class="navbar-menu">
+      {navLinks.map(link => ( // Mappa i link dall'array
+        <a href={link.href} class="navbar-link">{link.name}</a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<script>
+  let lastScrollY = window.scrollY;
+  const navbar = document.getElementById('fixedNavbar');
+
+  const handleScroll = () => {
+    const scrollThreshold = 5;
+
+    if (window.scrollY > lastScrollY + scrollThreshold && window.scrollY > navbar.offsetHeight) {
+      navbar.classList.add('hidden');
+    } else if (window.scrollY < lastScrollY - scrollThreshold) {
+      navbar.classList.remove('hidden');
+    }
+    lastScrollY = window.scrollY;
+  };
+
+  window.addEventListener('scroll', handleScroll);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    navbar.classList.remove('hidden');
+  });
+</script>
+
+<style>
+  /* ... il tuo CSS esistente per FixedNavbar.astro ... */
+  .fixed-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .fixed-navbar.hidden {
+    transform: translateY(-100%);
+  }
+
+  .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+  }
+
+  .navbar-brand a {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+    background: var(--accent-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all 0.3s ease;
+  }
+
+  .navbar-brand a:hover {
+    filter: brightness(1.2);
+  }
+
+  .navbar-menu {
+    display: flex;
+    gap: 30px;
+  }
+
+  .navbar-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .navbar-link:hover {
+    color: var(--accent-gold);
+    background: rgba(237, 192, 30, 0.1);
+  }
+
+  .navbar-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--accent-gold);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .navbar-link:hover::after {
+    width: 80%;
+  }
+
+  @media (max-width: 768px) {
+    .navbar-container {
+      padding: 0 15px;
+    }
+
+    .navbar-brand a {
+      font-size: 1.3rem;
+    }
+
+    .navbar-menu {
+      gap: 20px;
+    }
+  }
+</style>

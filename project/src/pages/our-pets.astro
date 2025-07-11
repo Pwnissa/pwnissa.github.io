@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import MemberCard from '../components/PetCard.astro';
+
 import PetCard from '../components/PetCard.astro';
+import { SITE_TITLE } from '../consts';
 
 const pets = [
   {
@@ -37,7 +38,7 @@ const pets = [
 ];
 ---
 
-<Layout title="CTF Team UniGe - Cybersecurity Team">
+<Layout title={SITE_TITLE}>
 
     <div class="team-section">
       <div class="container">

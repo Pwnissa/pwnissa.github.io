@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { BLOG_TITLE } from '../consts';
 
 const posts = await Astro.glob('../pages/blog/*.md');
 const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
 ---
 
-<Layout title="Blog - CTF Team UniGe">
+<Layout title={BLOG_TITLE}>
   <div class="blog-listing">
     <div class="container">
       <div class="blog-header">
