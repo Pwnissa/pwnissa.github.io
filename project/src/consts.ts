@@ -3,6 +3,7 @@
 
 export const SITE_TITLE = 'Pwnissa - CTF Team';
 export const BLOG_TITLE = 'BLOG Pwnissa - CTF Team';
+export const NAV_BRAND = 'Pwnissa';
 export const SITE_DESCRIPTION = '';
 export const navLinks = [
     { name: "Blog", href: "/blog" },

@@ -73,6 +73,10 @@ const { title, description = "Team CTF di sicurezza informatica - Università di
     overflow-x: hidden;
   }
 
+  a{
+      -webkit-tap-highlight-color: transparent;  // added to prevent tap highlight on mobile
+  }
+
   .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -111,8 +115,8 @@ const { title, description = "Team CTF di sicurezza informatica - Università di
     right: 0;
     bottom: 0;
     background: 
-      radial-gradient(circle at 20% 50%, rgba(8, 12, 89, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 30%, rgba(33, 166, 152, 0.1) 0%, transparent 50%);
+      radial-gradient(circle at 20% 50%, rgba(8, 12, 89, 0.1) 0%, transparent 60%),
+      radial-gradient(circle at 80% 30%, rgba(33, 166, 152, 0.1) 0%, transparent 60%);
     pointer-events: none;
   }
 

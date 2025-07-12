@@ -39,7 +39,7 @@ const { frontmatter } = Astro.props;
     </style>
   </head>
   <body>
-    <FixedNavbar />
+    <FixedNavbar base_path='/blog'/>
     <main class="blog-container">
       <div class="blog-header">
         <a href="/" class="back-link">← Torna alla home</a>
@@ -94,6 +94,10 @@ const { frontmatter } = Astro.props;
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
+  }
+
+  a{
+      -webkit-tap-highlight-color: transparent;  // added to prevent tap highlight on mobile
   }
 
   .blog-container {
@@ -165,13 +169,13 @@ const { frontmatter } = Astro.props;
     font-weight: 500;
     color: white;
   }
-
-  .tag.web { background: var(--accent-green); }
+  .tag.web { background: var(--accent-teal); }
   .tag.network { background: var(--accent-blue); }
   .tag.misc { background: var(--accent-pink); }
-  .tag.pwn { background: var(--accent-orange); }
+  .tag.pwn { background: var(--accent-green); }
   .tag.crypto { background: var(--accent-orange); }
-  .tag.reverse { background: var(--accent-pink); }
+  .tag.reverse { background: var(--accent-gold); }
+
 
   .article-content {
     background: var(--card-bg);

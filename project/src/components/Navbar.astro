@@ -1,11 +1,11 @@
 ---
-import { navLinks } from '../consts';
+import { navLinks, NAV_BRAND } from '../consts';
 ---
 
 <nav id="navbar" class="navbar">
     <div class="navbar-container">
       <div class="navbar-brand">
-        <a href="/">Pwnissa</a>
+        <a href="/#start-home-page">{NAV_BRAND}</a>
       </div>
       <div class="navbar-menu">
         {navLinks.map(link => (
@@ -30,6 +30,11 @@ import { navLinks } from '../consts';
   </script>
   
   <style>
+    
+    a{
+      -webkit-tap-highlight-color: transparent;  // added to prevent tap highlight on mobile
+    }
+
     .navbar {
       position: fixed;
       top: 0;
@@ -87,6 +92,7 @@ import { navLinks } from '../consts';
       border-radius: 8px;
       transition: all 0.3s ease;
       position: relative;
+      
     }
   
     .navbar-link:hover {

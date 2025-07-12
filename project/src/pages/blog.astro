@@ -10,7 +10,7 @@ const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() 
   <div class="blog-listing">
     <div class="container">
       <div class="blog-header">
-        <a href="/" class="back-link">← Torna alla home</a>
+        <a href="/#start-home-page" class="back-link">← Torna alla home</a>
         <h1>📝 I nostri articoli</h1>
         <p>Scopri le nostre analisi tecniche, writeup e guide di cybersecurity</p>
       </div>
@@ -30,7 +30,7 @@ const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() 
                 <a href={post.url}>{post.frontmatter.title}</a>
               </h2>
               <div class="post-tags">
-                {post.frontmatter.tags.map(tag => (
+                {(post.frontmatter.tags || []).map(tag => (
                   <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
                 ))}
               </div>

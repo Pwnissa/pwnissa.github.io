@@ -1,12 +1,18 @@
 ---
 // src/components/fixed-navbar.astro
-import { navLinks } from '../consts';
+import { navLinks, NAV_BRAND } from '../consts';
+
+interface Props {
+  base_path?: string; // Optional base path for links
+}
+const { base_path = '/' } = Astro.props;
+
 ---
 
 <nav id="fixedNavbar" class="fixed-navbar">
   <div class="navbar-container">
     <div class="navbar-brand">
-      <a href="/">Pwnissa</a>
+      <a href={base_path}>{NAV_BRAND}</a>
     </div>
     <div class="navbar-menu">
       {navLinks.map(link => ( // Mappa i link dall'array
@@ -39,7 +45,10 @@ import { navLinks } from '../consts';
 </script>
 
 <style>
-  /* ... il tuo CSS esistente per FixedNavbar.astro ... */
+  a{
+      -webkit-tap-highlight-color: transparent;  // added to prevent tap highlight on mobile
+  }
+
   .fixed-navbar {
     position: fixed;
     top: 0;
