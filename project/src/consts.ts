@@ -7,5 +7,5 @@ export const NAV_BRAND = 'Pwnissa';
 export const SITE_DESCRIPTION = '';
 export const navLinks = [
     { name: "Blog", href: "/blog" },
-    { name: "Our Pets", href: "/our-pets" },
+    { name: "Members", href: "/members" },
 ]

@@ -1,59 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import MemberCard from '../components/MemberCard.astro';
+// import MemberCard from '../components/MemberCard.astro';
 import {SITE_TITLE } from '../consts';
-const members = [
-  {
-    nickname: "Stealth Guy",
-    name: "Gigi D'Agostino",
-    photo: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-    tags: ["web", "network", "misc"]
-  },
-  {
-    nickname: "Ub1k",
-    name: "",
-    photo: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-    tags: ["crypto", "web"]
-  },
-  {
-    nickname: "andrea",
-    name: "",
-    photo: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-    tags: ["pwn", "network"]
-  },
-  {
-    nickname: "the pirate",
-    name: "Peter",
-    photo: "https://static.wikia.nocookie.net/spongebob/images/f/fc/SpongeBob_SquarePants_Theme_Song_%281999%29_01.png",
-    tags: ["reverse", "misc"]
-  },
-  {
-    nickname: "redistan",
-    name: "",
-    photo: "https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-    tags: ["crypto", "web"]
-  },
-  {
-    nickname: "goglix",
-    name: "",
-    photo: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-    tags: ["pwn", "reverse"]
-  },
-  {
-    nickname: "PWNY",
-    name: "Pwny the Horse",
-    photo: "https://images.pexels.com/photos/635499/pexels-photo-635499.jpeg?w=300&h=300&fit=crop",
-    tags: ["pwn", "gambling"]
-  }
-];
 
 const ctfLogos = [
-  { name: "HackTheBox", url: "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" },
-  { name: "PicoCTF", url: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" },
-  { name: "AngstromCTF", url: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" },
-  { name: "ImaginaryCTF", url: "https://images.pexels.com/photos/1https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb181353/pexels-photo-1181353.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" },
-  { name: "InCTF", url: "https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" },
-  { name: "HSCTF", url: "https://images.pexels.com/photos/1181355/pexels-photo-1181355.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" }
+  { name: "CyberChallenge.it Nationals", url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrOiiSt0riNNROJCDmj_9TWL4lDXh04-JHOA&s" },
+  { name: "CornCTF", url: "https://ctftime.org/media/events/cornctf.png" },
+  { name: "LeakCTF", url: "https://ctftime.org/media/events/L3akCTF_2025_Logo_750x750.png" },
+  { name: "HackTheBox", url: "https://yt3.googleusercontent.com/2Tq9apgiHSV7NrCKzgRMbm-AABWJJXuyWMY_7MpQlVdvemqJRWcGegVq0G4e9xHCl8HcbQs_Ag=s900-c-k-c0x00ffffff-no-rj" },
+  { name: "TryHackMe", url: "https://ciaconference.com/ymeeltuk/2020/11/the-ciacon.png" },
+  { name: "GoogleCTF", url: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgZI4HpY7MRf3ZWQsnpH9wi8yCNyd_lZweAlHluW-JwvjcsIRlylRvBfpytTP79yVOF6bQvLVEaZU_elFDeWMEG7QAMaHbRyI2Jex0ChCgSxcNXVk_6vt_3LA2YvmjrmnNPPfYdtEdvel8KxCkX-zOnLNpY4-91LIbQwh6q-xniv2HjtcrgB3aLjnBRX_s3/s503/Screenshot%202024-06-12%20at%2012.34.36%E2%80%AFPM.png" }
 ];
 
 // Duplica i loghi per il carosello infinito
@@ -70,7 +26,7 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
   <div class="intro-section" id="start-home-page">
     <div class="container">
       <div class="intro">
-        <h1>Chi siamo</h1>
+        <h1>About Us</h1>
         <p>
           Pwnissa [Pwn + Panissa] is the official CTF team of the University of Genoa, founded in 2025 following our participation in CyberChallenge.IT. 
           We are a group of students passionate about cybersecurity, tackling challenges in pwn, web, crypto, reversing, network, horse racing, and much more.
@@ -88,33 +44,26 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
           <span>📍 Via Dodecaneso, Genova, Italy</span>
         </div>
         
-        <a href="/blog" class="cta-button">Leggi gli articoli</a>
+        <a href="/blog" class="cta-button">Visit our blog</a>
       </div>
     </div>
   </div>
 
   <div class="team-section">
     <div class="container">
-      <h2>🧑‍💻 I founders</h2>
-      <div class="team-grid">
-        {members.map(member => (
-          <MemberCard 
-            nickname={member.nickname}
-            name={member.name}
-            photo={member.photo}
-            tags={member.tags}
-          />
-        ))}
+      <h2>🧑‍💻 Our members</h2>
+      <div class="intro">
+        <p>Get to know the passionate individuals who form the backbone of our community. Their diverse talents and unwavering commitment are key to achieving our common goals.</p>
       </div>
       <div class="team-note">
-        <a href="/members" class="cta-button">Guarda tutti i membri</a>
+        <a href="/members" class="cta-button">See all the members</a>
       </div>
     </div>
   </div>
 
   <div class="ctf-carousel">
     <div class="container">
-      <h2>🏅 CTF a cui abbiamo partecipato</h2>
+      <h2>🏅 CTFs we played</h2>
       <div class="carousel-container">
         <div class="carousel-track">
           {carouselLogos.map((logo, index) => (

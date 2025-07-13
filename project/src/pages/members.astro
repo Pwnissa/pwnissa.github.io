@@ -5,10 +5,10 @@ import { SITE_TITLE } from '../consts';
 
 const members = [
   {
-    nickname: "Stealth Guy",
+    nickname: "StealthGuy",
     name: "Gabriele Alessandria",
     photo: "/immagini_membri/gabriele_alessandria.jpg",
-    link: "",
+    link: "https://stealthguy.net",
     tags: ["web", "network", "misc"]
   },
   {
@@ -22,7 +22,7 @@ const members = [
     nickname: "AndyVale",
     name: "Andrea Valentino Ricotti",
     photo: "/immagini_membri/andrea_ricotti.jpg",
-    link: "",
+    link: "https://www.google.com",
     tags: ["crypto"]
   },
   {
@@ -36,14 +36,13 @@ const members = [
     nickname: "Redistan",
     name: "Riccardo Cherchi",
     photo: "/immagini_membri/riccardo_cherchi.jpg",
-    link: "",
     tags: ["web", "misc"]
   },
   {
     nickname: "Goglix",
     name: "Gabriele",
     photo: "/immagini_membri/gabriele_olivieri.jpg",
-    link: "",
+    link: "https://www.google.com",
     tags: ["crypto"]
   }, 
   {
@@ -57,42 +56,42 @@ const members = [
     nickname: "gerert",
     name: "Giovanni B. Aragone",
     photo: "/immagini_membri/giovanni_aragone.jpg",
-    link: "",
-    tags: ["misc,web"]
+    link: "https://www.google.com",
+    tags: ["misc" , "web"]
   },
   {
     nickname: "eriseisarai",
     name: "Erika",
     photo: "/immagini_membri/erika_corbo.jpg",
-    link: "",
+    link: "https://www.google.com",
     tags: ["misc", "web"]
   },
   {
     nickname: "Tom1380",
     name: "Tommaso Thea Cioni",
     photo: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-    link: "",
+    link: "https://www.google.com",
     tags: ["pwn"]
   },
   {
     nickname: "Riccardo",
     name: "Riccardo Isola",
     photo: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-    link: "",
+    link: "https://www.google.com",
     tags: ["Web"]
   },
   {
     nickname: "il_vero_gabriele",
     name: "[censured]",
     photo: "https://static.wikia.nocookie.net/spongebob/images/f/fc/SpongeBob_SquarePants_Theme_Song_%281999%29_01.png",
-    link: "",
+    link: "https://www.google.com",
     tags: ["pwn"]
   },
   {
     nickname: "Pwny",
     name: "Pwny the Horse",
     photo: "/immagini_membri/pwny.jpg",
-    link: "",
+    link: "https://www.google.com",
     tags: ["pwn", "gambling"]
   },
 ];
@@ -101,20 +100,56 @@ const members = [
 
 <Layout title={SITE_TITLE}>
 
-    <div class="team-section">
-      <div class="container">
-        <h2>🧑‍💻 Tutti i membri di Pwnissa </h2>
-        <div class="team-grid">
-          {members.map(member => (
-            <MemberCard 
-              nickname={member.nickname}
-              name={member.name}
-              photo={member.photo}
-              tags={member.tags}
-            />
-          ))}
-        </div>
+  <div class="team-section">
+    <div class="container">
+      <h2>🧑‍💻 All players @ Pwnissa </h2>
+      <div class="team-grid">
+        {members.map(member => (
+          <MemberCard 
+            nickname={member.nickname}
+            name={member.name}
+            photo={member.photo}
+            tags={member.tags}
+            link={member.link}
+          />
+        ))}
+      </div>
+      
+      <div class="pets-section">
+          <h2 class="pets-heading">🐾 Our Pets </h2>
+          <p class="pets-description">We love our pets; they're the best friends we could ever have! Meet our beloved companions who brighten our lives every day!</p>
+          <a href="/our-pets" class="cta-button">See Our Pets</a>
       </div>
     </div>
+  </div>
 
   </Layout>
+
+  <style>
+  .pets-section {
+    text-align: center;
+    padding: 50px 0; /* Add some vertical padding */
+    margin-top: 50px; /* Space from the content above */
+    border-radius: 15px;
+  }
+
+  .pets-heading {
+    font-size: 2.2rem; /* Slightly smaller than main H2 */
+    color: var(--accent-gold);
+    margin-bottom: 20px;
+  }
+
+  .pets-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto 40px; /* Center text and add space below */
+    line-height: 1.6;
+  }
+
+  .cta-button {
+    background: var(--accent-gold);
+  }
+
+  
+  </style>

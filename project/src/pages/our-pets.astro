@@ -24,8 +24,8 @@ const pets = [
     tags: ["Bird", "Exotic"],
   },
   {
-    name: "Nemo",
-    species: "Clownfish",
+    name: "Fish",
+    species: "Command line shell",
     photo: "/images/pets/nemo.jpg",
     tags: ["Fish"],
   },
@@ -42,7 +42,7 @@ const pets = [
 
     <div class="team-section">
       <div class="container">
-        <h2>Our pets </h2>
+        <h2>Our pets</h2>
         <div class="team-grid">
             {pets.map(pet => (
                 <PetCard
@@ -54,6 +54,7 @@ const pets = [
               ))}
         </div>
       </div>
+
     </div>
 
   </Layout>

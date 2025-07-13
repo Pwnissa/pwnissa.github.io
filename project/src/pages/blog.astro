@@ -2,8 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import { BLOG_TITLE } from '../consts';
 
-const posts = await Astro.glob('../pages/blog/*.{md,mdx}');
+const posts = await Astro.glob('../pages/blog/**/*.{md,mdx}');
 const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+
+
 ---
 
 <Layout title={BLOG_TITLE}>
@@ -18,9 +20,6 @@ const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() 
       <div class="posts-grid">
         {sortedPosts.map(post => (
           <article class="post-card">
-            <div class="post-image">
-              <img src={post.frontmatter.image || "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop"} alt={post.frontmatter.title} />
-            </div>
             <div class="post-content">
               <div class="post-meta">
                 <span class="post-author">di {post.frontmatter.author}</span>

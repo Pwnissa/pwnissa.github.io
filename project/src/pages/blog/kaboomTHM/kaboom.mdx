@@ -1,12 +1,20 @@
 ---
+layout: ../../../layouts/BlogLayout.astro
 title: "Kaboom: TryHackMe - Industrial Intrusion - Task 8"
-date: 2025-07-01T00:07:23+02:00
-draft: false
-emoji: "💥"
-tags: ['Writeup' ,'CTF','TryHackMe', 'OT']
+date: 2024-01-05
+author: "stealth guy"
+tags: ["crypto", "misc"]
+image: "./images/cover.png"
 ---
+import Callout from '../../../components/Callout.astro';
 
-{{< img src="/kaboomTHM/images/cover.png" alt="Description of image 1" loading="lazy" width="100%" height="auto" >}}
+
+# Kaboom: TryHackMe - Industrial Intrusion - Task 8
+
+> **Solved by: StealthGuy**, **[Writeup by: StealthGuy](https://stealthguy.net/kaboomthm/kaboom/)**
+
+
+![Description of image 1](./images/cover.png)
 
 ## Writeup
 
@@ -39,7 +47,7 @@ PORT      STATE SERVICE
 
 The first thing I did was visit the website on port `80`. There was a video of a working pump. This webpage was populated using a script in the HTML that fetches data from `/api/state`.
 
-{{< img src="/kaboomTHM/images/pump.png" alt="Description of image 1" loading="lazy" width="60%" height="auto" >}}
+![Description of image 1](./images/pump.png)
 
 Next, I visited port `8080` and found an OpenPLC v3 login page. From previous experience with OpenPLC, I knew the default credentials are `openplc:openplc`, so I tried them—and they worked.
 
@@ -122,7 +130,9 @@ Successfully opened the gate at address 10.
 }
 ```
 After reloading `MACHINE_IP:80`, the first flag appeared in the video.
-{{< img src="/kaboomTHM/images/flag1.png" alt="Description of image 1" loading="lazy" width="100%" height="auto" >}}
+
+
+![Description of image 1](./images/flag1.png)
 
 
 ### Part 2 - Reverse Shell
@@ -158,9 +168,10 @@ We created a new Ladder Diagram project, wrote a custom Function Block, and embe
 
 Payload screenshots:
 
-{{< img src="/kaboomTHM/images/function_block.webp" alt="Description of image 1" loading="lazy" width="100%" height="auto" >}}
 
-{{< img src="/kaboomTHM/images/program_LD.webp" alt="Description of image 1" loading="lazy" width="100%" height="auto" >}}
+![Description of image 1](./images/function_block.webp)
+
+![Description of image 1](./images/program_LD.webp)
 
 Since nothing is wired to this PLC, our ladder logic simply consists of the Function Block placed between the power rails—it runs unconditionally.
 
@@ -179,30 +190,33 @@ return;
 
 After compiling it to a `.st` file (using the orange arrow button in the toolbar), we uploaded `rev_shell.st` via the OpenPLC Runtime dashboard.
 
-{{< notice warning >}}
-Don’t forget to start your **listener!**
-{{< /notice >}}
+<Callout type='warning'>
+ Don’t forget to start your **listener!**
+</Callout>
 
 Finally, we clicked the "RUN PLC" button—and we had a reverse shell.
 
-
-{{< img src="/kaboomTHM/images/reverse_runtime.png" alt="Description of image 1" loading="lazy" width="100%" height="auto" >}}
+![Description of image 1](./images/reverse_runtime.png)
 
 We can now navigate the Ubuntu filesystem and retrieve the flag located at `/home/ubuntu/flag.txt`.
 
-{{< img src="/kaboomTHM/images/ubuntu_shell.png" alt="Description of image 1" loading="lazy" width="100%" height="auto" >}}
+![Description of image 1](./images/ubuntu_shell.png)
 
 
 ## Conclusion
 
 I found this challenge extremely interesting because I really like to experiment with resolving "strange" challenges that differ from the usual categories. I've always been curious aubout OT (Operational Technology), which differs from IT technologies but shares some common security flaws. In future CTFs, I would like to dive deeper into OT technologies and better understand the differences and connections between IT security and OT security, while continuing to learn and apply my skills about this topic.
 
+
+
+
 ---
 
 ### EDIT: 
-{{< notice callout >}}
+
+<Callout type='info'>
 After sharing this writeup on the fantastic TryHackMe Discord group, a friendly user named **Korizma** shared another possible solution, which we decided to include here for completeness, by exploiting the "Python Linux Hardware Subsystem".
-{{< /notice >}}
+</Callout>
 
 **Here is Korizma’s full message:**
 
@@ -250,3 +264,5 @@ You can also get a reverse shell from KABOOM PT.2 using the Python Linux Hardwar
 
 ```
   Pasting this code and restarting the PLC resulted in a root shell. GGs! 👑
+
+

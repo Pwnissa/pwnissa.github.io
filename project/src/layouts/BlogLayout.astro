@@ -23,8 +23,8 @@ const { frontmatter } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={`Articolo di ${frontmatter.author} - CTF Team UniGe`} />
-    <title>{frontmatter.title} - CTF Team UniGe</title>
+    <meta name="description" content={`Articolo di ${frontmatter.author} @ Pwnissa`} />
+    <title>{frontmatter.title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -97,7 +97,26 @@ const { frontmatter } = Astro.props;
   }
 
   a{
-      -webkit-tap-highlight-color: transparent;  // added to prevent tap highlight on mobile
+    -webkit-tap-highlight-color: transparent;  // added to prevent tap highlight on mobile
+  }
+
+  .article-content a:link {
+  color: var(--accent-teal); /* Teal per link non visitati */
+  text-decoration: underline; /* Sottolineato per chiarezza */
+  transition: color 0.3s ease; /* Transizione fluida al passaggio del mouse */
+  }
+
+  .article-content a:visited {
+    color: var(--accent-gold); /* Gold per link già visitati */
+  }
+
+  .article-content a:hover {
+    color: var(--accent-gold); /* Gold al passaggio del mouse */
+    text-decoration: none; /* Rimuovi sottolineatura al passaggio del mouse */
+  }
+
+  .article-content a:active {
+    color: var(--accent-gold); /* Gold quando il link è attivo/cliccato */
   }
 
   .blog-container {
@@ -287,6 +306,16 @@ const { frontmatter } = Astro.props;
     color: var(--text-secondary);
   }
 
+  .article-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--card-border);
+    display: block;
+  }
+
   .footer {
     background: var(--bg-secondary);
     padding: 60px 0;
@@ -338,4 +367,5 @@ const { frontmatter } = Astro.props;
       align-items: flex-start;
     }
   }
+
 </style>

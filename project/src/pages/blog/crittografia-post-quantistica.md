@@ -4,7 +4,6 @@ title: "Crittografia Post-Quantistica: Preparasi al Futuro della Sicurezza"
 date: 2024-01-05
 author: "Ub1k"
 tags: ["crypto", "misc"]
-image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
 ---
 
 I computer quantistici rappresentano una minaccia esistenziale per la crittografia attuale. Questo articolo esplora le nuove tecniche crittografiche resistenti agli attacchi quantistici e le loro implicazioni per la sicurezza futura.
