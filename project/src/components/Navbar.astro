@@ -20,12 +20,28 @@ import { navLinks, NAV_BRAND } from '../consts';
       const navbar = document.getElementById('navbar');
       const scrollPosition = window.scrollY;
       const viewportHeight = window.innerHeight;
-      
-      if (scrollPosition > viewportHeight * 0.8) {
-        navbar.classList.add('visible');
+  
+      // Check if the current page is the root ('/') AND optionally has a hash
+      const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html'; // Include /index.html for static builds
+  
+      // Only run the visibility logic if on the home page
+      if (isHomePage) {
+        if (scrollPosition > viewportHeight * 0.8) {
+          navbar.classList.add('visible');
+        } else {
+          navbar.classList.remove('visible');
+        }
       } else {
-        navbar.classList.remove('visible');
+        navbar.classList.add('visible');
       }
+    });
+
+    window.addEventListener('load', () => {
+        const navbar = document.getElementById('navbar');
+        const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+        if (!isHomePage) {
+            navbar.classList.add('visible');
+        }
     });
   </script>
   
