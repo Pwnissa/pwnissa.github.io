@@ -21,7 +21,7 @@ const { frontmatter } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={`Articolo di ${frontmatter.author} @ Pwnissa`} />
     <title>{frontmatter.title}</title>
@@ -39,7 +39,7 @@ const { frontmatter } = Astro.props;
     </style>
   </head>
   <body>
-    <FixedNavbar base_path='/blog'/>
+    <FixedNavbar base_path='/'/>
     <main class="blog-container">
       <div class="blog-header">
         <a href="/" class="back-link">← Torna alla home</a>
