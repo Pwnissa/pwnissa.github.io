@@ -19,7 +19,7 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
 <Layout title={SITE_TITLE}>
   <div class="hero-fullscreen">
     <div class="container">
-      <img src="/pwnissa-logo.png" alt="CTF Team Logo" class="logo">
+      <img src="/pwnissa-logo.png" alt="CTF Team Logo" class="logo" id="glitch-logo" />
     </div>
   </div>
 
@@ -82,3 +82,24 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
     </div>
   </div>
 </Layout>
+
+<script>
+  const glitchLogo = document.getElementById('glitch-logo');
+  const images = ['/logo0.png', '/logo1.png'];
+  let currentImageIndex = 0;
+
+  function toggleGlitch() {
+    // Randomly decide which image to show next
+    currentImageIndex = 1 - currentImageIndex; // Swaps between 0 and 1
+    glitchLogo.src = images[currentImageIndex];
+
+    // Schedule the next toggle at a random interval between 0 and 500ms
+    const interval = Math.random() * 500; // Random time between 0 and 500 milliseconds
+    setTimeout(toggleGlitch, interval);
+  }
+
+  // Start the glitch effect after a short delay when the page loads
+  window.addEventListener('load', () => {
+    setTimeout(toggleGlitch, 100); // Initial delay to ensure page is ready
+  });
+</script>
