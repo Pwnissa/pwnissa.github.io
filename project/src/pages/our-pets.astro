@@ -6,35 +6,23 @@ import { SITE_TITLE } from '../consts';
 
 const pets = [
   {
-    name: "LUPINA",
-    species: "Dog",
-    photo: "/images/pets/max.jpg", // Make sure to have these image paths
+    name: "Lupina",
+    info: "In loving memory of Lupina, forever in my heart.",
+    photo: "/public/img-pets/crop_lupina.jpeg", // Make sure to have these image paths
     tags: ["Dog"],
   },
   {
     name: "Tofu",
-    species: "Cat",
+    info: "Cat",
     photo: "/images/pets/luna.jpg",
     tags: ["Cat"],
   },
   {
     name: "Pip",
-    species: "Parrot",
+    info: "Parrot",
     photo: "/images/pets/pip.jpg",
     tags: ["Bird", "Exotic"],
-  },
-  {
-    name: "Fish",
-    species: "Command line shell",
-    photo: "/images/pets/nemo.jpg",
-    tags: ["Fish"],
-  },
-  {
-    name: "Rocky",
-    species: "Bearded Dragon",
-    photo: "/images/pets/rocky.jpg",
-    tags: ["Reptile", "Exotic"],
-  },
+  }
 ];
 ---
 
@@ -47,7 +35,7 @@ const pets = [
             {pets.map(pet => (
                 <PetCard
                   name={pet.name}
-                  species={pet.species}
+                  info={pet.info}
                   photo={pet.photo}
                   tags={pet.tags}
                 />
