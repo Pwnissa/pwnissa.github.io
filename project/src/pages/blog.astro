@@ -14,8 +14,8 @@ const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() 
       <div class="blog-header">
         <!-- <a href="/#start-home-page" class="back-link">← Torna alla home</a> -->
         <br />
-        <h1>📝 I nostri articoli</h1>
-        <p>Scopri le nostre analisi tecniche, writeup e guide di cybersecurity</p>
+        <h1>📝 Our articles</h1>
+        <p>Check out our technical analyses, writeups and cybersecurity guides</p>
       </div>
       
       <div class="posts-grid">
@@ -23,7 +23,7 @@ const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() 
           <article class="post-card">
             <div class="post-content">
               <div class="post-meta">
-                <span class="post-author">di {post.frontmatter.author}</span>
+                <span class="post-author">by {post.frontmatter.author}</span>
                 <span class="post-date">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</span>
               </div>
               <h2 class="post-title">
@@ -34,7 +34,7 @@ const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() 
                   <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
                 ))}
               </div>
-              <a href={post.url} class="read-more">Leggi l'articolo →</a>
+              <a href={post.url} class="read-more">Read more →</a>
             </div>
           </article>
         ))}
