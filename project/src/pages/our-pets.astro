@@ -3,34 +3,9 @@ import Layout from '../layouts/Layout.astro';
 
 import PetCard from '../components/PetCard.astro';
 import { SITE_TITLE } from '../consts';
+import {pets} from '../config';
 
-const pets = [
-  {
-    name: "Lupina",
-    info: "In loving memory of Lupina, forever in my heart.",
-    photo: "/img-pets/crop_lupina.jpeg", // Make sure to have these image paths
-    tags: ["Dog"],
-  },
-  {
-    name: "Tofu",
-    info: "Cat",
-    photo: "/images/pets/luna.jpg",
-    tags: ["Cat"],
-  },
 
-  {
-    name: "B3n1t0",
-    info: "A leopard gecko that loves to hang upside down in its free time",
-    photo: "/img-pets/B3n1t0.jpg",
-    tags: ["Reptile", "Exotic"],
-  },
-  {
-    name: "Macchia",
-    info: "Why does he sit like that? Nobody knows",
-    photo: "/img-pets/macchia.jpg",
-    tags: ["Cat"],
-  }
-];
 ---
 
 <Layout title={SITE_TITLE}>
