@@ -186,15 +186,17 @@ const { title, description = "Team CTF di sicurezza informatica - Università di
   }
 }
 
-  .logo {
-    width: 400px;
-    height: auto;
-    margin: 0 auto;
-    display: block;
-    animation: glitch 3s infinite;
-    position: relative;
-    z-index: 1;
-  }
+.logo {
+  width: 80vw;               /* Responsive width */
+  max-width: 400px;          /* Don't grow beyond this */
+  min-width: 300px;          /* Don't shrink below this */
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  animation: glitch 3s infinite;
+  position: relative;
+  z-index: 1;
+}
 
   @keyframes glitch {
     0%, 90%, 100% {
