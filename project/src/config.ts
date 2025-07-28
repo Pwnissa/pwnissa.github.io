@@ -25,10 +25,10 @@ export const members = [
     tags: ["web", "network", "misc"]
   },
   {
-    nickname: "Ub0k",
+    nickname: "Ubik",
     name: "David Hermes",
     photo: "/immagini_membri/david_hermes.jpg",
-    link: "https://github.com/-1xUb1k",
+    link: "https://www.linkedin.com/in/david-hermes-46168226a/",
     tags: ["pwn", "reverse"]
   },
   {
@@ -42,7 +42,7 @@ export const members = [
     nickname: "ThePirate",
     name: "Pietro Zignaigo",
     photo: "/immagini_membri/pietro_zignaigo.jpg",
-    link: "https://github.com/ThePirate41",
+    link: "https://github.com/ThePirate42",
     tags: ["crypto", "reverse"]
   },
   {
@@ -127,7 +127,7 @@ export const pets = [
   {
     name: "Tofu",
     info: "Cat",
-    photo: "/images/pets/luna.jpg",
+    photo: "/img-pets/tofu.jpg",
     tags: ["Cat"],
   },
 
