@@ -1,5 +1,8 @@
 
 export const ctfLogos = [
+  { name: "UIUCTF 2025", 
+    img_url: "https://ctftime.org/media/cache/8f/44/8f44cc2cb38ce3a8be121f45d521d902.png",
+    platform_link: "https://ctftime.org/event/2640"},
   { name: "ENOWARS 9 - 2025", 
     img_url: "https://ctftime.org/media/cache/04/2e/042e05ae002396dff908a7474c408ab1.png", 
     platform_link:  "https://ctftime.org/event/2796"},
