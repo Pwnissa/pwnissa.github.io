@@ -1,9 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 // import MemberCard from '../components/MemberCard.astro';
-import {SITE_TITLE } from '../consts';
-import {ctfLogos} from '../config';
-
+import { SITE_TITLE } from "../consts";
+import { ctfLogos } from "../config";
 
 // Duplica i loghi per il carosello infinito
 const carouselLogos = [...ctfLogos, ...ctfLogos];
@@ -12,7 +11,8 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
 <Layout title={SITE_TITLE}>
   <div class="hero-fullscreen">
     <div class="container">
-      <img src="/logo0.png" alt="CTF Team Logo" class="logo" id="glitch-logo" />
+      <img src="/logo0.png" alt="CTF Team Logo" class="logo" id="glitch-logo-0" />
+      <img src="/logo1.png" alt="CTF Team Logo" class="logo hidden" id="glitch-logo-1" />
       <img src="/arrow.png" alt="CTF Team Logo" class="arrow" />
     </div>
   </div>
@@ -22,24 +22,30 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
       <div class="intro">
         <h1>About Us</h1>
         <p>
-          Pwnissa [Pwn + <a href="https://it.wikipedia.org/wiki/Panissa_(gastronomia_ligure)"><b>Panissa</b></a>] is the official CTF team of the <b>University of Genoa</b>, founded in 2025 following our participation in <b>CyberChallenge.IT</b>. 
-          <br>
-          We are a group of students passionate about cybersecurity, tackling challenges in <b>pwn</b>, <b>web</b>, <b>crypto</b>, <b>reversing</b>, <b>network</b>, <b>horse racing</b>, and <b>much more</b>.
-        </p>
-        <p>  
-          Our goal is to learn while having fun, by taking part in both national and international CTFs. 
-          When a challenge really grabs our attention, we dive deeper by writing <b>detailed writeups</b> and developing <b>custom tools</b> for attack and defense CTFs, which we share publicly.
+          Pwnissa [Pwn + <a href="https://it.wikipedia.org/wiki/Panissa_(gastronomia_ligure)"
+            ><b>Panissa</b></a
+          >] is the official CTF team of the <b>University of Genoa</b>, founded in 2025 following our
+          participation in <b>CyberChallenge.IT</b>.
+          <br />
+          We are a group of students passionate about cybersecurity, tackling challenges in <b>pwn</b>, <b
+            >web</b
+          >, <b>crypto</b>, <b>reversing</b>, <b>network</b>, <b>horse racing</b>, and <b>much more</b>.
         </p>
         <p>
-Our mascot, <b>Pwny</b>, is not only the most skilled hacker in the team — it also helped us win the <b>Best Mascot Award at CyberChallenge.IT 2025</b>. 🐴💻
+          Our goal is to learn while having fun, by taking part in both national and international CTFs. When
+          a challenge really grabs our attention, we dive deeper by writing <b>detailed writeups</b> and developing
+          <b>custom tools</b> for attack and defense CTFs, which we share publicly.
         </p>
-        
+        <p>
+          Our mascot, <b>Pwny</b>, is not only the most skilled hacker in the team — it also helped us win the <b
+            >Best Mascot Award at CyberChallenge.IT 2025</b
+          >. 🐴💻
+        </p>
+
         <div class="location">
           <span>🏫 Università degli Studi di Genova, DIBRIS</span>
           <span>📍 Via Dodecaneso, Genova, Italy</span>
         </div>
-        
-        
       </div>
       <a href="/blog" class="cta-button">Visit our blog</a>
     </div>
@@ -49,7 +55,10 @@ Our mascot, <b>Pwny</b>, is not only the most skilled hacker in the team — it 
     <div class="container">
       <h2>🧑‍💻 Our members</h2>
       <div class="intro">
-        <p>We are mostly bachelor's and master's students studying Computer Science and Computer Engineering at the University of Genoa.</p>
+        <p>
+          We are mostly bachelor's and master's students studying Computer Science and Computer Engineering at
+          the University of Genoa.
+        </p>
       </div>
       <div class="team-note">
         <a href="/members" class="cta-button">See all our members</a>
@@ -62,17 +71,13 @@ Our mascot, <b>Pwny</b>, is not only the most skilled hacker in the team — it 
       <h2>🏅 CTFs we played</h2>
       <div class="carousel-container">
         <div class="carousel-track">
-          {carouselLogos.map((logo, index) => (
-            <a href={logo.platform_link} target="_blank" rel="noopener noreferrer">
-            <img 
-              key={index}
-              src={logo.img_url} 
-              alt={logo.name} 
-              class="ctf-logo"
-              title={logo.name}
-            />
-          </a>
-          ))}
+          {
+            carouselLogos.map((logo, index) => (
+              <a href={logo.platform_link} target="_blank" rel="noopener noreferrer">
+                <img key={index} src={logo.img_url} alt={logo.name} class="ctf-logo" title={logo.name} />
+              </a>
+            ))
+          }
         </div>
       </div>
     </div>
@@ -82,22 +87,36 @@ Our mascot, <b>Pwny</b>, is not only the most skilled hacker in the team — it 
 <!-- fatevi i cazzi vostri. cortesemente -->
 
 <script>
-  const glitchLogo = document.getElementById('glitch-logo');
-  const images = ['/logo0.png', '/logo1.png'];
-  let currentImageIndex = 0;
+  const logo0 = document.getElementById("glitch-logo-0");
+  const logo1 = document.getElementById("glitch-logo-1");
+  let showingLogo0 = true;
 
   function toggleGlitch() {
-    // Randomly decide which image to show next
-    currentImageIndex = 1 - currentImageIndex; // Swaps between 0 and 1
-    glitchLogo.src = images[currentImageIndex];
+    if (showingLogo0) {
+      logo0?.classList.add("hidden");
+      logo1?.classList.remove("hidden");
+    } else {
+      logo1?.classList.add("hidden");
+      logo0?.classList.remove("hidden");
+    }
 
-    // Schedule the next toggle at a random interval between 0 and 500ms
-    const interval = Math.random() * 500; // Random time between 0 and 500 milliseconds
+    showingLogo0 = !showingLogo0;
+
+    const interval = Math.random() * 500;
     setTimeout(toggleGlitch, interval);
   }
 
-  // Start the glitch effect after a short delay when the page loads
-  window.addEventListener('load', () => {
-    setTimeout(toggleGlitch, 100); // Initial delay to ensure page is ready
+  window.addEventListener("load", () => {
+    setTimeout(toggleGlitch, 100);
   });
 </script>
+
+<style>
+  .hidden {
+    display: none;
+  }
+
+  .visible {
+    display: block;
+  }
+</style>
