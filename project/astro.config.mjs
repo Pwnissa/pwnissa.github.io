@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx';
 // https://astro.build/config
 export default defineConfig({
   //base: '',
-  site: 'https://pwnissa.github.io/',
+  site: 'https://pwnissa.it/',
   integrations: [mdx()],
   markdown: {
     drafts: true,
