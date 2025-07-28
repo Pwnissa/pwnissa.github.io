@@ -54,7 +54,7 @@ export const members = [
   },
   {
     nickname: "Goligx",
-    name: "Gabriele 1",
+    name: "Gabriele Olivieri",
     photo: "/immagini_membri/gabriele_olivieri.jpg",
     link: "https://github.com/Goligx",
     tags: ["crypto", "misc"]
@@ -82,7 +82,7 @@ export const members = [
   },
   {
     nickname: "eriseisarai",
-    name: "Erika",
+    name: "Erika Corbo",
     photo: "/immagini_membri/erika_corbo.jpg",
     link: "https://github.com/eriseisarai",
     tags: ["misc", "web"]
@@ -99,7 +99,7 @@ export const members = [
     name: "Riccardo Isola",
     photo: "/immagini_membri/riccardo_isola.jpg",
     link: "",
-    tags: ["Web"]
+    tags: ["web"]
   },
   {
     nickname: "il_vero_gabriele",
@@ -122,25 +122,25 @@ export const pets = [
     name: "Lupina",
     info: "In loving memory of Lupina, forever in my heart.",
     photo: "/img-pets/crop_lupina.jpeg", // Make sure to have these image paths
-    tags: ["Dog"],
+    tags: ["dog"],
   },
   {
     name: "Tofu",
     info: "Cat",
     photo: "/img-pets/tofu.jpg",
-    tags: ["Cat"],
+    tags: ["cat"],
   },
 
   {
     name: "B3n1t0",
     info: "A leopard gecko that loves to hang upside down in its free time",
     photo: "/img-pets/B3n1t0.jpg",
-    tags: ["Reptile", "Exotic"],
+    tags: ["reptile", "exotic"],
   },
   {
     name: "Macchia",
     info: "Why does he sit like that? Nobody knows",
     photo: "/img-pets/macchia.jpg",
-    tags: ["Cat"],
+    tags: ["cat"],
   }
 ];
