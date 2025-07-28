@@ -162,7 +162,7 @@ const { title, description = "Team CTF di sicurezza informatica - Università di
   width: 50px;
   height: auto;
   position: absolute;
-  bottom: 20px;
+  bottom: calc(env(safe-area-inset-bottom) + 20px);
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
