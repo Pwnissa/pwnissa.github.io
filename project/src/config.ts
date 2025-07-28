@@ -77,7 +77,7 @@ export const members = [
     nickname: "gerert",
     name: "Giovanni B. Aragone",
     photo: "/immagini_membri/giovanni_aragone.jpg",
-    link: "https://www.google.com",
+    link: "",
     tags: ["misc" , "web"]
   },
   {
@@ -90,22 +90,22 @@ export const members = [
   {
     nickname: "Tom1379",
     name: "Tommaso Thea Cioni",
-    photo: "https://images.pexels.com/photos/1043470/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
-    link: "https://www.google.com",
+    photo: "https://i.pinimg.com/736x/2f/02/59/2f02592195355b96dc35480cf6a80de0.jpg",
+    link: "",
     tags: ["pwn"]
   },
   {
     nickname: "rikyiso00",
     name: "Riccardo Isola",
     photo: "/immagini_membri/riccardo_isola.jpg",
-    link: "https://www.google.com",
+    link: "",
     tags: ["Web"]
   },
   {
     nickname: "il_vero_gabriele",
     name: "[REDACTED]",
     photo: "https://static.wikia.nocookie.net/spongebob/images/f/fc/SpongeBob_SquarePants_Theme_Song_%281998%29_01.png",
-    link: "https://www.google.com",
+    link: "",
     tags: ["pwn"]
   },
   {
