@@ -84,7 +84,79 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
   </div>
 </Layout>
 
-<!-- fatevi i cazzi vostri. cortesemente -->
+<script>
+
+  const container = document.querySelector('.carousel-container');
+  const track = document.querySelector('.carousel-track');
+
+  // Duplicate content
+  track.innerHTML += track.innerHTML;
+
+  let scrollPos = 0;
+  const scrollSpeed = 0.5;
+  let isDragging = false;
+  let startX, startScrollLeft;
+
+  function no_drag() {
+    isDragging = false;
+    container.classList.remove('dragging');
+  }
+
+  container.addEventListener('mouseup', no_drag);
+  container.addEventListener('mouseleave', no_drag);
+  container.addEventListener('touchend', no_drag);
+
+  // Manual drag
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.pageX;
+    startScrollLeft = container.scrollLeft;
+    container.classList.add('dragging');
+  });
+  
+  container.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX;
+    const walk = (x - startX) * 1.5;
+    container.scrollLeft = startScrollLeft - walk;
+  });
+
+  // Touch support
+  container.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    startScrollLeft = container.scrollLeft;
+  });
+
+  container.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const x = e.touches[0].clientX;
+    const walk = (x - startX) * 1.5;
+    container.scrollLeft = startScrollLeft - walk;
+  });
+
+  // Auto scroll loop
+  function autoScroll() {
+    if (!isDragging) {
+      scrollPos += scrollSpeed;
+      if (scrollPos >= track.scrollWidth / 2) {
+        scrollPos = 0;
+      }
+      container.scrollLeft = scrollPos;
+    } else {
+      scrollPos = container.scrollLeft; // Sync to user position
+    }
+
+    requestAnimationFrame(autoScroll);
+  }
+
+  autoScroll(); 
+
+  
+</script>
+
+<!-- ciao pianka -->
 
 <script>
   const logo0 = document.getElementById("glitch-logo-0");

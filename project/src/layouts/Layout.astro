@@ -325,14 +325,19 @@ const { title, description = "Team CTF di sicurezza informatica - Università di
   }
 
   .carousel-container {
-    position: relative;
-    overflow: hidden;
+   overflow-x: scroll;
+  scroll-behavior: smooth;
+  cursor: grab; 
   }
 
+  .carousel-container:active {
+    cursor: grabbing;
+  }
+  
   .carousel-track {
     display: flex;
-    animation: scroll 30s linear infinite;
     gap: 40px;
+    min-width: max-content;
   }
 
   .carousel-track:hover {
