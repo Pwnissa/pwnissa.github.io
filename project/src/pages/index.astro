@@ -53,7 +53,7 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
 
   <div class="team-section">
     <div class="container">
-      <h2>🧑‍💻 Our members</h2>
+      <h2>🧑‍💻 Our Members</h2>
       <div class="intro">
         <p>
           We are mostly bachelor's and master's students studying Computer Science and Computer Engineering at
@@ -68,7 +68,7 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
 
   <div class="ctf-carousel">
     <div class="container">
-      <h2>🏅 CTFs we played</h2>
+      <h2>🏅 Played CTFs</h2>
       <div class="carousel-container">
         <div class="carousel-track">
           {
@@ -125,17 +125,17 @@ const carouselLogos = [...ctfLogos, ...ctfLogos];
   // Touch support
   container.addEventListener('touchstart', (e) => {
     isDragging = true;
-    startX = e.touches[0].clientX;
+    startX = e.touches[0].pageX;
     startScrollLeft = container.scrollLeft;
-  }, { passive: false });
+  });
 
   container.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
     e.preventDefault();
-    const x = e.touches[0].clientX;
-    const walk = (x - startX) * 1.5;
+    const x = e.touches[0].pageX;
+    const walk = (x - startX) * 3;
     container.scrollLeft = startScrollLeft - walk;
-  }, { passive: false });
+  });
 
   // Auto scroll loop
   function autoScroll() {
