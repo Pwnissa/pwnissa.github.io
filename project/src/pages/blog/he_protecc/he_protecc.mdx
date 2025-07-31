@@ -16,7 +16,7 @@ import Callout from '../../../components/Callout.astro';
 # Introduction
 
 This is the first pwn challenge in the CornCTF 2025.
-Upon inspecting the binary we immediatly notice two things:
+Upon inspecting the binary we immediately notice two things:
 
 1) **The security mitigations are very relaxed**: the GOT is writable (Partial RELRO) and the code area is not position independent (No PIE) and as such is not randomized.
 2) **The ELF is statically linked**: so we can exclude ret2libc and we have to ignore shenanigans with dynamic libraries this time.
@@ -116,13 +116,13 @@ Here comes the problem, even if the ELF is not PIE, the stack and also `vdso` st
 
 ## The Leak
 
-Using `p2p stack vdso` we can see 4 leaks on the stack for **vdso**.
+Using `p2p stack vdso` we can see 4 leaks on the stack for **vdso**, let's choose the first one.
 
 ![](images/he_protecc-017.webp)
 
 ## Assembly 
 
-Now comes the *difficult* part, we can't calculate the offset between the syscalls and our leak because we cannot guarantee that the internal offsets are constant, we need to scan the memory area...
+Now comes the *difficult* part, we can't calculate the offset between the syscalls and our leak because we cannot guarantee that the internal offsets are the same in the remote binary, we need to scan the memory area...
 
 The first part is easy, let's take the first leak and put it into a register:
 
@@ -130,18 +130,18 @@ The first part is easy, let's take the first leak and put it into a register:
 mov r8, [rbp - 0x218]
 ```
 
-We could zero out the 12 least significant bits to align the address to a page start, but in our case it doesn't matter.
-Now let's scan the memory area for a syscall, remember that the opcode is `0x0F05` but we are in little-endian:
+We could zero out the 12 least significant bits of this leak to align the address to the start of a memory page, but in our case, it's unnecessary, we already know there are 5 syscall instructions diseminated in the region and it is impossible that they are all contained in the first '0x340' bits of the page.
+Now let's scan the memory region for a syscall instruction, remember that it's opcode is `0x0F05` but we are in little-endian so we need to reverse the order of bits:
 
 ```asm
 loop:
 inc r8
 mov ax, word ptr [r8]
-cmp ax, 0x050f
+cmp ax, 0x050f <-- syscall opcode but reversed
 jne loop
 ```
 
-This code snipped increases `r8` (pointer to `vdso` leak) and takes two bytes, it then checks if the bytes are equal to the one representing a syscall and if not it loops. If it exits the loop, `r8` will point to a valid syscall instruction, and we can continue with setting the other registers for an execve call.
+This code snipped increases `r8` (pointer to `vdso` leak) and reads two bytes, it then checks if the bytes are equal to the one representing syscall, if not, it continues the loop. If it exits instead, `r8` will point to a valid syscall instruction, and we can continue with setting the other registers for an execve call.
 
 ```asm
 mov r9, {u64(b"/bin/sh\0")}
@@ -155,5 +155,5 @@ xor rdx, rdx
 jmp r8 // <-- jump to syscall outside our mmap area
 ```
 
-and boom, we have a shell.
+sending this payload will spawn a shell and with a simple 'cat flag.txt' we get the flag!
 
