@@ -90,7 +90,7 @@ export const members = [
     tags: ["crypto", "misc"],
   },
   {
-    nickname: "SGDav",
+    nickname: "0x1Dav",
     name: "Davide Caldirola",
     photo: "/immagini_membri/davide_caldirola.jpg",
     link: "https://github.com/DavideCaldirola/CTF-Writeups",
