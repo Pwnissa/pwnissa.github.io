@@ -52,7 +52,7 @@ export const members = [
     name: "David Hermes",
     photo: "/immagini_membri/david_hermes.jpg",
     link: "https://blog.davidherm.es/",
-    tags: ["pwn", "burocracy"],
+    tags: ["pwn", "bureaucracy"],
   },
   {
     nickname: "AndyVale",
@@ -115,7 +115,7 @@ export const members = [
     name: "Erika Corbo",
     photo: "/immagini_membri/erika_corbo.jpg",
     link: "https://github.com/eriseisarai",
-    tags: ["misc", "web", "burocracy"],
+    tags: ["misc", "web", "bureaucracy"],
   },
   {
     nickname: "Tom1379",
