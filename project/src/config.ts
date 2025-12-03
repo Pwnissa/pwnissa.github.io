@@ -72,15 +72,15 @@ export const members = [
     nickname: "Redistan",
     name: "Riccardo Cherchi",
     photo: "/immagini_membri/riccardo_cherchi.jpg",
-    link: "https://www.linkedin.com/in/riccardo-cherchi-2848b0181/",
-    tags: ["web", "misc"],
+    link: "https://www.linkedin.com/in/riccardo-cherchi-2847b0181/",
+    tags: ["web", "misc", "infra"],
   },
   {
     nickname: "e3py",
     name: "Giacomo Quarto",
     photo: "/immagini_membri/giacomo_quarto.jpg",
     link: "https://github.com/lmvjack",
-    tags: ["web", "misc"],
+    tags: ["pwn", "misc"],
   },
   {
     nickname: "Goligx",
