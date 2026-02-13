@@ -201,7 +201,9 @@ Once we have arbitrary read and write into the libc getting a leak to the stack 
 `__environ` goes to therapy. Talks nonstop for hours. 
 Then it asks, “Why always me?”  
 Therapist responds, “It all comes from your environment.” 
-</Callout>`__environ` is a global variable pointing to the environment variables saved on the stack:
+</Callout>
+
+`__environ` is a global variable pointing to the environment variables saved on the stack:
 
 ```python
 environ = libc_base + libc.symbols.__environ
@@ -238,6 +240,5 @@ We need to add a single ret instruction because the stack is not aligned to a mu
 
 <Callout type="info">
 Sometimes a perfect ROP chain still crashes the target. One common cause is stack misalignment. Many `libc` functions require the stack to be `0x10` aligned to accommodate [SIMD instructions](https://stackoverflow.com/questions/1422149/what-is-vectorization#1422181) . Adding a single `ret` gadget before your chain moves the stack by `0x08`, fixing the alignment.
-P
 </Callout>
 Now when returning `system(/bin/sh)` will be executed giving us a **shell**.

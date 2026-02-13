@@ -376,14 +376,14 @@ Looking at the output from pwndbg above, we notice only one entry in the array, 
 ### Step 2: Replacing function with system()
 Do you notice something wrong with the function address in the snipped above? That's **not** an address. When an atexit function gets registered, its address is xored with a key called **pointer_chk_guard** and then rotated left by 17 bits (0x11).  
 $$
-\text{mangled\_address} = \texttt{rol}(\text{address} \oplus\ \text{key} , \text{0x11})
+\text{mangled}\_\text{address} = \texttt{rol}(\text{address} \oplus\ \text{key} , \text{0x11})
 $$
 $$
-\text{address} = \texttt{ror}(\text{mangled\_address}, \text{0x11})\ \oplus\ \text{key}
+\text{address} = \texttt{ror}(\text{mangled}\_\text{address}, \text{0x11})\ \oplus\ \text{key}
 $$
 But by performing a `ROR` (rotate right) by 0x11 bits on the mangled address and then `XOR`ing the result with the real address, we can easily recover the key.
 $$
-\text{key} = \texttt{ror}(\text{mangled\_address}, \text{0x11})\ \oplus \ \text{address}
+\text{key} = \texttt{ror}(\text{mangled}\_\text{address}, \text{0x11})\ \oplus \ \text{address}
 $$
 Once we have the key, we can replace the old mangled function address with the mangled  `system()` address and overwrite the argument `0` with `/bin/sh\0`.
 
@@ -437,7 +437,6 @@ But why are the values copied into the TCB if they are saved on the stack too? B
 </Callout>
 ### Step 3: exiting gracefully 
 
-Now we have everything to get the key, by overwriting the struct with the mangled `system()` address and `/bin/sh` as a
-rgument we simply need to run the program and exit to get a shell.
+Now we have everything to get the key, by overwriting the struct with the mangled `system()` address and `/bin/sh` as argument we simply need to run the program and exit to get a shell.
 
 Still questions about `__exit_functions`? Here is a link to a nice [blogpost](https://binholic.blogspot.com/2017/05/notes-on-abusing-exit-handlers.html).
