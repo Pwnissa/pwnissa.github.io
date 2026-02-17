@@ -164,9 +164,21 @@ export const pets = [
   },
 
   {
-    name: "B3n1t0",
+    name: "Benny",
     info: "A leopard gecko that loves to hang upside down in its free time",
-    photo: "/img-pets/B3n1t0.jpg",
+    photo: "/img-pets/benny.jpg",
+    tags: ["reptile", "exotic"],
+  },
+  {
+    name: "Giorgia",
+    info: "She's blonde",
+    photo: "/img-pets/giorgia.jpg",
+    tags: ["reptile", "exotic"],
+  },
+  {
+    name: "Muammy",
+    info: "He likes to hide in his cave all day long",
+    photo: "/img-pets/muammy.jpg",
     tags: ["reptile", "exotic"],
   },
   {
