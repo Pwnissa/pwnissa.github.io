@@ -1,14 +1,18 @@
 // Member blog RSS feed URLs for aggregation
 // Posts with tag "pwnissa" will be included on the main blog
+// to make this work a <meta title:pwnissa content:true> tag must be present in the
+// head of the blogpost. also a rss feed must be present from which the blog can query.
+// Only at deploy time the script checks the blogs, in the future this should be changed
+// to a separate github action but i am too lazy.
 export const memberBlogFeeds = [
   {
-    nickname: "Ubik",
+    nickname: "Ub1k",
     rssFeed: "https://blog.davidherm.es/rss.xml",
   },
   // Add more members with RSS feeds here
   // {
   //   nickname: "StealthGuy",
-  //   rssFeed: "https://stealthguy.net/feed/",
+  //   rssFeed: "https://stealthguy.net/rss.xml",
   // },
 ];
 
