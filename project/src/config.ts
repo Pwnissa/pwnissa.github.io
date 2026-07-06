@@ -1,3 +1,17 @@
+// Member blog RSS feed URLs for aggregation
+// Posts with tag "pwnissa" will be included on the main blog
+export const memberBlogFeeds = [
+  {
+    nickname: "Ubik",
+    rssFeed: "https://blog.davidherm.es/rss.xml",
+  },
+  // Add more members with RSS feeds here
+  // {
+  //   nickname: "StealthGuy",
+  //   rssFeed: "https://stealthguy.net/feed/",
+  // },
+];
+
 export const ctfLogos = [
   {
     name: "UIUCTF 2025",

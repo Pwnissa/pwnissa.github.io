@@ -1,10 +1,46 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { BLOG_TITLE } from '../consts';
+import { memberBlogFeeds } from '../config';
+import { fetchAllMemberPosts } from '../lib/rss-fetcher';
 
-const posts = await Astro.glob('../pages/blog/**/*.{md,mdx}');
-const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+// Fetch local blog posts
+const localPosts = await Astro.glob('../pages/blog/**/*.{md,mdx}');
 
+// Fetch member posts from RSS feeds if feeds are configured
+let memberPosts: any[] = [];
+if (memberBlogFeeds && memberBlogFeeds.length > 0) {
+  try {
+    memberPosts = await fetchAllMemberPosts(memberBlogFeeds);
+  } catch (error) {
+    console.warn('Error fetching member posts:', error);
+  }
+}
+
+// Combine and sort all posts by date (newest first)
+const allPosts = [
+  ...localPosts.map(post => ({
+    ...post,
+    url: post.url,
+    frontmatter: post.frontmatter,
+    isLocal: true,
+  })),
+  ...memberPosts.map(post => ({
+    url: post.link,
+    frontmatter: {
+      title: post.title,
+      author: post.author,
+      date: post.pubDate.toISOString().split('T')[0],
+      tags: post.tags,
+      description: post.description,
+    },
+    isLocal: false,
+  })),
+];
+
+const sortedPosts = allPosts.sort((a, b) => 
+  new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
+);
 
 ---
 
@@ -20,21 +56,27 @@ const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() 
       
       <div class="posts-grid">
         {sortedPosts.map(post => (
-          <article class="post-card">
+          <article class={`post-card ${post.isLocal ? '' : 'member-post'}`}>
             <div class="post-content">
               <div class="post-meta">
                 <span class="post-author">by {post.frontmatter.author}</span>
+                {!post.isLocal && <span class="post-badge">Member Blog</span>}
                 <span class="post-date">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</span>
               </div>
               <h2 class="post-title">
-                <a href={post.url}>{post.frontmatter.title}</a>
+                <a href={post.url} target={post.isLocal ? '_self' : '_blank'} rel={post.isLocal ? '' : 'noopener noreferrer'}>
+                  {post.frontmatter.title}
+                  {!post.isLocal && <span class="external-icon"> ↗</span>}
+                </a>
               </h2>
               <div class="post-tags">
                 {(post.frontmatter.tags || []).map(tag => (
                   <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
                 ))}
               </div>
-              <a href={post.url} class="read-more">Read more →</a>
+              <a href={post.url} target={post.isLocal ? '_self' : '_blank'} rel={post.isLocal ? '' : 'noopener noreferrer'} class="read-more">
+                {post.isLocal ? 'Read more →' : `Read on ${post.frontmatter.author}'s blog →`}
+              </a>
             </div>
           </article>
         ))}
@@ -98,6 +140,28 @@ const sortedPosts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() 
     border: 1px solid var(--card-border);
     border-radius: 15px;
     overflow: hidden;
+  }
+
+  .post-card.member-post {
+    border: 2px solid var(--accent-teal);
+    box-shadow: 0 0 15px rgba(133, 191, 199, 0.2);
+  }
+
+  .post-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--accent-teal);
+    color: var(--bg-primary);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 10px;
+  }
+
+  .external-icon {
+    margin-left: 4px;
+    font-size: 0.9em;
+  }
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
   }
