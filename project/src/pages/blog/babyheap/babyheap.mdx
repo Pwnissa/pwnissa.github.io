@@ -241,4 +241,4 @@ We need to add a single ret instruction because the stack is not aligned to a mu
 <Callout type="info">
 Sometimes a perfect ROP chain still crashes the target. One common cause is stack misalignment. Many `libc` functions require the stack to be `0x10` aligned to accommodate [SIMD instructions](https://stackoverflow.com/questions/1422149/what-is-vectorization#1422181) . Adding a single `ret` gadget before your chain moves the stack by `0x08`, fixing the alignment.
 </Callout>
-Now when returning `system(/bin/sh)` will be executed giving us a shell.
+Now when returning `system(/bin/sh)` will be executed giving us a **shell**.

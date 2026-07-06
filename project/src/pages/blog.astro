@@ -60,7 +60,6 @@ const sortedPosts = allPosts.sort((a, b) =>
             <div class="post-content">
               <div class="post-meta">
                 <span class="post-author">by {post.frontmatter.author}</span>
-                {!post.isLocal && <span class="post-badge">Member Blog</span>}
                 <span class="post-date">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</span>
               </div>
               <h2 class="post-title">
@@ -70,6 +69,7 @@ const sortedPosts = allPosts.sort((a, b) =>
                 </a>
               </h2>
               <div class="post-tags">
+                {!post.isLocal && <span class="tag external">External</span>}
                 {(post.frontmatter.tags || []).map(tag => (
                   <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
                 ))}
@@ -147,20 +147,15 @@ const sortedPosts = allPosts.sort((a, b) =>
     box-shadow: 0 0 15px rgba(133, 191, 199, 0.2);
   }
 
-  .post-badge {
-    display: inline-block;
-    padding: 4px 10px;
-    background: var(--accent-teal);
-    color: var(--bg-primary);
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-left: 10px;
-  }
-
   .external-icon {
     margin-left: 4px;
     font-size: 0.9em;
+  }
+
+  .tag.external {
+    background: var(--accent-teal);
+    color: var(--bg-primary);
+    font-weight: 600;
   }
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
