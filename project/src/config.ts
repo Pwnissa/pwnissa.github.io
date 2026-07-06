@@ -118,21 +118,6 @@ export const members = [
     tags: ["misc", "web", "bureaucracy"],
   },
   {
-    nickname: "Tom1379",
-    name: "Tommaso Thea Cioni",
-    photo:
-      "https://i.pinimg.com/736x/2f/02/59/2f02592195355b96dc35480cf6a80de0.jpg",
-    link: "",
-    tags: ["pwn"],
-  },
-  {
-    nickname: "rikyiso00",
-    name: "Riccardo Isola",
-    photo: "/immagini_membri/riccardo_isola.jpg",
-    link: "",
-    tags: ["web"],
-  },
-  {
     nickname: "il_vero_gabriele",
     name: "[REDACTED]",
     photo:
