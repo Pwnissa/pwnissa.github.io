@@ -29,15 +29,15 @@ export const { getStaticPaths, GET } = await OGImageRoute({
   param: 'route',
   pages: pages,
   getImageOptions: (path, page) => ({
-    title: page.title,
-    description: page.description,
-    logo: {
-      path: './public/logo1.png',
-      size: [200], // Logo size
+    title: ' ',
+    description: ' ',
+    bgImage: {
+      path: './public/logo1-og.png',
+      fit: 'none',
+      position: 'center',
     },
     bgGradient: [
-      [10, 10, 10], // --bg-primary approx
-      [37, 40, 44], // --bg-secondary approx
+      [10, 10, 10], // --bg-primary
     ],
     border: {
       color: [217, 173, 41], // --accent-gold
