@@ -16,6 +16,11 @@ export interface Props {
 
 const { frontmatter } = Astro.props;
 
+// Determine OG Image URL dynamically
+const pathname = Astro.url.pathname;
+const cleanPath = pathname.replace(/^\/|\/$/g, '') || 'index';
+const ogImageUrl = new URL(`/og/${cleanPath}.png`, Astro.site || Astro.url.origin).toString();
+
 ---
 
 <!doctype html>
@@ -27,6 +32,15 @@ const { frontmatter } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={`Articolo di ${frontmatter.author} @ Pwnissa`} />
     <title>{frontmatter.title} | Blog | Pwnissa</title>
+    
+    <!-- OpenGraph & Twitter Tags -->
+    <meta property="og:title" content={`${frontmatter.title} | Blog | Pwnissa`}>
+    <meta property="og:description" content={`Articolo di ${frontmatter.author} @ Pwnissa`}>
+    <meta property="og:image" content={ogImageUrl}>
+    <meta property="og:url" content={Astro.url.href}>
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content={ogImageUrl}>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
