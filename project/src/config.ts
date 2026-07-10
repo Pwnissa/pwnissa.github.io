@@ -101,6 +101,13 @@ export const members: Member[] = [
     tags: ["web", "misc"],
   },
   {
+    nickname: "MondoQuadretti",
+    name: "Laura Bossi",
+    photo: "/immagini_membri/laura_bossi.jpg",
+    link: "",
+    tags: ["crypto"],
+  },
+  {
     nickname: "gerert",
     name: "Giovanni B. Aragone",
     photo: "/immagini_membri/giovanni_aragone.jpg",
