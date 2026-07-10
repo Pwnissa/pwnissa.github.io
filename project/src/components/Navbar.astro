@@ -5,50 +5,39 @@ import { navLinks, NAV_BRAND } from '../consts';
 <nav id="navbar" class="navbar">
     <div class="navbar-container">
       <div class="navbar-brand">
-        <a href="/#start-home-page">{NAV_BRAND}</a>
+        <a href="/">{NAV_BRAND}</a>
       </div>
-      <div class="navbar-menu">
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-menu" id="navbar-menu">
         {navLinks.map(link => (
-          <a href={link.href} class="navbar-link">{link.name}</a>))}
+          <a href={link.href} class="navbar-link" target={link.href.startsWith('http') ? '_blank' : '_self'}>{link.name}</a>))}
       </div>
     </div>
   </nav>
   
   <script>
-    // Gestione apparizione navbar al scroll
-    window.addEventListener('scroll', () => {
-      const navbar = document.getElementById('navbar');
-      const scrollPosition = window.scrollY;
-      const viewportHeight = window.innerHeight;
-  
-      // Check if the current page is the root ('/') AND optionally has a hash
-      const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html'; // Include /index.html for static builds
-  
-      // Only run the visibility logic if on the home page
-      if (isHomePage) {
-        if (scrollPosition > viewportHeight * 0.8) {
-          navbar.classList.add('visible');
-        } else {
-          navbar.classList.remove('visible');
-        }
-      } else {
-        navbar.classList.add('visible');
-      }
-    });
-
+    // Since the hero-fullscreen was removed, the navbar should always be visible.
+    // We add a class on load just to ensure transitions play if needed.
     window.addEventListener('load', () => {
         const navbar = document.getElementById('navbar');
-        const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
-        if (!isHomePage) {
-            navbar.classList.add('visible');
-        }
+        navbar?.classList.add('visible');
+        
+        const hamburger = document.getElementById('hamburger');
+        const menu = document.getElementById('navbar-menu');
+        
+        hamburger?.addEventListener('click', () => {
+            hamburger.classList.toggle('is-active');
+            menu?.classList.toggle('is-open');
+        });
     });
   </script>
   
   <style>
     
     a{
-      -webkit-tap-highlight-color: transparent;  // added to prevent tap highlight on mobile
+      -webkit-tap-highlight-color: transparent;  /* added to prevent tap highlight on mobile */
     }
 
     .navbar {
@@ -60,8 +49,8 @@ import { navLinks, NAV_BRAND } from '../consts';
       background: rgba(10, 10, 10, 0.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      transform: translateY(-100%);
-      transition: transform 0.3s ease-in-out;
+      /* Removed transform translateY(-100%) so it is visible by default */
+      transition: background 0.3s ease-in-out;
     }
   
     .navbar.visible {
@@ -69,7 +58,7 @@ import { navLinks, NAV_BRAND } from '../consts';
     }
   
     .navbar-container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 0 20px;
       display: flex;
@@ -132,6 +121,35 @@ import { navLinks, NAV_BRAND } from '../consts';
       width: 80%;
     }
   
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background-color: var(--text-primary);
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.is-active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.is-active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.is-active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
     @media (max-width: 768px) {
       .navbar-container {
         padding: 0 15px;
@@ -141,8 +159,35 @@ import { navLinks, NAV_BRAND } from '../consts';
         font-size: 1.3rem;
       }
       
+      .hamburger {
+        display: flex;
+      }
+
       .navbar-menu {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 10, 0.98);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
         gap: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        
+        /* Mobile closed state */
+        transform: translateY(-150%);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        z-index: -1;
+      }
+
+      .navbar-menu.is-open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
       }
     }
   </style>

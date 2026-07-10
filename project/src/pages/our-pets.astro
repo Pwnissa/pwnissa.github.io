@@ -8,11 +8,14 @@ import {pets} from '../config';
 
 ---
 
-<Layout title={SITE_TITLE}>
+<Layout title="Our Pets | Pwnissa">
 
     <div class="team-section">
       <div class="container">
-        <h2>Our pets</h2>
+      <div class="team-header">
+        <h1>Our Pets</h1>
+        <p>Meet the beloved companions that brighten our lives.</p>
+      </div>
         <div class="team-grid">
             {pets.map(pet => (
                 <PetCard
@@ -28,3 +31,43 @@ import {pets} from '../config';
     </div>
 
   </Layout>
+
+<style>
+  .team-section {
+    background: var(--bg-primary);
+    padding: 100px 0 60px;
+    min-height: 100vh;
+  }
+  .team-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .team-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: var(--accent-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .team-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+  @media (max-width: 768px) {
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

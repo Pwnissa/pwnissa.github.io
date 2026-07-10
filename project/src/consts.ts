@@ -8,4 +8,5 @@ export const SITE_DESCRIPTION = '';
 export const navLinks = [
     { name: "Blog", href: "/blog" },
     { name: "Members", href: "/members" },
+    { name: "Training", href: "https://challs.pwnissa.it/" },
 ]

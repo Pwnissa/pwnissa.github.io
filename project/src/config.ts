@@ -4,7 +4,12 @@
 // head of the blogpost. also a rss feed must be present from which the blog can query.
 // Only at deploy time the script checks the blogs, in the future this should be changed
 // to a separate github action but i am too lazy.
-export const memberBlogFeeds = [
+export interface MemberFeed {
+  nickname: string;
+  rssFeed: string;
+}
+
+export const memberBlogFeeds: MemberFeed[] = [
   {
     nickname: "Ub1k",
     rssFeed: "https://blog.davidherm.es/rss.xml",
@@ -16,48 +21,15 @@ export const memberBlogFeeds = [
   // },
 ];
 
-export const ctfLogos = [
-  {
-    name: "UIUCTF 2025",
-    img_url:
-      "https://ctftime.org/media/cache/8f/44/8f44cc2cb38ce3a8be121f45d521d902.png",
-    platform_link: "https://ctftime.org/event/2640",
-  },
-  {
-    name: "ENOWARS 9 - 2025",
-    img_url:
-      "https://ctftime.org/media/cache/04/2e/042e05ae002396dff908a7474c408ab1.png",
-    platform_link: "https://ctftime.org/event/2796",
-  },
-  {
-    name: "CyberChallenge.it Nationals",
-    img_url:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrOiiSt0riNNROJCDmj_9TWL4lDXh04-JHOA&s",
-    platform_link: "https://cyberchallenge.it/attack-defense/2025",
-  },
-  {
-    name: "CornCTF 2025",
-    img_url: "https://ctftime.org/media/events/cornctf.png",
-    platform_link: "https://ctftime.org/event/2762",
-  },
-  {
-    name: "LeakCTF 2025",
-    img_url: "https://ctftime.org/media/events/L3akCTF_2025_Logo_750x750.png",
-    platform_link: "https://ctftime.org/event/2629",
-  },
-  {
-    name: "HackTheBox",
-    img_url:
-      "https://yt3.googleusercontent.com/2Tq9apgiHSV7NrCKzgRMbm-AABWJJXuyWMY_7MpQlVdvemqJRWcGegVq0G4e9xHCl8HcbQs_Ag=s900-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "TryHackMe: Industrial Intrusion",
-    img_url:
-      "https://appl3tree.github.io/assets/img/infocards/thm-industrial-ctf.png",
-  },
-];
+export interface Member {
+  nickname: string;
+  name?: string;
+  photo: string;
+  link?: string;
+  tags: string[];
+}
 
-export const members = [
+export const members: Member[] = [
   {
     nickname: "StealthGuy",
     name: "Gabriele Alessandria",
@@ -116,7 +88,7 @@ export const members = [
   },
   {
     nickname: "Parcometro",
-    name: "Macije Costa",
+    name: "Maciej Costa",
     photo: "/immagini_membri/maciej_costa.jpg",
     link: "https://aboutmaciej.altervista.org/",
     tags: ["web", "network", "pwn"],
@@ -166,7 +138,13 @@ export const members = [
   },
 ];
 
-export const pets = [
+export interface Pet {
+  name: string;
+  photo: string;
+  tags: string[];
+}
+
+export const pets: Pet[] = [
   {
     name: "Lupina",
     info: "In loving memory of Lupina, forever in my heart.",

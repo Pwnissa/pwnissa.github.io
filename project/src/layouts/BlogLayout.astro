@@ -1,6 +1,8 @@
 ---
 import Footer from '../components/Footer.astro';
 import FixedNavbar from '../components/FixedNavbar.astro';
+import '../styles/global.css';
+import '../styles/tags.css';
 
 export interface Props {
   frontmatter: {
@@ -24,7 +26,7 @@ const { frontmatter } = Astro.props;
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={`Articolo di ${frontmatter.author} @ Pwnissa`} />
-    <title>{frontmatter.title}</title>
+    <title>{frontmatter.title} | Blog | Pwnissa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -51,7 +53,7 @@ const { frontmatter } = Astro.props;
             <span class="date">{new Date(frontmatter.date).toLocaleDateString('it-IT')}</span>
             <div class="tags">
               {frontmatter.tags.map(tag => (
-                <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
+                <span class={`tag ${tag.toLowerCase().replace(/\s+/g, '-')}`}>{tag}</span>
               ))}
             </div>
           </div>
@@ -68,40 +70,6 @@ const { frontmatter } = Astro.props;
 </html>
 
 <style is:global>
-  :root {
-    --bg-primary: #0a0a0a;
-    --bg-secondary: #25282c;
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --accent-blue: #080C59;
-    --accent-gold: #D9AD29;
-    --accent-green: #82BF45;
-    --accent-teal: #21A698;
-    --accent-orange: #F28A2E;
-    --accent-pink: #F277B4; /* Corrected typo: F27EB4 -> F277B4 if that was intended, otherwise use the original. I'll stick to original.*/
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --card-border: rgba(255, 255, 255, 0.08);
-  }
-
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html, body {
-    height: 100%;
-    font-family: 'Inter', sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.6;
-  }
-
-  a{
-    -webkit-tap-highlight-color: transparent;  // added to prevent tap highlight on mobile
-    
-  }
-
   .article-content a:link {
   color: var(--accent-teal); /* Teal per link non visitati */
   text-decoration: underline; /* Sottolineato per chiarezza */
@@ -183,20 +151,6 @@ const { frontmatter } = Astro.props;
     gap: 8px;
   }
 
-  .tag {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: white;
-  }
-  .tag { background: var(--bg-secondary); }
-  .tag.web { background: var(--accent-teal); }
-  .tag.network { background: var(--accent-blue); }
-  .tag.misc { background: var(--accent-pink); }
-  .tag.pwn { background: var(--accent-green); }
-  .tag.crypto { background: var(--accent-orange); }
-  .tag.reverse { background: var(--accent-gold); }
 
 
   .article-content {

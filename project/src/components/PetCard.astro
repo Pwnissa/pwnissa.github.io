@@ -7,15 +7,29 @@ export interface Props {
 }
 
 const { name, info, photo, tags } = Astro.props;
+
+const tagColors: Record<string, string> = {
+  dog: "var(--accent-teal)",
+  cat: "var(--accent-pink)",
+  bird: "var(--accent-blue)",
+  reptile: "var(--accent-green)",
+  fish: "var(--accent-orange)",
+  mammal: "var(--accent-gold)",
+  exotic: "linear-gradient(135deg, #ff416c, #8b00ff, #00eaff)",
+  'wild-boar': "var(--accent-orange)"
+};
+
+const firstTag = tags && tags.length > 0 ? tags[0].toLowerCase().replace(/\s+/g, '-') : '';
+const cardAccent = tagColors[firstTag] || "var(--accent-teal)";
 ---
 
-<div class="pet-card">
+<div class="pet-card" style={`--card-accent: ${cardAccent};`}>
   <img src={photo} alt={name} class="pet-photo">
   <div class="pet-name">{name}</div>
-  <div class="pet-species">{info || ""}</div>
+  <div class="pet-info">{info || ""}</div>
   <div class="pet-tags">
     {tags.map(tag => (
-      <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
+      <span class={`tag ${tag.toLowerCase().replace(/\s+/g, '-')}`}>{tag}</span>
     ))}
   </div>
 </div>
@@ -24,31 +38,32 @@ const { name, info, photo, tags } = Astro.props;
   .pet-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 15px;
+    border-top: 3px solid var(--card-accent);
+    border-radius: 4px;
     padding: 30px;
     text-align: center;
     backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 320px; /* Altezza minima fissa per uniformità */
+    min-height: 320px;
+    height: 100%;
+    width: 100%;
+    cursor: default;
   }
 
   .pet-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(237, 192, 30, 0.2);
-    border-color: var(--accent-gold);
+    border-color: var(--card-accent);
   }
 
   .pet-photo {
     width: 120px;
     height: 120px;
-    border-radius: 50%;
+    border-radius: 4px;
     object-fit: cover;
     margin: 0 auto 20px;
     display: block;
-    border: 3px solid var(--accent-gold);
     flex-shrink: 0;
   }
 
@@ -60,11 +75,11 @@ const { name, info, photo, tags } = Astro.props;
     flex-shrink: 0;
   }
 
-  .pet-species {
+  .pet-info {
     font-size: 1rem;
     color: var(--text-secondary);
     margin-bottom: 15px;
-    min-height: 24px; /* Spazio fisso anche se vuoto */
+    min-height: 24px;
     flex-shrink: 0;
   }
 
@@ -73,22 +88,13 @@ const { name, info, photo, tags } = Astro.props;
     flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
-    margin-top: auto; /* Spinge i tag verso il basso */
+    margin-top: auto;
   }
 
   .tag {
-    padding: 4px 12px;
+    padding: 2px 10px;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     font-weight: 500;
-    color: white;
   }
-
-  .tag.dog { background: var(--accent-teal); }
-  .tag.cat { background: var(--accent-blue); }
-  .tag.bird { background: var(--accent-pink); }
-  .tag.reptile { background: var(--accent-green); }
-  .tag.fish { background: var(--accent-orange); }
-  .tag.mammal { background: var(--accent-gold); }
-  .tag.exotic { background: linear-gradient(135deg, #ff416c, #8b00ff, #00eaff);; }
 </style>

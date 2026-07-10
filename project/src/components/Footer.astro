@@ -1,73 +1,149 @@
 ---
-// src/components/footer.astro
+// src/components/Footer.astro
 ---
 
 <footer class="footer">
   <div class="footer-content">
-    <h2>Contacts</h2>
-    <div class="contact-info">
-      <p>📧 Email: <a href="mailto:info@pwnissa.it">info@pwnissa.it</a></p>
-      <p>🐙 GitHub: <a href="https://github.com/pwnissa" target="_blank">https://github.com/pwnissa</a></p>
-      <p>📍 Università degli Studi di Genova, DIBRIS</p>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3 class="footer-logo">Pwnissa</h3>
+        <p class="location">📍 Via Dodecaneso, Genova, Italy</p>
+      </div>
+      
+      <div class="footer-links">
+        <div class="social-links">
+          <a href="mailto:info@pwnissa.it" aria-label="Email" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+          <a href="https://github.com/pwnissa" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+          </a>
+          <a href="https://ctftime.org/team/300188" target="_blank" rel="noopener noreferrer" aria-label="CTFTime" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="CTFTime">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+              <line x1="4" y1="22" x2="4" y2="15"></line>
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
-    <p class="made-by">Made with ♥ by <a href="https://stealthguy.net" target="_blank" rel="noopener noreferrer">stealthguy</a></p>
+    
+    <div class="footer-bottom">
+      <p class="made-by">Made with ♥ by <a href="https://stealthguy.net" target="_blank" rel="noopener noreferrer">stealthguy</a></p>
+    </div>
   </div>
 </footer>
 
 <style>
   .footer {
-    background: var(--bg-secondary);
-    padding: 60px 0;
+    background: var(--bg-primary);
+    padding: 30px 0 20px 0;
     border-top: 1px solid var(--card-border);
-    margin-top: 0px;
-    padding-bottom: 20px;
   }
 
   .footer-content {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+  }
+
+  .footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 30px;
+  }
+
+  .footer-brand {
+    max-width: 400px;
+  }
+
+  .footer-logo {
+    font-family: 'PwnissaLogoFont', monospace;
+    font-size: 2rem;
+    color: var(--accent-gold);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
+
+  .footer-brand .location {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+  }
+
+  .social-link {
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .social-link svg {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.3s ease;
+  }
+
+  .social-link:hover {
+    color: var(--accent-teal);
+  }
+  
+  .social-link:hover svg {
+    transform: translateY(-3px);
+  }
+
+  .footer-bottom {
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     text-align: center;
   }
 
-  .footer h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    color: var(--accent-gold);
+  .made-by {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
   }
 
-  .contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    font-size: 1.1rem;
-  }
-
-  .contact-info a {
-    color: var(--accent-teal);
+  .made-by a {
+    color: var(--text-primary);
     text-decoration: none;
+    font-weight: 600;
     transition: color 0.3s ease;
   }
 
-  .contact-info a:hover {
+  .made-by a:hover {
     color: var(--accent-gold);
   }
 
-/* Stili per il testo "made by stealthguy" */
-.made-by {
-  margin-top: 15px; /* Ridotto lo spazio sopra il testo */
-  font-size: 0.75rem;
-  color : white;
-  text-align: center;
-}
+  @media (max-width: 768px) {
+    .footer {
+      padding: 50px 0 20px 0;
+    }
+    
+    .footer-grid {
+      flex-direction: column;
+      text-align: center;
+      gap: 30px;
+    }
 
-.made-by a {
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
+    .footer-brand {
+      max-width: 100%;
+    }
 
-.made-by a:hover {
-  color: var(--accent-gold);
-}
+    .social-links {
+      justify-content: center;
+    }
+  }
 </style>

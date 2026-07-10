@@ -13,29 +13,44 @@ const { nickname, name, photo, link, tags } = Astro.props;
 // Un link come "www.google.com" non è valido senza un protocollo (es. https://).
 // Il browser lo interpreterebbe come un percorso relativo.
 const hasValidLink = link && link.startsWith('http');
+
+const tagColors: Record<string, string> = {
+  web: "var(--accent-teal)",
+  network: "var(--accent-blue)",
+  misc: "var(--accent-pink)",
+  pwn: "var(--accent-green)",
+  crypto: "var(--accent-orange)",
+  reverse: "var(--accent-gold)",
+  infra: "rgba(113, 0, 205, 1)",
+  bureaucracy: "rgb(1,28,85)",
+  gambling: "#8b00ff"
+};
+
+const firstTag = tags && tags.length > 0 ? tags[0].toLowerCase().replace(/\s+/g, '-') : '';
+const cardAccent = tagColors[firstTag] || "var(--accent-teal)";
 ---
 
 {hasValidLink ? (
   <a href={link} target="_blank" class="member-card-link">
-    <div class="member-card">
+    <div class="member-card" style={`--card-accent: ${cardAccent};`}>
       <img src={photo} alt={nickname} class="member-photo">
       <div class="member-nickname">{nickname}</div>
       <div class="member-name">{name || ""}</div>
       <div class="member-tags">
         {tags.map(tag => (
-          <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
+          <span class={`tag ${tag.toLowerCase().replace(/\s+/g, '-')}`}>{tag}</span>
         ))}
       </div>
     </div>
   </a>
 ) : (
-  <div class="member-card">
+  <div class="member-card" style={`--card-accent: ${cardAccent};`}>
     <img src={photo} alt={nickname} class="member-photo">
     <div class="member-nickname">{nickname}</div>
     <div class="member-name">{name || ""}</div>
     <div class="member-tags">
       {tags.map(tag => (
-        <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
+        <span class={`tag ${tag.toLowerCase().replace(/\s+/g, '-')}`}>{tag}</span>
       ))}
     </div>
   </div>
@@ -55,11 +70,12 @@ const hasValidLink = link && link.startsWith('http');
   .member-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 15px;
+    border-top: 3px solid var(--card-accent);
+    border-radius: 4px;
     padding: 30px;
     text-align: center;
     backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,9 +87,7 @@ const hasValidLink = link && link.startsWith('http');
 
   /* Gestione dell'hover: il cursore cambia solo se la card è cliccabile */
   .member-card-link .member-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(237, 192, 30, 0.2);
-    border-color: var(--accent-gold);
+    border-color: var(--card-accent);
     cursor: pointer; /* Indica che è cliccabile */
   }
 
@@ -81,23 +95,19 @@ const hasValidLink = link && link.startsWith('http');
   .member-card:not(.member-card-link > *) { /* Questo selettore mira le card non avvolte da .member-card-link */
     cursor: default; /* Assicura che il cursore non sia pointer */
   }
-  /* Alternativamente, potresti togliere il hover da qui e metterlo solo su .member-card-link .member-card:hover */
-  .member-card:hover { /* Questo è il tuo stile originale di hover, da mantenere se vuoi l'effetto visivo su tutte le card */
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(237, 192, 30, 0.2);
-    border-color: var(--accent-gold);
-    /* Il 'cursor: pointer;' verrà sovrascritto dall'hover più specifico per il link */
+  
+  .member-card:hover { 
+    border-color: var(--card-accent);
   }
 
 
   .member-photo {
     width: 120px;
     height: 120px;
-    border-radius: 50%;
+    border-radius: 4px; /* match flat styling instead of circular */
     object-fit: cover;
     margin: 0 auto 20px;
     display: block;
-    border: 3px solid var(--accent-gold);
     flex-shrink: 0;
   }
 
@@ -126,20 +136,11 @@ const hasValidLink = link && link.startsWith('http');
   }
 
   .tag {
-    padding: 4px 12px;
+    padding: 2px 10px;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     font-weight: 500;
-    color: white;
   }
 
-  .tag.web { background: var(--accent-teal); }
-  .tag.network { background: var(--accent-blue); }
-  .tag.misc { background: var(--accent-pink); }
-  .tag.pwn { background: var(--accent-green); }
-  .tag.crypto { background: var(--accent-orange); }
-  .tag.reverse { background: var(--accent-gold); }
-  .tag.infra { background: rgba(113, 0, 205, 1) }
-  .tag.bureaucracy { background: rgb(1,28,85);}
-  .tag.gambling { background: linear-gradient(135deg, #ff416c, #8b00ff, #00eaff);; }
+
 </style>

@@ -1,0 +1,91 @@
+@font-face {
+  font-family: 'PwnissaLogoFont';
+  src: url('/fonts/G7_Cube_5.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #25282c;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --accent-blue: #080C59;
+  --accent-gold: #D9AD29;
+  --accent-green: #82BF45;
+  --accent-teal: #21A698;
+  --accent-orange: #F28A2E;
+  --accent-pink: #F27EB4;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a {
+  -webkit-tap-highlight-color: transparent; /* added to prevent tap highlight on mobile */
+  text-decoration: none;
+  outline: none;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 80px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 24px;
+  background: var(--bg-primary);
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  outline: none;
+  box-shadow: none;
+}
+
+.cta-button:hover {
+  border-color: var(--text-secondary);
+  transform: none;
+  box-shadow: none;
+}

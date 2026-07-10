@@ -1,84 +1,24 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
 import { BLOG_TITLE } from '../consts';
-import { memberBlogFeeds } from '../config';
-import { fetchAllMemberPosts } from '../lib/rss-fetcher';
+import { getSortedPosts } from '../lib/posts';
 
-// Fetch local blog posts
-const localPosts = await Astro.glob('../pages/blog/**/*.{md,mdx}');
-
-// Fetch member posts from RSS feeds if feeds are configured
-let memberPosts: any[] = [];
-if (memberBlogFeeds && memberBlogFeeds.length > 0) {
-  try {
-    memberPosts = await fetchAllMemberPosts(memberBlogFeeds);
-  } catch (error) {
-    console.warn('Error fetching member posts:', error);
-  }
-}
-
-// Combine and sort all posts by date (newest first)
-const allPosts = [
-  ...localPosts.map(post => ({
-    ...post,
-    url: post.url,
-    frontmatter: post.frontmatter,
-    isLocal: true,
-  })),
-  ...memberPosts.map(post => ({
-    url: post.link,
-    frontmatter: {
-      title: post.title,
-      author: post.author,
-      date: post.pubDate.toISOString().split('T')[0],
-      tags: post.tags,
-      description: post.description,
-    },
-    isLocal: false,
-  })),
-];
-
-const sortedPosts = allPosts.sort((a, b) => 
-  new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
-);
+const sortedPosts = await getSortedPosts();
 
 ---
 
-<Layout title={BLOG_TITLE}>
+<Layout title="Blog | Pwnissa">
   <div class="blog-listing">
     <div class="container">
       <div class="blog-header">
-        <!-- <a href="/#start-home-page" class="back-link">← Torna alla home</a> -->
-        <br />
-        <h1>📝 Our articles</h1>
+        <h1>Our articles</h1>
         <p>Check out our technical analyses, writeups and cybersecurity guides</p>
       </div>
       
       <div class="posts-grid">
         {sortedPosts.map(post => (
-          <article class={`post-card ${post.isLocal ? '' : 'member-post'}`}>
-            <div class="post-content">
-              <div class="post-meta">
-                <span class="post-author">by {post.frontmatter.author}</span>
-                <span class="post-date">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</span>
-              </div>
-              <h2 class="post-title">
-                <a href={post.url} target={post.isLocal ? '_self' : '_blank'} rel={post.isLocal ? '' : 'noopener noreferrer'}>
-                  {post.frontmatter.title}
-                  {!post.isLocal && <span class="external-icon"> ↗</span>}
-                </a>
-              </h2>
-              <div class="post-tags">
-                {!post.isLocal && <span class="tag external">External</span>}
-                {(post.frontmatter.tags || []).map(tag => (
-                  <span class={`tag ${tag.toLowerCase()}`}>{tag}</span>
-                ))}
-              </div>
-              <a href={post.url} target={post.isLocal ? '_self' : '_blank'} rel={post.isLocal ? '' : 'noopener noreferrer'} class="read-more">
-                {post.isLocal ? 'Read more →' : `Read on ${post.frontmatter.author}'s blog →`}
-              </a>
-            </div>
-          </article>
+          <PostCard post={post} />
         ))}
       </div>
     </div>
@@ -88,26 +28,13 @@ const sortedPosts = allPosts.sort((a, b) =>
 <style>
   .blog-listing {
     min-height: 100vh;
-    padding: 60px 0;
+    padding: 100px 0 60px;
     background: var(--bg-primary);
   }
 
   .blog-header {
     text-align: center;
     margin-bottom: 60px;
-  }
-
-  .back-link {
-    color: var(--accent-teal);
-    text-decoration: none;
-    font-weight: 500;
-    margin-bottom: 20px;
-    display: inline-block;
-    transition: color 0.3s ease;
-  }
-
-  .back-link:hover {
-    color: var(--accent-gold);
   }
 
   .blog-header h1 {
@@ -135,117 +62,6 @@ const sortedPosts = allPosts.sort((a, b) =>
     margin: 0 auto;
   }
 
-  .post-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 15px;
-    overflow: hidden;
-  }
-
-  .post-card.member-post {
-    border: 2px solid var(--accent-teal);
-    box-shadow: 0 0 15px rgba(133, 191, 199, 0.2);
-  }
-
-  .external-icon {
-    margin-left: 4px;
-    font-size: 0.9em;
-  }
-
-  .tag.external {
-    background: var(--accent-teal);
-    color: var(--bg-primary);
-    font-weight: 600;
-  }
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-  }
-
-  .post-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(237, 192, 30, 0.2);
-    border-color: var(--accent-gold);
-  }
-
-  .post-image {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-  }
-
-  .post-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
-
-  .post-card:hover .post-image img {
-    transform: scale(1.05);
-  }
-
-  .post-content {
-    padding: 25px;
-  }
-
-  .post-meta {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-  }
-
-  .post-title {
-    margin-bottom: 15px;
-  }
-
-  .post-title a {
-    color: var(--text-primary);
-    text-decoration: none;
-    font-size: 1.3rem;
-    font-weight: 600;
-    transition: color 0.3s ease;
-  }
-
-  .post-title a:hover {
-    color: var(--accent-gold);
-  }
-
-  .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-
-  .tag {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: white;
-  }
-
-  .tag { background: var(--bg-secondary); }
-  .tag.web { background: var(--accent-teal); }
-  .tag.network { background: var(--accent-blue); }
-  .tag.misc { background: var(--accent-pink); }
-  .tag.pwn { background: var(--accent-green); }
-  .tag.crypto { background: var(--accent-orange); }
-  .tag.reverse { background: var(--accent-gold); }
-
-  .read-more {
-    color: var(--accent-teal);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-
-  .read-more:hover {
-    color: var(--accent-gold);
-  }
-
   @media (max-width: 768px) {
     .posts-grid {
       grid-template-columns: 1fr;
@@ -253,11 +69,6 @@ const sortedPosts = allPosts.sort((a, b) =>
     
     .blog-header h1 {
       font-size: 2rem;
-    }
-    
-    .post-meta {
-      flex-direction: column;
-      gap: 5px;
     }
   }
 </style>
