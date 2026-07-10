@@ -108,18 +108,25 @@ export const members = [
     tags: ["crypto", "misc"],
   },
   {
+    nickname: "Alicia",
+    name: "Marta Castello",
+    photo: "/immagini_membri/marta_castello.jpg",
+    link: "https://www.linkedin.com/in/marta-castello-2a7376378",
+    tags: ["pwn"],
+  },
+  {
+    nickname: "Parcometro",
+    name: "Macije Costa",
+    photo: "/immagini_membri/maciej_costa.jpg",
+    link: "https://aboutmaciej.altervista.org/",
+    tags: ["web", "network", "pwn"],
+  },
+  {
     nickname: "0x1Dav",
     name: "Davide Caldirola",
     photo: "/immagini_membri/davide_caldirola.jpg",
     link: "https://github.com/DavideCaldirola/CTF-Writeups",
     tags: ["web", "misc"],
-  },
-  {
-    nickname: "marco",
-    name: "Marco Pellero",
-    photo: "/immagini_membri/marco_pellero.jpg",
-    link: "https://www.github.com/MarcoPellero",
-    tags: ["pwn"],
   },
   {
     nickname: "gerert",
@@ -134,6 +141,13 @@ export const members = [
     photo: "/immagini_membri/erika_corbo.jpg",
     link: "https://github.com/eriseisarai",
     tags: ["misc", "web", "bureaucracy"],
+  },
+  {
+    nickname: "marco",
+    name: "Marco Pellero",
+    photo: "/immagini_membri/marco_pellero.jpg",
+    link: "https://www.github.com/MarcoPellero",
+    tags: ["pwn"],
   },
   {
     nickname: "il_vero_gabriele",
@@ -189,5 +203,23 @@ export const pets = [
     info: "Why does he sit like that? Nobody knows",
     photo: "/img-pets/macchia.jpg",
     tags: ["cat"],
+  },
+  {
+    name: "Malinka",
+    info: "",
+    photo: "/img-pets/malinka.jpg",
+    tags: ["cat"],
+  },
+  {
+    name: "Alicia",
+    info: "Gargantuan, majestic and super intelligent.",
+    photo: "/img-pets/alicia.jpg",
+    tags: ["cat"],
+  },
+  {
+    name: "Roberto",
+    info: "",
+    photo: "/img-pets/roberto.jpg",
+    tags: ["wild boar"],
   },
 ];
