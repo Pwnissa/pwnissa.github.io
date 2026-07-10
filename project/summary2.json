@@ -1,0 +1,71 @@
+{
+  "scores": {
+    "performance": 0.88,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1,
+    "agentic-browsing": 1
+  },
+  "failedAudits": [
+    {
+      "id": "first-contentful-paint",
+      "score": 0.81,
+      "title": "First Contentful Paint",
+      "displayValue": "2.1 s"
+    },
+    {
+      "id": "largest-contentful-paint",
+      "score": 0.61,
+      "title": "Largest Contentful Paint",
+      "displayValue": "3.6 s"
+    },
+    {
+      "id": "speed-index",
+      "score": 0.99,
+      "title": "Speed Index",
+      "displayValue": "2.1 s"
+    },
+    {
+      "id": "cumulative-layout-shift",
+      "score": 0.99,
+      "title": "Cumulative Layout Shift",
+      "displayValue": "0.048"
+    },
+    {
+      "id": "interactive",
+      "score": 0.91,
+      "title": "Time to Interactive",
+      "displayValue": "3.6 s"
+    },
+    {
+      "id": "unsized-images",
+      "score": 0.5,
+      "title": "Image elements do not have explicit `width` and `height`",
+      "displayValue": null
+    },
+    {
+      "id": "image-delivery-insight",
+      "score": 0,
+      "title": "Improve image delivery",
+      "displayValue": "Est savings of 1,566 KiB"
+    },
+    {
+      "id": "lcp-discovery-insight",
+      "score": 0,
+      "title": "LCP request discovery",
+      "displayValue": null
+    },
+    {
+      "id": "network-dependency-tree-insight",
+      "score": 0,
+      "title": "Network dependency tree",
+      "displayValue": null
+    },
+    {
+      "id": "render-blocking-insight",
+      "score": 0,
+      "title": "Render-blocking requests",
+      "displayValue": "Est savings of 150 ms"
+    }
+  ]
+}

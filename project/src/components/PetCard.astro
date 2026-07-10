@@ -24,7 +24,7 @@ const cardAccent = tagColors[firstTag] || "var(--accent-teal)";
 ---
 
 <div class="pet-card" style={`--card-accent: ${cardAccent};`}>
-  <img src={photo} alt={name} class="pet-photo">
+  <img src={photo} alt={name} class="pet-photo" width="400" height="400" loading="lazy">
   <div class="pet-name">{name}</div>
   <div class="pet-info">{info || ""}</div>
   <div class="pet-tags">

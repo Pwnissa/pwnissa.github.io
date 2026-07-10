@@ -1,0 +1,83 @@
+{
+  "scores": {
+    "performance": 0.7,
+    "accessibility": 0.98,
+    "best-practices": 1,
+    "seo": 1,
+    "agentic-browsing": 1
+  },
+  "failedAudits": [
+    {
+      "id": "first-contentful-paint",
+      "score": 0.55,
+      "title": "First Contentful Paint",
+      "displayValue": "2.8 s"
+    },
+    {
+      "id": "largest-contentful-paint",
+      "score": 0,
+      "title": "Largest Contentful Paint",
+      "displayValue": "10.4 s"
+    },
+    {
+      "id": "speed-index",
+      "score": 0.95,
+      "title": "Speed Index",
+      "displayValue": "2.8 s"
+    },
+    {
+      "id": "cumulative-layout-shift",
+      "score": 0.99,
+      "title": "Cumulative Layout Shift",
+      "displayValue": "0.048"
+    },
+    {
+      "id": "interactive",
+      "score": 0.24,
+      "title": "Time to Interactive",
+      "displayValue": "10.4 s"
+    },
+    {
+      "id": "unsized-images",
+      "score": 0.5,
+      "title": "Image elements do not have explicit `width` and `height`",
+      "displayValue": null
+    },
+    {
+      "id": "landmark-one-main",
+      "score": 0,
+      "title": "Document does not have a main landmark.",
+      "displayValue": null
+    },
+    {
+      "id": "cache-insight",
+      "score": 0,
+      "title": "Use efficient cache lifetimes",
+      "displayValue": "Est savings of 1,505 KiB"
+    },
+    {
+      "id": "image-delivery-insight",
+      "score": 0,
+      "title": "Improve image delivery",
+      "displayValue": "Est savings of 1,566 KiB"
+    },
+    {
+      "id": "lcp-discovery-insight",
+      "score": 0,
+      "title": "LCP request discovery",
+      "displayValue": null
+    },
+    {
+      "id": "network-dependency-tree-insight",
+      "score": 0,
+      "title": "Network dependency tree",
+      "displayValue": null
+    },
+    {
+      "id": "render-blocking-insight",
+      "score": 0,
+      "title": "Render-blocking requests",
+      "displayValue": "Est savings of 1,870 ms"
+    }
+  ]
+}

@@ -43,8 +43,14 @@ const ogImageUrl = new URL(`/og/${cleanPath}.png`, Astro.site || Astro.url.origi
     <meta name="twitter:image" content={ogImageUrl}>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css" />
+    <!-- Defer Google Fonts loading to prevent render-blocking -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+    </noscript>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71bZlF0160" crossorigin="anonymous">
     <style>
       @font-face {
         font-family: 'PwnissaLogoFont';
@@ -56,26 +62,29 @@ const ogImageUrl = new URL(`/og/${cleanPath}.png`, Astro.site || Astro.url.origi
     </style>
   </head>
   <body>
-    <FixedNavbar base_path='/'/>
-    <main class="blog-container">
-      <div class="blog-header">
-        <a href="/" class="back-link">← Torna alla home</a>
-        <div class="article-meta">
-          <h1>{frontmatter.title}</h1>
-          <div class="meta-info">
-            <span class="author">di {frontmatter.author}</span>
-            <span class="date">{new Date(frontmatter.date).toLocaleDateString('it-IT')}</span>
-            <div class="tags">
-              {frontmatter.tags.map(tag => (
-                <span class={`tag ${tag.toLowerCase().replace(/\s+/g, '-')}`}>{tag}</span>
-              ))}
+    <FixedNavbar />
+    
+    <main class="blog-post-container">
+      <article class="blog-post">
+        <header class="post-header">
+          <div class="post-meta">
+            <div class="article-meta">
+              <h1>{frontmatter.title}</h1>
+              <div class="meta-info">
+                <span class="author">di {frontmatter.author}</span>
+                <span class="date">{new Date(frontmatter.date).toLocaleDateString('it-IT')}</span>
+                <div class="tags">
+                  {frontmatter.tags.map(tag => (
+                    <span class={`tag ${tag.toLowerCase().replace(/\s+/g, '-')}`}>{tag}</span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
+        </header>
+        <div class="post-content">
+          <slot />
         </div>
-      </div>
-      
-      <article class="article-content">
-        <slot />
       </article>
     </main>
     

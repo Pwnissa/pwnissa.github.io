@@ -33,7 +33,7 @@ const cardAccent = tagColors[firstTag] || "var(--accent-teal)";
 {hasValidLink ? (
   <a href={link} target="_blank" class="member-card-link">
     <div class="member-card" style={`--card-accent: ${cardAccent};`}>
-      <img src={photo} alt={nickname} class="member-photo">
+      <img src={photo} alt={nickname} class="member-photo" width="400" height="400" loading="lazy">
       <div class="member-nickname">{nickname}</div>
       <div class="member-name">{name || ""}</div>
       <div class="member-tags">
@@ -45,7 +45,7 @@ const cardAccent = tagColors[firstTag] || "var(--accent-teal)";
   </a>
 ) : (
   <div class="member-card" style={`--card-accent: ${cardAccent};`}>
-    <img src={photo} alt={nickname} class="member-photo">
+    <img src={photo} alt={nickname} class="member-photo" width="400" height="400" loading="lazy">
     <div class="member-nickname">{nickname}</div>
     <div class="member-name">{name || ""}</div>
     <div class="member-tags">

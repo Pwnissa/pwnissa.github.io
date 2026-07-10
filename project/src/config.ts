@@ -101,6 +101,13 @@ export const members: Member[] = [
     tags: ["web", "misc"],
   },
   {
+    nickname: "IlPinguinoBello",
+    name: "Emanuele Gaudiano",
+    photo: "/immagini_membri/emanuele_gaudiano.jpg",
+    link: "https://github.com/Ema0426",
+    tags: ["web", "slop"],
+  },
+  {
     nickname: "MondoQuadretti",
     name: "Laura Bossi",
     photo: "/immagini_membri/laura_bossi.jpg",

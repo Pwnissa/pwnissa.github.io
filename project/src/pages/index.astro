@@ -10,14 +10,16 @@ const latestPosts = sortedPosts.slice(0, 2);
 ---
 
 <Layout title="Pwnissa | CTF Team">
+  <link rel="preload" href="/logo-glitch.webp" as="image" type="image/webp" slot="head" />
+  
   <div class="main-content-section">
-    <div class="container">
+    <main class="container">
       <div class="bento-grid">
         
         <!-- Tile 1: Logo (2x2) -->
         <div class="info-card tile-logo accent-gold">
           <div class="logo-wrapper">
-            <img src="/logo-glitch.webp" alt="CTF Team Logo" class="logo" id="main-glitch-logo" />
+            <img src="/logo-glitch.webp" alt="CTF Team Logo" class="logo" id="main-glitch-logo" width="400" height="559" fetchpriority="high" />
           </div>
         </div>
 
@@ -87,7 +89,7 @@ const latestPosts = sortedPosts.slice(0, 2);
         </div>
 
       </div>
-    </div>
+    </main>
   </div>
 </Layout>
 
