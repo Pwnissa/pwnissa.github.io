@@ -1,5 +1,6 @@
 import { memberBlogFeeds } from '../config';
 import { fetchAllMemberPosts } from './rss-fetcher';
+import { getCollection } from 'astro:content';
 
 export interface PostFrontmatter {
   title: string;
@@ -19,9 +20,8 @@ export interface Post {
 }
 
 export async function getSortedPosts(): Promise<Post[]> {
-  // Fetch local blog posts using modern import.meta.glob instead of deprecated Astro.glob
-  const localModules = import.meta.glob('../pages/blog/**/*.{md,mdx}', { eager: true });
-  const localPosts = Object.values(localModules) as any[];
+  // Fetch local blog posts using Content Collections
+  const localEntries = await getCollection('blog');
 
   // Fetch member posts from RSS feeds if feeds are configured
   let memberPosts: any[] = [];
@@ -35,10 +35,12 @@ export async function getSortedPosts(): Promise<Post[]> {
 
   // Combine and sort all posts by date (newest first)
   const allPosts: Post[] = [
-    ...localPosts.map(post => ({
-      ...post,
-      url: post.url,
-      frontmatter: post.frontmatter as PostFrontmatter,
+    ...localEntries.map(entry => ({
+      url: `/blog/${entry.slug}`,
+      frontmatter: {
+        ...entry.data,
+        date: new Date(entry.data.date).toISOString().split('T')[0],
+      } as PostFrontmatter,
       isLocal: true,
     })),
     ...memberPosts.map(post => ({
