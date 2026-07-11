@@ -18,8 +18,26 @@ const latestPosts = sortedPosts.slice(0, 2);
         
         <!-- Tile 1: Logo (2x2) -->
         <div class="info-card tile-logo accent-gold">
-          <div class="logo-wrapper">
-            <img src="/logo-glitch.webp" alt="CTF Team Logo" class="logo" id="main-glitch-logo" width="400" height="559" fetchpriority="high" />
+          <div class="logo-wrapper" id="logo-wrapper">
+            <img src="/logo-glitch.webp" alt="CTF Team Logo" class="logo" id="main-glitch-logo" width="400" height="559" fetchpriority="high" style="cursor: pointer;" title="Click me 3 times!" />
+          </div>
+          <div class="recipe-wrapper hidden" id="recipe-wrapper">
+            <div class="card-content">
+              <h3>Secret Panissa Recipe Unlocked!</h3>
+              <ul class="recipe-list">
+                <li><strong>300g</strong> chickpea flour</li>
+                <li><strong>1L</strong> water</li>
+                <li><strong>10g</strong> salt</li>
+                <li>Oil for frying</li>
+              </ul>
+              <ol class="recipe-list">
+                <li>Whisk sifted chickpea flour, salt, pepper, and water together until smooth and lump-free.</li>
+                <li>Heat the mixture in a pot over very low heat for about 80 minutes, stirring constantly until it becomes thick and pulls away from the sides.</li>
+                <li>Press the thick dough evenly into an oiled loaf pan, cover, and refrigerate for 2 hours until firm.</li>
+                <li>Unmold and cut into 1-inch (2-3 cm) cubes. Deep-fry in 170°C (340°F) oil for 5 minutes until golden brown.</li>
+                <li>Drain on paper towels and serve hot.</li>
+              </ol>
+            </div>
           </div>
         </div>
 
@@ -73,7 +91,7 @@ const latestPosts = sortedPosts.slice(0, 2);
             <a href="/our-pets" class="cta-button">See all our pets</a>
           </div>
           <div class="pwny-image-wrapper">
-            <img src="/immagini_membri/pwny.jpg" alt="Pwny the mascot" class="pwny-img" />
+            <img src="/immagini_membri/pwny.jpg" alt="Pwny the mascot" class="pwny-img" id="pwny-easter-egg" />
           </div>
         </div>
 
@@ -89,12 +107,14 @@ const latestPosts = sortedPosts.slice(0, 2);
 
       </div>
     </main>
+
+
   </div>
 </Layout>
 
 <style>
   .hidden {
-    display: none;
+    display: none !important;
   }
 
   .main-content-section {
@@ -171,6 +191,29 @@ const latestPosts = sortedPosts.slice(0, 2);
     align-items: center;
     box-sizing: border-box;
     padding: 20px;
+  }
+  .recipe-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+  }
+  .recipe-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+  }
+  .recipe-list {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    padding-left: 20px;
+    line-height: 1.5;
+  }
+  .recipe-list li {
+    margin-bottom: 5px;
   }
   #main-glitch-logo {
     width: 80%;
@@ -338,6 +381,32 @@ const latestPosts = sortedPosts.slice(0, 2);
   .accent-gold { border-top-color: var(--accent-gold); }
   .accent-gold .cta-button:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
 
+  /* Pwny Interaction */
+  @keyframes vibrate {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+  @keyframes gallop {
+    0% { transform: rotate(0deg) translateY(0); }
+    25% { transform: rotate(8deg) translateY(-3px); }
+    75% { transform: rotate(-5deg) translateY(1px); }
+    100% { transform: rotate(0deg) translateY(0); }
+  }
+  .racing-gallop {
+    animation: gallop 0.3s infinite ease-in-out;
+  }
+  .vibrating {
+    animation: vibrate 0.1s linear;
+  }
+  .pwny-img {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
   /* Mobile Responsiveness */
   @media (max-width: 992px) {
     .bento-grid {
@@ -385,3 +454,71 @@ const latestPosts = sortedPosts.slice(0, 2);
     }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const logo = document.getElementById('main-glitch-logo');
+    const logoWrapper = document.getElementById('logo-wrapper');
+    const recipeWrapper = document.getElementById('recipe-wrapper');
+    let clickCount = 0;
+    let clickTimeout;
+
+    if (logo) {
+      logo.addEventListener('click', () => {
+        // Vibrate animation
+        logo.classList.remove('vibrating');
+        void logo.offsetWidth; // trigger reflow
+        logo.classList.add('vibrating');
+
+        clickCount++;
+        clearTimeout(clickTimeout);
+        
+        if (clickCount >= 5) {
+          if (logoWrapper && recipeWrapper) {
+            logoWrapper.classList.add('hidden');
+            recipeWrapper.classList.remove('hidden');
+          }
+          clickCount = 0;
+        } else {
+          clickTimeout = setTimeout(() => {
+            clickCount = 0;
+          }, 1000);
+        }
+      });
+    }
+
+    // --- Horserace Easter Egg ---
+    const pwnyImg = document.getElementById('pwny-easter-egg');
+    let pwnyClickCount = 0;
+    let pwnyClickTimeout;
+    let horseraceLoaded = false;
+
+    if (pwnyImg) {
+      pwnyImg.addEventListener('click', async () => {
+        // Vibrate animation
+        pwnyImg.classList.remove('vibrating');
+        void pwnyImg.offsetWidth; // trigger reflow
+        pwnyImg.classList.add('vibrating');
+
+        pwnyClickCount++;
+        clearTimeout(pwnyClickTimeout);
+        
+        if (pwnyClickCount >= 5) {
+          pwnyClickCount = 0;
+          if (!horseraceLoaded) {
+            const module = await import('../scripts/horserace.js');
+            module.initHorserace();
+            horseraceLoaded = true;
+          } else {
+            const modal = document.getElementById('horserace-modal');
+            if (modal) modal.classList.remove('hidden');
+          }
+        } else {
+          pwnyClickTimeout = setTimeout(() => {
+            pwnyClickCount = 0;
+          }, 1000);
+        }
+      });
+    }
+  });
+</script>
