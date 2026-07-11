@@ -42,14 +42,27 @@ import { navLinks, NAV_BRAND } from '../consts';
 
     .navbar {
       position: fixed;
-      top: 0;
+      top: 20px;
       left: 0;
       right: 0;
+      margin: 0 auto;
+      width: calc(100% - 20px);
+      max-width: 1080px;
       z-index: 1000;
-      background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      /* Removed transform translateY(-100%) so it is visible by default */
+      border-radius: 4px;
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .navbar::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      z-index: -1;
       transition: background 0.3s ease-in-out;
     }
   
@@ -60,7 +73,7 @@ import { navLinks, NAV_BRAND } from '../consts';
     .navbar-container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -165,19 +178,21 @@ import { navLinks, NAV_BRAND } from '../consts';
 
       .navbar-menu {
         position: absolute;
-        top: 60px;
+        top: calc(100% + 10px);
         left: 0;
         right: 0;
-        background: rgba(10, 10, 10, 0.98);
-        backdrop-filter: blur(10px);
+        background: rgba(10, 10, 10, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-        gap: 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        align-items: stretch;
+        padding: 10px 0;
+        gap: 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
         
         /* Mobile closed state */
-        transform: translateY(-150%);
+        transform: translateY(-10px);
         opacity: 0;
         pointer-events: none;
         transition: all 0.3s ease;
@@ -188,6 +203,19 @@ import { navLinks, NAV_BRAND } from '../consts';
         transform: translateY(0);
         opacity: 1;
         pointer-events: auto;
+        display: flex;
+      }
+
+      .navbar-link {
+        text-align: left;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 15px 20px;
+        border-radius: 0;
+      }
+
+      .navbar-link::after {
+        display: none;
       }
     }
   </style>
