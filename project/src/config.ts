@@ -45,6 +45,13 @@ export const members: Member[] = [
     tags: ["pwn", "bureaucracy"],
   },
   {
+    nickname: "eriseisarai",
+    name: "Erika Corbo",
+    photo: "/immagini_membri/erika_corbo.jpg",
+    link: "https://github.com/eriseisarai",
+    tags: ["misc", "web", "bureaucracy"],
+  },
+  {
     nickname: "AndyVale",
     name: "Andrea Valentino Ricotti",
     photo: "/immagini_membri/andrea_ricotti.jpg",
@@ -66,6 +73,13 @@ export const members: Member[] = [
     tags: ["web", "misc", "infra"],
   },
   {
+    nickname: "Alicia",
+    name: "Marta Castello",
+    photo: "/immagini_membri/marta_castello.jpg",
+    link: "https://www.linkedin.com/in/marta-castello-2a7376378",
+    tags: ["pwn", "infra"],
+  },
+  {
     nickname: "e3py",
     name: "Giacomo Quarto",
     photo: "/immagini_membri/giacomo_quarto.jpg",
@@ -80,11 +94,11 @@ export const members: Member[] = [
     tags: ["crypto", "misc"],
   },
   {
-    nickname: "Alicia",
-    name: "Marta Castello",
-    photo: "/immagini_membri/marta_castello.jpg",
-    link: "https://www.linkedin.com/in/marta-castello-2a7376378",
-    tags: ["pwn"],
+    nickname: "MondoQuadretti",
+    name: "Laura Bossi",
+    photo: "/immagini_membri/laura_bossi.jpg",
+    link: "",
+    tags: ["crypto"],
   },
   {
     nickname: "Parcometro",
@@ -108,25 +122,11 @@ export const members: Member[] = [
     tags: ["web", "slop"],
   },
   {
-    nickname: "MondoQuadretti",
-    name: "Laura Bossi",
-    photo: "/immagini_membri/laura_bossi.jpg",
-    link: "",
-    tags: ["crypto"],
-  },
-  {
     nickname: "gerert",
     name: "Giovanni B. Aragone",
     photo: "/immagini_membri/giovanni_aragone.jpg",
     link: "",
     tags: ["misc", "web"],
-  },
-  {
-    nickname: "eriseisarai",
-    name: "Erika Corbo",
-    photo: "/immagini_membri/erika_corbo.jpg",
-    link: "https://github.com/eriseisarai",
-    tags: ["misc", "web", "bureaucracy"],
   },
   {
     nickname: "marco",
