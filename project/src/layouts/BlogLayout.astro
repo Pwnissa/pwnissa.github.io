@@ -64,7 +64,7 @@ const ogImageUrl = new URL(`/og/${cleanPath}.png`, Astro.site || Astro.url.origi
   <body>
     <FixedNavbar />
     
-    <main class="blog-post-container">
+    <main class="blog-container">
       <article class="blog-post">
         <header class="post-header">
           <div class="post-meta">
@@ -82,7 +82,7 @@ const ogImageUrl = new URL(`/og/${cleanPath}.png`, Astro.site || Astro.url.origi
             </div>
           </div>
         </header>
-        <div class="post-content">
+        <div class="article-content">
           <slot />
         </div>
       </article>
@@ -115,13 +115,13 @@ const ogImageUrl = new URL(`/og/${cleanPath}.png`, Astro.site || Astro.url.origi
   .blog-container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 120px 20px 40px;
   }
 
   @media (min-width: 1024px) {
     .blog-container {
       max-width: 1200px;
-      padding: 40px 60px;
+      padding: 140px 60px 40px;
     }
     
     .article-content {
