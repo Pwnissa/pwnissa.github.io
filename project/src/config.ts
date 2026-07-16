@@ -122,6 +122,13 @@ export const members: Member[] = [
     tags: ["web", "slop"],
   },
   {
+    nickname: "ciardu",
+    name: "Luca Ciardullo",
+    photo: "/immagini_membri/luca_ciardullo.png",
+    link: "https://github.com/ciardu",
+    tags: ["web", "misc"],
+  },
+  {
     nickname: "gerert",
     name: "Giovanni B. Aragone",
     photo: "/immagini_membri/giovanni_aragone.jpg",
