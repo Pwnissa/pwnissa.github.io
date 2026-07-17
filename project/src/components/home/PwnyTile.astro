@@ -1,0 +1,116 @@
+---
+/**
+ * PwnyTile — Bento grid tile featuring the Pwny mascot
+ * with a hidden horserace easter egg (5 clicks to trigger).
+ */
+---
+
+<div class="info-card tile-pwny accent-gold">
+  <div class="card-content pwny-content">
+    <h3>Meet Pwny 🐴</h3>
+    <p>Our mascot and the most skilled hacker in the team. Pwny helped us win the <strong>Best Mascot Award</strong> at CyberChallenge.IT 2025!</p>
+    <a href="/our-pets" class="cta-button">See all our pets</a>
+  </div>
+  <div class="pwny-image-wrapper">
+    <img src="/immagini_membri/pwny.jpg" alt="Pwny the mascot" class="pwny-img" id="pwny-easter-egg" />
+  </div>
+</div>
+
+<style>
+  .info-card.tile-pwny {
+    grid-column: span 2;
+    grid-row: span 1;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .pwny-image-wrapper {
+    flex: 1;
+    max-width: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .pwny-img {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  @keyframes vibrate {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+
+  @keyframes gallop {
+    0% { transform: rotate(0deg) translateY(0); }
+    25% { transform: rotate(8deg) translateY(-3px); }
+    75% { transform: rotate(-5deg) translateY(1px); }
+    100% { transform: rotate(0deg) translateY(0); }
+  }
+
+  .racing-gallop {
+    animation: gallop 0.3s infinite ease-in-out;
+  }
+
+  .vibrating {
+    animation: vibrate 0.1s linear;
+  }
+
+  @media (max-width: 992px) {
+    .info-card.tile-pwny {
+      flex-direction: column-reverse;
+    }
+
+    .pwny-image-wrapper {
+      max-width: 100%;
+      height: auto;
+      padding: 30px 20px 0px 20px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const pwnyImg = document.getElementById('pwny-easter-egg');
+    let pwnyClickCount = 0;
+    let pwnyClickTimeout: ReturnType<typeof setTimeout>;
+    let horseraceLoaded = false;
+
+    if (pwnyImg) {
+      pwnyImg.addEventListener('click', async () => {
+        // Vibrate animation
+        pwnyImg.classList.remove('vibrating');
+        void pwnyImg.offsetWidth; // trigger reflow
+        pwnyImg.classList.add('vibrating');
+
+        pwnyClickCount++;
+        clearTimeout(pwnyClickTimeout);
+
+        if (pwnyClickCount >= 5) {
+          pwnyClickCount = 0;
+          if (!horseraceLoaded) {
+            const module = await import('../../scripts/horserace.js');
+            module.initHorserace();
+            horseraceLoaded = true;
+          } else {
+            const modal = document.getElementById('horserace-modal');
+            if (modal) modal.classList.remove('hidden');
+          }
+        } else {
+          pwnyClickTimeout = setTimeout(() => {
+            pwnyClickCount = 0;
+          }, 1000);
+        }
+      });
+    }
+  });
+</script>

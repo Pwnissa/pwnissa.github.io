@@ -12,14 +12,27 @@ import { navLinks, NAV_BRAND } from '../consts';
       </button>
       <div class="navbar-menu" id="navbar-menu">
         {navLinks.map(link => (
-          <a href={link.href} class="navbar-link" target={link.href.startsWith('http') ? '_blank' : '_self'}>{link.name}</a>))}
+          link.subLinks ? (
+            <div class="nav-item-dropdown">
+              <button class="navbar-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                {link.name}
+                <svg class="dropdown-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="dropdown-menu">
+                {link.subLinks.map(subLink => (
+                  <a href={subLink.href} class="dropdown-link" target={subLink.href.startsWith('http') ? '_blank' : '_self'}>{subLink.name}</a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a href={link.href} class="navbar-link" target={link.href.startsWith('http') ? '_blank' : '_self'}>{link.name}</a>
+          )
+        ))}
       </div>
     </div>
   </nav>
   
   <script>
-    // Since the hero-fullscreen was removed, the navbar should always be visible.
-    // We add a class on load just to ensure transitions play if needed.
     window.addEventListener('load', () => {
         const navbar = document.getElementById('navbar');
         navbar?.classList.add('visible');
@@ -31,13 +44,27 @@ import { navLinks, NAV_BRAND } from '../consts';
             hamburger.classList.toggle('is-active');
             menu?.classList.toggle('is-open');
         });
+
+        // Mobile dropdown toggles
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    const parent = toggle.parentElement;
+                    parent?.classList.toggle('is-active');
+                    const expanded = toggle.getAttribute('aria-expanded') === 'true' || false;
+                    toggle.setAttribute('aria-expanded', (!expanded).toString());
+                }
+            });
+        });
     });
   </script>
   
   <style>
     
-    a{
-      -webkit-tap-highlight-color: transparent;  /* added to prevent tap highlight on mobile */
+    a, button {
+      -webkit-tap-highlight-color: transparent;
     }
 
     .navbar {
@@ -100,6 +127,7 @@ import { navLinks, NAV_BRAND } from '../consts';
     .navbar-menu {
       display: flex;
       gap: 30px;
+      align-items: center;
     }
   
     .navbar-link {
@@ -110,7 +138,14 @@ import { navLinks, NAV_BRAND } from '../consts';
       border-radius: 8px;
       transition: all 0.3s ease;
       position: relative;
-      
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
   
     .navbar-link:hover {
@@ -130,8 +165,66 @@ import { navLinks, NAV_BRAND } from '../consts';
       transform: translateX(-50%);
     }
   
-    .navbar-link:hover::after {
+    .navbar-link:not(.dropdown-toggle):hover::after,
+    .nav-item-dropdown:hover > .navbar-link::after {
       width: 80%;
+    }
+
+    .nav-item-dropdown:hover > .navbar-link {
+      color: var(--accent-gold);
+      background: rgba(237, 192, 30, 0.1);
+    }
+
+    .dropdown-icon {
+      transition: transform 0.3s ease;
+    }
+
+    /* Dropdown Desktop */
+    .nav-item-dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(15, 15, 15, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 10px 0;
+      min-width: 200px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-item-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(5px);
+    }
+
+    .nav-item-dropdown:hover .dropdown-icon {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-link {
+      display: block;
+      padding: 10px 20px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .dropdown-link:hover {
+      color: var(--accent-gold);
+      background: rgba(255, 255, 255, 0.05);
     }
   
     .hamburger {
@@ -181,7 +274,7 @@ import { navLinks, NAV_BRAND } from '../consts';
         top: calc(100% + 10px);
         left: 0;
         right: 0;
-        background: rgba(10, 10, 10, 0.85);
+        background: rgba(10, 10, 10, 0.95);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         flex-direction: column;
@@ -212,10 +305,50 @@ import { navLinks, NAV_BRAND } from '../consts';
         box-sizing: border-box;
         padding: 15px 20px;
         border-radius: 0;
+        justify-content: space-between;
       }
 
       .navbar-link::after {
         display: none;
+      }
+
+      /* Dropdown Mobile */
+      .dropdown-menu {
+        position: static;
+        transform: none;
+        background: rgba(0,0,0,0.2);
+        box-shadow: inset 0 3px 6px rgba(0,0,0,0.2);
+        border: none;
+        border-radius: 0 0 8px 8px;
+        padding: 0;
+        min-width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        border-left: 2px solid var(--accent-gold);
+        margin-left: 20px;
+        width: calc(100% - 20px);
+        box-sizing: border-box;
+        opacity: 1;
+        visibility: visible;
+        transition: max-height 0.3s ease-out, padding 0.3s ease;
+      }
+
+      .nav-item-dropdown:hover .dropdown-menu {
+        transform: none; 
+      }
+
+      .nav-item-dropdown.is-active .dropdown-menu {
+        max-height: 200px;
+        padding: 10px 0;
+      }
+
+      .nav-item-dropdown.is-active .dropdown-icon {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-link {
+        text-align: left;
+        padding: 12px 20px;
       }
     }
   </style>

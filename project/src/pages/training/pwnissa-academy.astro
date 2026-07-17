@@ -1,0 +1,221 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Pwnissa Academy - Training" description="Pwnissa Academy: From Zero to CTF. Learn about our cybersecurity curriculum.">
+  <main class="container">
+    <header class="page-header">
+      <h1 class="glitch" data-text="Pwnissa Academy">Pwnissa Academy</h1>
+      <p class="subtitle">From zero to CTF</p>
+    </header>
+
+    <div class="content">
+      <section class="intro-section">
+        <div class="text-block">
+          <h2>Our Mission</h2>
+          <p>The goal of Pwnissa Academy is to introduce students at the University of Genoa to the fundamentals of cybersecurity, fostering a community of enthusiasts who learn, hack, and grow together. We achieve this through a blend of theoretical lectures and interactive laboratories tailored to build the skills necessary for Capture The Flag (CTF) competitions.</p>
+        </div>
+      </section>
+
+      <section class="ctf-section">
+        <div class="text-block">
+          <h2>The Role of CTFs</h2>
+          <p>In recent years, Capture The Flag competitions have become a cornerstone of the international cybersecurity landscape. They are a primary scouting and training tool for industry leaders like Google, Meta, Microsoft, and Cloudflare. Universities worldwide have built strong reputations through the successes of their student CTF teams, leading to global recognition and corporate partnerships. CTFs are more than just games; they are a direct bridge between academia and the professional cybersecurity industry.</p>
+        </div>
+      </section>
+
+      <div class="editions-grid">
+        <section class="card edition-card">
+          <h3>Pwnissa Academy: 2025 Edition</h3>
+          <p>Our 2025 edition, concluding in mid-December, was a major success. We averaged 60 attendees per lecture and registered over 70 active users on our custom training platform. The cohort included students from both Bachelor’s and Master’s programs in Computer Science and Computer Engineering.</p>
+        </section>
+
+        <section class="card edition-card accent">
+          <h3>Pwnissa Academy: 2026 Edition</h3>
+          <p>The schedule for the 2026/2027 academic year is not yet decided.</p>
+          <ul class="styled-list">
+          </ul>
+        </section>
+      </div>
+
+      <div class="cta-section">
+        <a href="https://challs.pwnissa.it/" class="cta-button" target="_blank">Access CTF Platform</a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 120px 20px 60px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .glitch {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: var(--accent-teal);
+    font-weight: 500;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .text-block h2 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    position: relative;
+    display: inline-block;
+  }
+
+  .text-block h2::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--accent-gold);
+  }
+
+  .text-block p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+  }
+
+  .editions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 30px;
+    position: relative;
+  }
+
+  .edition-card h3 {
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .edition-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+  }
+  
+  .styled-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .styled-list li {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .styled-list li::before {
+    content: '>';
+    color: var(--accent-gold);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: bold;
+  }
+
+  .styled-list strong {
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .edition-card.accent {
+    border-top: 3px solid var(--accent-green);
+  }
+
+  .edition-card:not(.accent) {
+    border-top: 3px solid var(--accent-teal);
+  }
+
+  .cta-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    padding: 40px 0;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    background: var(--bg-primary);
+    border: 1px solid var(--accent-gold);
+    border-radius: 4px;
+    color: var(--accent-gold);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .cta-button:hover {
+    background: var(--accent-gold);
+    color: var(--bg-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(237, 192, 30, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .editions-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .glitch {
+      font-size: 2.5rem;
+    }
+    
+    .text-block h2 {
+      font-size: 1.6rem;
+    }
+  }
+</style>

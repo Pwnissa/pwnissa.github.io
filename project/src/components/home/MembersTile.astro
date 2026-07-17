@@ -1,0 +1,47 @@
+---
+/**
+ * MembersTile — Bento grid tile showing the active player count
+ * with a link to the members page.
+ */
+export interface Props {
+  memberCount: number;
+}
+
+const { memberCount } = Astro.props;
+---
+
+<div class="info-card tile-members accent-teal">
+  <div class="card-content centered-content">
+    <h3>The Team</h3>
+    <div class="stat-num">{memberCount}</div>
+    <div class="stat-label">Active Players</div>
+    <a href="/members" class="cta-button">See the roster</a>
+  </div>
+</div>
+
+<style>
+  .tile-members {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .stat-num {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-teal);
+    line-height: 1;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: auto;
+    margin-bottom: 5px;
+    padding-top: 15px;
+  }
+
+  .stat-label {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: auto;
+    padding-bottom: 25px;
+  }
+</style>

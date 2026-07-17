@@ -8,5 +8,12 @@ export const SITE_DESCRIPTION = '';
 export const navLinks = [
     { name: "Members", href: "/members" },
     { name: "Blog", href: "/blog" },
-    { name: "Training", href: "https://challs.pwnissa.it/" },
+    { 
+        name: "Training", 
+        href: "#",
+        subLinks: [
+            { name: "Pwnissa Academy", href: "/training/pwnissa-academy" },
+            { name: "CyberChallenge.IT", href: "/training/cyberchallenge" }
+        ]
+    },
 ]

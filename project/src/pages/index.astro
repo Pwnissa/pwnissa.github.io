@@ -1,114 +1,35 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { SITE_TITLE } from "../consts";
 import { getSortedPosts } from '../lib/posts';
 import { members } from '../config';
 
-const sortedPosts = await getSortedPosts();
+import LogoTile from "../components/home/LogoTile.astro";
+import AboutTile from "../components/home/AboutTile.astro";
+import MembersTile from "../components/home/MembersTile.astro";
+import BlogTile from "../components/home/BlogTile.astro";
+import TrainingTile from "../components/home/TrainingTile.astro";
+import SupportedByTile from "../components/home/SupportedByTile.astro";
+import PwnyTile from "../components/home/PwnyTile.astro";
 
+const sortedPosts = await getSortedPosts();
 const latestPosts = sortedPosts.slice(0, 2);
 ---
 
 <Layout title="Pwnissa | CTF Team">
   <link rel="preload" href="/logo-glitch.webp" as="image" type="image/webp" slot="head" />
-  
+
   <div class="main-content-section">
     <main class="container">
       <div class="bento-grid">
-        
-        <!-- Tile 1: Logo (2x2) -->
-        <div class="info-card tile-logo accent-gold">
-          <div class="logo-wrapper" id="logo-wrapper">
-            <img src="/logo-glitch.webp" alt="CTF Team Logo" class="logo" id="main-glitch-logo" width="400" height="559" fetchpriority="high" style="cursor: pointer;" title="Click me 3 times!" />
-          </div>
-          <div class="recipe-wrapper hidden" id="recipe-wrapper">
-            <div class="card-content">
-              <h3>Secret Panissa Recipe Unlocked!</h3>
-              <ul class="recipe-list">
-                <li><strong>300g</strong> chickpea flour</li>
-                <li><strong>1L</strong> water</li>
-                <li><strong>10g</strong> salt</li>
-                <li>Oil for frying</li>
-              </ul>
-              <ol class="recipe-list">
-                <li>Whisk sifted chickpea flour, salt, pepper, and water together until smooth and lump-free.</li>
-                <li>Heat the mixture in a pot over very low heat for about 80 minutes, stirring constantly until it becomes thick and pulls away from the sides.</li>
-                <li>Press the thick dough evenly into an oiled loaf pan, cover, and refrigerate for 2 hours until firm.</li>
-                <li>Unmold and cut into 1-inch (2-3 cm) cubes. Deep-fry in 170°C (340°F) oil for 5 minutes until golden brown.</li>
-                <li>Drain on paper towels and serve hot.</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tile 2: About Us (2x1) -->
-        <div class="info-card tile-about accent-teal">
-          <div class="card-content">
-            <h3>About Us</h3>
-            <p>We are the <strong>official Capture the Flag hacking team</strong> of the <strong>University of Genoa</strong>. Composed of Bachelor's and Master's students united by a passion for cybersecurity, we actively improve our skills in national and international competitions.</p>
-
-            <p>We also organize a bootcamp called <strong>Pwnissa Academy</strong> during the first semester of university, where we teach hacking basics to any student who wants to participate.</p>
-
-            <p>Our name comes from <strong>pwn</strong> + <strong>panissa</strong>, a traditional Ligurian street food made from fried chickpeas.</p> </div>
-        </div>
-
-        <!-- Tile 3: Members (1x1) -->
-        <div class="info-card tile-members accent-teal">
-          <div class="card-content centered-content">
-            <h3>The Team</h3>
-            <div class="stat-num">{members.length-2}</div>
-            <div class="stat-label">Active Players</div>
-            <a href="/members" class="cta-button">See the roster</a>
-          </div>
-        </div>
-
-        <!-- Tile 4: Blog Posts (2x2) -->
-        <div class="info-card tile-blog accent-green">
-          <div class="card-content">
-            <h3>Latest Writeups</h3>
-            <div class="blog-list">
-              {latestPosts.map(post => (
-                <div class="blog-list-item">
-                  <div class="post-meta">
-                    <span class="post-date">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</span>
-                    {post.isLocal ? null : <span class="tag external">External</span>}
-                  </div>
-                  <a href={post.url} target={post.isLocal ? '_self' : '_blank'} rel={post.isLocal ? '' : 'noopener noreferrer'} class="post-title-link">
-                    {post.frontmatter.title}
-                  </a>
-                </div>
-              ))}
-            </div>
-            <a href="/blog" class="cta-button">View all posts</a>
-          </div>
-        </div>
-
-        <!-- Tile 5: Pwny (2x1) -->
-        <div class="info-card tile-pwny accent-gold">
-          <div class="card-content pwny-content">
-            <h3>Meet Pwny 🐴</h3>
-            <p>Our mascot and the most skilled hacker in the team. Pwny helped us win the <strong>Best Mascot Award</strong> at CyberChallenge.IT 2025!</p>
-            <a href="/our-pets" class="cta-button">See all our pets</a>
-          </div>
-          <div class="pwny-image-wrapper">
-            <img src="/immagini_membri/pwny.jpg" alt="Pwny the mascot" class="pwny-img" id="pwny-easter-egg" />
-          </div>
-        </div>
-
-        <!-- Tile 6: Training (1x1) -->
-        <div class="info-card tile-training accent-green">
-          <div class="card-content centered-content">
-            <h3>Training Platform</h3>
-            <div class="stat-num" style="font-size: 2.5rem;">70+</div>
-            <div class="stat-label">Challenges made by us</div>
-            <a href="https://challs.pwnissa.it" target="_blank" class="cta-button">Play now</a>
-          </div>
-        </div>
-
+        <LogoTile />
+        <AboutTile />
+        <MembersTile memberCount={members.length - 2} />
+        <BlogTile posts={latestPosts} />
+        <PwnyTile />
+        <TrainingTile />
+        <SupportedByTile />
       </div>
     </main>
-
-
   </div>
 </Layout>
 
@@ -131,101 +52,8 @@ const latestPosts = sortedPosts.slice(0, 2);
     gap: 20px;
   }
 
-  /* Tile Placements */
-  .tile-logo {
-    grid-column: span 2;
-    grid-row: span 2;
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-  }
-
-  .tile-blog {
-    grid-column: span 2;
-    grid-row: span 1;
-  }
-
-  .tile-about {
-    grid-column: span 1;
-    grid-row: span 2;
-  }
-
-  .tile-members {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-
-  .tile-training {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-
-  .info-card.tile-pwny {
-    grid-column: span 2;
-    grid-row: span 1;
-    flex-direction: row;
-    align-items: stretch;
-  }
-
-  .pwny-image-wrapper {
-    flex: 1;
-    max-width: 35%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .pwny-img {
-    max-width: 100%;
-    max-height: 200px;
-    object-fit: contain;
-  }
-
-  .logo-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 20px;
-  }
-  .recipe-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow-y: auto;
-  }
-  .recipe-desc {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-  }
-  .recipe-list {
-    font-size: 0.9rem;
-    color: var(--text-primary);
-    margin-bottom: 15px;
-    padding-left: 20px;
-    line-height: 1.5;
-  }
-  .recipe-list li {
-    margin-bottom: 5px;
-  }
-  #main-glitch-logo {
-    width: 80%;
-    max-width: 400px;
-    height: auto;
-    max-height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-
   /* Shared Card Styles */
-  .info-card {
+  :global(.info-card) {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 4px;
@@ -236,7 +64,7 @@ const latestPosts = sortedPosts.slice(0, 2);
     border-top: 3px solid var(--accent-teal);
   }
 
-  .card-content {
+  :global(.card-content) {
     padding: 30px;
     flex: 1;
     display: flex;
@@ -245,104 +73,26 @@ const latestPosts = sortedPosts.slice(0, 2);
     align-items: flex-start;
   }
 
-  .centered-content {
+  :global(.centered-content) {
     align-items: center;
     text-align: center;
   }
 
-  .info-card h3 {
+  :global(.info-card h3) {
     font-size: 1.6rem;
     color: var(--text-primary);
     margin-bottom: 15px;
   }
 
-  .info-card p {
+  :global(.info-card p) {
     color: var(--text-secondary);
     line-height: 1.5;
     margin-bottom: 20px;
     font-size: 1rem;
   }
 
-  /* Blog List Styling */
-  .blog-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 20px;
-    width: 100%;
-    flex: 1;
-  }
-
-  .blog-list-item {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid var(--card-border);
-    padding-bottom: 10px;
-  }
-
-  .blog-list-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .post-meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 5px;
-  }
-
-  .post-date {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .tag.external {
-    background: var(--accent-teal);
-    color: var(--bg-primary);
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 600;
-  }
-
-  .post-title-link {
-    color: var(--text-primary);
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.3;
-    transition: color 0.2s ease;
-  }
-
-  .post-title-link:hover {
-    color: var(--accent-green);
-  }
-
-  /* Members & Socials Specifics */
-  .stat-num {
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--accent-teal);
-    line-height: 1;
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: auto;
-    margin-bottom: 5px;
-    padding-top: 15px;
-  }
-
-  .stat-label {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: auto;
-    padding-bottom: 25px;
-  }
-
   /* Buttons & Links */
-  .cta-button {
+  :global(.info-card .cta-button) {
     display: flex;
     width: 100%;
     box-sizing: border-box;
@@ -364,48 +114,22 @@ const latestPosts = sortedPosts.slice(0, 2);
     box-shadow: none;
   }
 
-  .cta-button:hover {
+  :global(.info-card .cta-button:hover) {
     border-color: var(--text-secondary);
     box-shadow: none;
     transform: none;
   }
 
   /* Accent Colors */
-  .accent-teal { border-top-color: var(--accent-teal); }
-  .accent-teal .cta-button:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
-  .accent-teal .stat-num { color: var(--accent-teal); }
+  :global(.accent-teal) { border-top-color: var(--accent-teal); }
+  :global(.accent-teal .cta-button:hover) { border-color: var(--accent-teal); color: var(--accent-teal); }
+  :global(.accent-teal .stat-num) { color: var(--accent-teal); }
 
-  .accent-green { border-top-color: var(--accent-green); }
-  .accent-green .cta-button:hover { border-color: var(--accent-green); color: var(--accent-green); }
+  :global(.accent-green) { border-top-color: var(--accent-green); }
+  :global(.accent-green .cta-button:hover) { border-color: var(--accent-green); color: var(--accent-green); }
 
-  .accent-gold { border-top-color: var(--accent-gold); }
-  .accent-gold .cta-button:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
-
-  /* Pwny Interaction */
-  @keyframes vibrate {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
-    100% { transform: translate(0); }
-  }
-  @keyframes gallop {
-    0% { transform: rotate(0deg) translateY(0); }
-    25% { transform: rotate(8deg) translateY(-3px); }
-    75% { transform: rotate(-5deg) translateY(1px); }
-    100% { transform: rotate(0deg) translateY(0); }
-  }
-  .racing-gallop {
-    animation: gallop 0.3s infinite ease-in-out;
-  }
-  .vibrating {
-    animation: vibrate 0.1s linear;
-  }
-  .pwny-img {
-    cursor: pointer;
-    transition: transform 0.1s ease;
-  }
+  :global(.accent-gold) { border-top-color: var(--accent-gold); }
+  :global(.accent-gold .cta-button:hover) { border-color: var(--accent-gold); color: var(--accent-gold); }
 
   /* Mobile Responsiveness */
   @media (max-width: 992px) {
@@ -414,23 +138,18 @@ const latestPosts = sortedPosts.slice(0, 2);
       grid-auto-rows: minmax(200px, auto);
       grid-auto-flow: dense;
     }
-    
-    .tile-logo, .tile-blog, .tile-about, .info-card.tile-pwny {
+
+    .bento-grid :global(.tile-logo),
+    .bento-grid :global(.tile-blog),
+    .bento-grid :global(.tile-about),
+    .bento-grid :global(.tile-pwny) {
       grid-column: span 2;
     }
-    
-    .tile-members, .tile-training {
+
+    .bento-grid :global(.tile-members),
+    .bento-grid :global(.tile-training),
+    .bento-grid :global(.tile-supported) {
       grid-column: span 1;
-    }
-
-    .info-card.tile-pwny {
-      flex-direction: column-reverse;
-    }
-
-    .pwny-image-wrapper {
-      max-width: 100%;
-      height: auto;
-      padding: 30px 20px 0px 20px;
     }
   }
 
@@ -439,86 +158,15 @@ const latestPosts = sortedPosts.slice(0, 2);
       grid-template-columns: 1fr;
     }
 
-    .tile-logo, .tile-blog, .tile-about, .tile-members, .tile-training, .info-card.tile-pwny {
+    .bento-grid :global(.tile-logo),
+    .bento-grid :global(.tile-blog),
+    .bento-grid :global(.tile-about),
+    .bento-grid :global(.tile-members),
+    .bento-grid :global(.tile-pwny),
+    .bento-grid :global(.tile-supported),
+    .bento-grid :global(.tile-training) {
       grid-column: span 1;
       grid-row: auto;
     }
-
-    .logo-wrapper {
-      width: 100%;
-      padding: 40px 0;
-    }
-    #main-glitch-logo {
-      width: 80%;
-      max-width: none;
-    }
   }
 </style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const logo = document.getElementById('main-glitch-logo');
-    const logoWrapper = document.getElementById('logo-wrapper');
-    const recipeWrapper = document.getElementById('recipe-wrapper');
-    let clickCount = 0;
-    let clickTimeout;
-
-    if (logo) {
-      logo.addEventListener('click', () => {
-        // Vibrate animation
-        logo.classList.remove('vibrating');
-        void logo.offsetWidth; // trigger reflow
-        logo.classList.add('vibrating');
-
-        clickCount++;
-        clearTimeout(clickTimeout);
-        
-        if (clickCount >= 5) {
-          if (logoWrapper && recipeWrapper) {
-            logoWrapper.classList.add('hidden');
-            recipeWrapper.classList.remove('hidden');
-          }
-          clickCount = 0;
-        } else {
-          clickTimeout = setTimeout(() => {
-            clickCount = 0;
-          }, 1000);
-        }
-      });
-    }
-
-    // --- Horserace Easter Egg ---
-    const pwnyImg = document.getElementById('pwny-easter-egg');
-    let pwnyClickCount = 0;
-    let pwnyClickTimeout;
-    let horseraceLoaded = false;
-
-    if (pwnyImg) {
-      pwnyImg.addEventListener('click', async () => {
-        // Vibrate animation
-        pwnyImg.classList.remove('vibrating');
-        void pwnyImg.offsetWidth; // trigger reflow
-        pwnyImg.classList.add('vibrating');
-
-        pwnyClickCount++;
-        clearTimeout(pwnyClickTimeout);
-        
-        if (pwnyClickCount >= 5) {
-          pwnyClickCount = 0;
-          if (!horseraceLoaded) {
-            const module = await import('../scripts/horserace.js');
-            module.initHorserace();
-            horseraceLoaded = true;
-          } else {
-            const modal = document.getElementById('horserace-modal');
-            if (modal) modal.classList.remove('hidden');
-          }
-        } else {
-          pwnyClickTimeout = setTimeout(() => {
-            pwnyClickCount = 0;
-          }, 1000);
-        }
-      });
-    }
-  });
-</script>

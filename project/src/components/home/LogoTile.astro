@@ -1,0 +1,146 @@
+---
+/**
+ * LogoTile — Bento grid tile displaying the glitch logo
+ * with a hidden panissa recipe easter egg (5 clicks to reveal).
+ */
+---
+
+<div class="info-card tile-logo accent-gold">
+  <div class="logo-wrapper" id="logo-wrapper">
+    <img
+      src="/logo-glitch.webp"
+      alt="CTF Team Logo"
+      class="logo"
+      id="main-glitch-logo"
+      width="400"
+      height="559"
+      fetchpriority="high"
+      style="cursor: pointer;"
+      title="Click me 3 times!"
+    />
+  </div>
+  <div class="recipe-wrapper hidden" id="recipe-wrapper">
+    <div class="card-content">
+      <h3>Secret Panissa Recipe Unlocked!</h3>
+      <ul class="recipe-list">
+        <li><strong>300g</strong> chickpea flour</li>
+        <li><strong>1L</strong> water</li>
+        <li><strong>10g</strong> salt</li>
+        <li>Oil for frying</li>
+      </ul>
+      <ol class="recipe-list">
+        <li>Whisk sifted chickpea flour, salt, pepper, and water together until smooth and lump-free.</li>
+        <li>Heat the mixture in a pot over very low heat for about 80 minutes, stirring constantly until it becomes thick and pulls away from the sides.</li>
+        <li>Press the thick dough evenly into an oiled loaf pan, cover, and refrigerate for 2 hours until firm.</li>
+        <li>Unmold and cut into 1-inch (2-3 cm) cubes. Deep-fry in 170°C (340°F) oil for 5 minutes until golden brown.</li>
+        <li>Drain on paper towels and serve hot.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<style>
+  .hidden {
+    display: none !important;
+  }
+
+  .tile-logo {
+    grid-column: span 2;
+    grid-row: span 2;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .logo-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+
+  .recipe-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+  }
+
+  .recipe-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+  }
+
+  .recipe-list {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    padding-left: 20px;
+    line-height: 1.5;
+  }
+
+  .recipe-list li {
+    margin-bottom: 5px;
+  }
+
+  #main-glitch-logo {
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .logo-wrapper {
+      width: 100%;
+      padding: 40px 0;
+    }
+    #main-glitch-logo {
+      width: 80%;
+      max-width: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const logo = document.getElementById('main-glitch-logo');
+    const logoWrapper = document.getElementById('logo-wrapper');
+    const recipeWrapper = document.getElementById('recipe-wrapper');
+    let clickCount = 0;
+    let clickTimeout: ReturnType<typeof setTimeout>;
+
+    if (logo) {
+      logo.addEventListener('click', () => {
+        // Vibrate animation
+        logo.classList.remove('vibrating');
+        void logo.offsetWidth; // trigger reflow
+        logo.classList.add('vibrating');
+
+        clickCount++;
+        clearTimeout(clickTimeout);
+
+        if (clickCount >= 5) {
+          if (logoWrapper && recipeWrapper) {
+            logoWrapper.classList.add('hidden');
+            recipeWrapper.classList.remove('hidden');
+          }
+          clickCount = 0;
+        } else {
+          clickTimeout = setTimeout(() => {
+            clickCount = 0;
+          }, 1000);
+        }
+      });
+    }
+  });
+</script>

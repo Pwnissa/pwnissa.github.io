@@ -1,0 +1,101 @@
+---
+/**
+ * BlogTile — Bento grid tile showing the latest writeups
+ * with links to individual posts.
+ */
+export interface Props {
+  posts: {
+    url: string;
+    isLocal: boolean;
+    frontmatter: {
+      date: string;
+      title: string;
+    };
+  }[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="info-card tile-blog accent-green">
+  <div class="card-content">
+    <h3>Latest Posts</h3>
+    <div class="blog-list">
+      {posts.map(post => (
+        <div class="blog-list-item">
+          <div class="post-meta">
+            <span class="post-date">{new Date(post.frontmatter.date).toLocaleDateString('it-IT')}</span>
+            {post.isLocal ? null : <span class="tag external">External</span>}
+          </div>
+          <a href={post.url} target={post.isLocal ? '_self' : '_blank'} rel={post.isLocal ? '' : 'noopener noreferrer'} class="post-title-link">
+            {post.frontmatter.title}
+          </a>
+        </div>
+      ))}
+    </div>
+    <a href="/blog" class="cta-button">View all posts</a>
+  </div>
+</div>
+
+<style>
+  .tile-blog {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+    flex: 1;
+  }
+
+  .blog-list-item {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 10px;
+  }
+
+  .blog-list-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+
+  .post-date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .tag.external {
+    background: var(--accent-teal);
+    color: var(--bg-primary);
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  .post-title-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    transition: color 0.2s ease;
+  }
+
+  .post-title-link:hover {
+    color: var(--accent-green);
+  }
+</style>

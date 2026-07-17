@@ -1,0 +1,37 @@
+---
+/**
+ * TrainingTile — Link to the CTF portal.
+ */
+---
+<div class="info-card tile-training accent-green">
+  <div class="card-content centered-content">
+    <h3>Training Platform</h3>
+    <div class="stat-num" style="font-size: 2.5rem;">70+</div>
+    <div class="stat-label">Challenges made by us</div>
+    <a href="https://challs.pwnissa.it" target="_blank" class="cta-button">Play now</a>
+  </div>
+</div>
+
+<style>
+  .tile-training {
+    grid-column: span 1;
+  }
+  .centered-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    gap: 15px;
+  }
+  .stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: bold;
+    color: var(--accent-gold);
+  }
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+</style>
