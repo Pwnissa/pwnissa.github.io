@@ -9,11 +9,11 @@ import Layout from '../../layouts/Layout.astro';
       <p class="subtitle">Formiamo la nuova generazione di Cyberdefender</p>
     </header>
 
-    <div class="hero-image">
-      <img src="/images/cyberchallenge2026.jpg" alt="CyberChallenge 2026" />
-    </div>
-
     <div class="content">
+      <div class="hero-image">
+        <img src="/images/cyberchallenge2026.jpg" alt="CyberChallenge 2026" />
+      </div>
+
       <div class="editions-grid">
         <section class="card edition-card">
           <h3>The Program</h3>
@@ -59,7 +59,6 @@ import Layout from '../../layouts/Layout.astro';
     max-height: 400px;
     border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 40px;
     border: 1px solid var(--card-border);
   }
 
@@ -193,7 +192,8 @@ import Layout from '../../layouts/Layout.astro';
     }
     
     .glitch {
-      font-size: 2.5rem;
+      font-size: clamp(1.8rem, 8vw, 2.5rem);
+      word-break: break-word;
     }
     
     .text-block h2 {
