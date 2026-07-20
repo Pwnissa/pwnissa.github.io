@@ -101,6 +101,13 @@ export const members: Member[] = [
     tags: ["crypto"],
   },
   {
+    nickname: "Sasha",
+    name: "Sasha",
+    photo: "/immagini_membri/sasha.jpg",
+    link: "",
+    tags: ["web", "proxy funziona"],
+  },
+  {
     nickname: "Parcometro",
     name: "Maciej Costa",
     photo: "/immagini_membri/maciej_costa.jpg",
@@ -134,6 +141,13 @@ export const members: Member[] = [
     photo: "/immagini_membri/giovanni_aragone.jpg",
     link: "",
     tags: ["misc", "web"],
+  },
+  {
+    nickname: "Tom1380",
+    name: "Tommaso Thea Cioni",
+    photo: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+    link: "",
+    tags: ["pwn"]
   },
   {
     nickname: "marco",

@@ -16,14 +16,14 @@ import Layout from '../../layouts/Layout.astro';
       <section class="intro-section">
         <div class="text-block">
           <h2>Our Mission</h2>
-          <p>The goal of Pwnissa Academy is to introduce students at the University of Genoa to the fundamentals of cybersecurity, fostering a community of enthusiasts who learn, hack, and grow together. We achieve this through a blend of theoretical lectures and interactive laboratories tailored to build the skills necessary for Capture The Flag (CTF) competitions.</p>
+          <p>The goal of Pwnissa Academy is to introduce University of Genoa students to cybersecurity basics, building a group of people who actually enjoy learning and hacking together. We do this by mixing standard lectures with hands-on labs, focusing directly on the practical skills needed for Capture The Flag (CTF) competitions.</p>
         </div>
       </section>
 
       <section class="ctf-section">
         <div class="text-block">
           <h2>The Role of CTFs</h2>
-          <p>In recent years, Capture The Flag competitions have become a cornerstone of the international cybersecurity landscape. They are a primary scouting and training tool for industry leaders like Google, Meta, Microsoft, and Cloudflare. Universities worldwide have built strong reputations through the successes of their student CTF teams, leading to global recognition and corporate partnerships. CTFs are more than just games; they are a direct bridge between academia and the professional cybersecurity industry.</p>
+          <p>Capture The Flag competitions have become a standard in the cybersecurity world. Tech giants like Google, Meta, Microsoft, and Cloudflare actively use them to scout and train new talent. Additionally, universities gain serious international traction and land corporate partnerships when their CTF teams perform well. Ultimately, CTFs aren't just for fun they provide a proven fast-track from university classrooms straight into the professional cybersecurity industry.</p>
         </div>
       </section>
 
@@ -63,7 +63,7 @@ import Layout from '../../layouts/Layout.astro';
 
   .hero-image {
     width: 100%;
-    max-height: 400px;
+    height: 400px;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid var(--card-border);
@@ -73,6 +73,7 @@ import Layout from '../../layouts/Layout.astro';
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: bottom;
     display: block;
   }
 
@@ -228,6 +229,10 @@ import Layout from '../../layouts/Layout.astro';
       grid-template-columns: 1fr;
     }
     
+    .hero-image {
+      height: 250px;
+    }
+
     .glitch {
       font-size: clamp(1.8rem, 8vw, 2.5rem);
       word-break: break-word;
