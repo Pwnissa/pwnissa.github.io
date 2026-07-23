@@ -49,7 +49,7 @@ export const members: Member[] = [
     name: "Erika Corbo",
     photo: "/immagini_membri/erika_corbo.jpg",
     link: "https://github.com/eriseisarai",
-    tags: ["misc", "web", "bureaucracy"],
+    tags: ["misc", "network", "bureaucracy"],
   },
   {
     nickname: "AndyVale",
@@ -99,6 +99,13 @@ export const members: Member[] = [
     photo: "/immagini_membri/laura_bossi.jpg",
     link: "",
     tags: ["crypto"],
+  },
+  {
+    nickname: "CircularDig",
+    name: "Emanuele Vacarezza",
+    photo: "/immagini_membri/emanuele_vacarezza.jpg",
+    link: "https://github.com/CircularDig7047",
+    tags: ["pwn"],
   },
   {
     nickname: "Sasha",
