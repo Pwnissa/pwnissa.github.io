@@ -15,10 +15,10 @@ export const memberBlogFeeds: MemberFeed[] = [
     rssFeed: "https://blog.davidherm.es/rss.xml",
   },
   // Add more members with RSS feeds here
-  // {
-  //   nickname: "StealthGuy",
-  //   rssFeed: "https://stealthguy.net/rss.xml",
-  // },
+  {
+    nickname: "StealthGuy",
+    rssFeed: "https://stealthguy.net/rss.xml",
+  },
 ];
 
 export interface Member {
