@@ -129,6 +129,13 @@ export const members: Member[] = [
     tags: ["web", "misc"],
   },
   {
+    nickname: "AlexTheLlama",
+    name: "Alex Marini",
+    photo: "/immagini_membri/alex_marini.jpg",
+    link: "https://github.com/SadAlex14",
+    tags: ["reverse", "pwn"],
+  },
+  {
     nickname: "IlPinguinoBello",
     name: "Emanuele Gaudiano",
     photo: "/immagini_membri/emanuele_gaudiano.jpg",
