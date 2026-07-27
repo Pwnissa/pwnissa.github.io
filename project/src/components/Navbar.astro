@@ -1,8 +1,14 @@
 ---
 import { navLinks, NAV_BRAND } from '../consts';
+
+interface Props {
+  autoHide?: boolean;
+}
+
+const { autoHide = false } = Astro.props;
 ---
 
-<nav id="navbar" class="navbar">
+<nav id="navbar" class="navbar" data-autohide={autoHide ? "true" : "false"}>
     <div class="navbar-container">
       <div class="navbar-brand">
         <a href="/">{NAV_BRAND}</a>
@@ -36,6 +42,20 @@ import { navLinks, NAV_BRAND } from '../consts';
     window.addEventListener('load', () => {
         const navbar = document.getElementById('navbar');
         navbar?.classList.add('visible');
+        
+        const autoHide = navbar?.dataset.autohide === "true";
+        if (autoHide && navbar) {
+          let lastScrollY = window.scrollY;
+          window.addEventListener('scroll', () => {
+            const scrollThreshold = 5;
+            if (window.scrollY > lastScrollY + scrollThreshold && window.scrollY > navbar.offsetHeight) {
+              navbar.classList.add('hidden');
+            } else if (window.scrollY < lastScrollY - scrollThreshold) {
+              navbar.classList.remove('hidden');
+            }
+            lastScrollY = window.scrollY;
+          });
+        }
         
         const hamburger = document.getElementById('hamburger');
         const menu = document.getElementById('navbar-menu');
@@ -77,7 +97,11 @@ import { navLinks, NAV_BRAND } from '../consts';
       max-width: 1080px;
       z-index: 1000;
       border-radius: 4px;
-      transition: transform 0.3s ease-in-out;
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    }
+    
+    .navbar.hidden {
+      transform: translateY(-150%);
     }
     
     .navbar::before {
