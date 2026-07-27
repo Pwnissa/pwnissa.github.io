@@ -15,6 +15,7 @@ const { title, description = "Team CTF di sicurezza informatica - Università di
 const pathname = Astro.url.pathname;
 const cleanPath = pathname.replace(/^\/|\/$/g, '') || 'index';
 const ogImageUrl = new URL(`/og/${cleanPath}.png`, Astro.site || Astro.url.origin).toString();
+const canonicalURL = new URL(pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -23,6 +24,7 @@ const ogImageUrl = new URL(`/og/${cleanPath}.png`, Astro.site || Astro.url.origi
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL} />
 
     <title>{title}</title>
     <meta name="description" content={description} />
