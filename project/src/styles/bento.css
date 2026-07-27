@@ -1,0 +1,136 @@
+/* src/styles/bento.css */
+.hidden {
+  display: none !important;
+}
+
+.main-content-section {
+  padding: 100px 0 20px;
+  background: var(--bg-primary);
+  min-height: 100vh;
+}
+
+/* Bento Box Grid */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(240px, auto);
+  gap: 20px;
+}
+
+/* Shared Card Styles */
+.info-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-top: 3px solid var(--accent-teal);
+}
+
+.card-content {
+  padding: 30px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.centered-content {
+  align-items: center;
+  text-align: center;
+}
+
+.info-card h3 {
+  font-size: 1.6rem;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.info-card p {
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+/* Buttons & Links */
+.info-card .cta-button {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background: var(--bg-primary);
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  margin-top: auto;
+  outline: none;
+  box-shadow: none;
+}
+
+.info-card .cta-button:hover {
+  border-color: var(--text-secondary);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Accent Colors */
+.accent-teal { border-top-color: var(--accent-teal); }
+.accent-teal .cta-button:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+.accent-teal .stat-num { color: var(--accent-teal); }
+
+.accent-green { border-top-color: var(--accent-green); }
+.accent-green .cta-button:hover { border-color: var(--accent-green); color: var(--accent-green); }
+
+.accent-gold { border-top-color: var(--accent-gold); }
+.accent-gold .cta-button:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
+  .bento-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(200px, auto);
+    grid-auto-flow: dense;
+  }
+
+  .bento-grid .tile-logo,
+  .bento-grid .tile-blog,
+  .bento-grid .tile-about,
+  .bento-grid .tile-pwny {
+    grid-column: span 2 !important;
+  }
+
+  .bento-grid .tile-members,
+  .bento-grid .tile-training,
+  .bento-grid .tile-supported {
+    grid-column: span 1 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-grid .tile-logo,
+  .bento-grid .tile-blog,
+  .bento-grid .tile-about,
+  .bento-grid .tile-members,
+  .bento-grid .tile-pwny,
+  .bento-grid .tile-supported,
+  .bento-grid .tile-training {
+    grid-column: span 1 !important;
+    grid-row: auto !important;
+  }
+}

@@ -7,9 +7,10 @@ import '../styles/tags.css';
 export interface Props {
   title: string;
   description?: string;
+  navbarAutoHide?: boolean;
 }
 
-const { title, description = "Team CTF di sicurezza informatica - Università di Genova" } = Astro.props;
+const { title, description = "Team CTF di sicurezza informatica - Università di Genova", navbarAutoHide = false } = Astro.props;
 
 // Determine OG Image URL dynamically
 const pathname = Astro.url.pathname;
@@ -66,7 +67,7 @@ const canonicalURL = new URL(pathname, Astro.site);
   </head>
   <body>
     <slot />
-    <Navbar />
+    <Navbar autoHide={navbarAutoHide} />
     <Footer />
   </body>
 </html>

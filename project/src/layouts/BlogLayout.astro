@@ -1,8 +1,6 @@
 ---
-import Footer from '../components/Footer.astro';
-import Navbar from '../components/Navbar.astro';
-import '../styles/global.css';
-import '../styles/tags.css';
+import Layout from './Layout.astro';
+import '../styles/blog.css';
 
 export interface Props {
   frontmatter: {
@@ -15,342 +13,39 @@ export interface Props {
 }
 
 const { frontmatter } = Astro.props;
-
-// Determine OG Image URL dynamically
-const pathname = Astro.url.pathname;
-const cleanPath = pathname.replace(/^\/|\/$/g, '') || 'index';
-const ogImageUrl = new URL(`/og/${cleanPath}.png`, Astro.site || Astro.url.origin).toString();
-const canonicalURL = new URL(pathname, Astro.site);
-
 ---
 
-<!doctype html>
-<html lang="it">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={`Articolo di ${frontmatter.author} @ Pwnissa`} />
-    <link rel="canonical" href={canonicalURL} />
-    <title>{frontmatter.title} | Blog | Pwnissa</title>
-    
-    <!-- OpenGraph & Twitter Tags -->
-    <meta property="og:title" content={`${frontmatter.title} | Blog | Pwnissa`}>
-    <meta property="og:description" content={`Articolo di ${frontmatter.author} @ Pwnissa`}>
-    <meta property="og:image" content={ogImageUrl}>
-    <meta property="og:url" content={Astro.url.href}>
+<Layout 
+  title={`${frontmatter.title} | Blog | Pwnissa`} 
+  description={`Articolo di ${frontmatter.author} @ Pwnissa`}
+  navbarAutoHide={true}
+>
+  <Fragment slot="head">
     <meta property="og:type" content="article">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content={ogImageUrl}>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Defer Google Fonts loading to prevent render-blocking -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'">
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
-    </noscript>
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71bZlF0160" crossorigin="anonymous">
-    <style>
-      @font-face {
-        font-family: 'PwnissaLogoFont';
-        src: url('/fonts/G7_Cube_5.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-      }
-    </style>
-    <!-- Pixel Code for https://simplifyanalytics.app/ -->
-    <script defer src="https://simplifyanalytics.app/pixel/zDcCr0DG1O2iPWc2"></script>
-    <!-- END Pixel Code -->
-  </head>
-  <body>
-    <Navbar autoHide={true} />
-    
-    <main class="blog-container">
-      <article class="blog-post">
-        <header class="post-header">
-          <div class="post-meta">
-            <div class="article-meta">
-              <h1>{frontmatter.title}</h1>
-              <div class="meta-info">
-                <span class="author">di {frontmatter.author}</span>
-                <span class="date">{new Date(frontmatter.date).toLocaleDateString('it-IT')}</span>
-                <div class="tags">
-                  {frontmatter.tags.map(tag => (
-                    <span class={`tag ${tag.toLowerCase().replace(/\s+/g, '-')}`}>{tag}</span>
-                  ))}
-                </div>
+  </Fragment>
+  
+  <main class="blog-container">
+    <article class="blog-post">
+      <header class="post-header">
+        <div class="post-meta">
+          <div class="article-meta">
+            <h1>{frontmatter.title}</h1>
+            <div class="meta-info">
+              <span class="author">di {frontmatter.author}</span>
+              <span class="date">{new Date(frontmatter.date).toLocaleDateString('it-IT')}</span>
+              <div class="tags">
+                {frontmatter.tags.map(tag => (
+                  <span class={`tag ${tag.toLowerCase().replace(/\s+/g, '-')}`}>{tag}</span>
+                ))}
               </div>
             </div>
           </div>
-        </header>
-        <div class="article-content">
-          <slot />
         </div>
-      </article>
-    </main>
-    
-    <Footer /> 
-  </body>
-</html>
-
-<style is:global>
-  .article-content a:link {
-  color: var(--accent-teal); /* Teal per link non visitati */
-  text-decoration: underline; /* Sottolineato per chiarezza */
-  transition: color 0.3s ease; /* Transizione fluida al passaggio del mouse */
-  }
-
-  .article-content a:visited {
-    color: var(--accent-gold); /* Gold per link già visitati */
-  }
-
-  .article-content a:hover {
-    color: var(--accent-gold); /* Gold al passaggio del mouse */
-    text-decoration: none; /* Rimuovi sottolineatura al passaggio del mouse */
-  }
-
-  .article-content a:active {
-    color: var(--accent-gold); /* Gold quando il link è attivo/cliccato */
-  }
-
-  .blog-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 120px 20px 40px;
-  }
-
-  @media (min-width: 1024px) {
-    .blog-container {
-      max-width: 1200px;
-      padding: 140px 60px 40px;
-    }
-    
-    .article-content {
-      padding: 60px 80px;
-    }
-  }
-
-  .blog-header {
-    margin-bottom: 40px;
-  }
-
-  .back-link {
-    color: var(--accent-teal);
-    text-decoration: none;
-    font-weight: 500;
-    margin-bottom: 20px;
-    display: inline-block;
-    transition: color 0.3s ease;
-  }
-
-  .back-link:hover {
-    color: var(--accent-gold);
-  }
-
-  .article-meta h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, var(--accent-gold), var(--accent-teal));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .meta-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-
-  .author, .date {
-    color: var(--text-secondary);
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-
-
-  .article-content {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 15px;
-    padding: 40px;
-    backdrop-filter: blur(10px);
-  }
-
-  .article-content h2 {
-    font-size: 1.8rem;
-    margin: 30px 0 15px 0;
-    color: var(--accent-gold);
-  }
-
-  .article-content h3 {
-    font-size: 1.4rem;
-    margin: 25px 0 10px 0;
-    color: var(--accent-teal);
-  }
-
-  .article-content p {
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-    line-height: 1.8;
-  }
-
-  .article-content code {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
-    color: var(--accent-gold);
-  }
-
-  .article-content pre {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    padding: 24px;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 24px 0;
-    border: 1px solid rgba(237, 192, 30, 0.2);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    position: relative;
-  }
-
-  .article-content pre::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-gold), var(--accent-teal));
-    border-radius: 8px 8px 0 0;
-  }
-
-  .article-content pre code {
-    background: none;
-    padding: 0;
-    color: #e6e6e6;
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-
-  /* Syntax Highlighting */
-  .article-content pre code .keyword {
-    color: #ff79c6;
-    font-weight: 600;
-  }
-
-  .article-content pre code .string {
-    color: #f1fa8c;
-  }
-
-  .article-content pre code .comment {
-    color: #6272a4;
-    font-style: italic;
-  }
-
-  .article-content pre code .function {
-    color: #50fa7b;
-  }
-
-  .article-content pre code .number {
-    color: #bd93f9;
-  }
-
-  .article-content pre code .operator {
-    color: #ff79c6;
-  }
-
-  .article-content ul, .article-content ol {
-    margin-left: 20px;
-    margin-bottom: 15px;
-  }
-
-  .article-content li {
-    margin-bottom: 5px;
-  }
-
-  .article-content blockquote {
-    border-left: 4px solid var(--accent-gold);
-    padding-left: 20px;
-    margin: 20px 0;
-    font-style: italic;
-    color: var(--text-secondary);
-  }
-
-  .article-content img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin: 20px 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--card-border);
-    display: block;
-  }
-
-  .footer {
-    background: var(--bg-secondary);
-    padding: 60px 0;
-    border-top: 1px solid var(--card-border);
-    margin-top: 60px;
-  }
-
-  .footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    text-align: center;
-  }
-
-  .footer h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    color: var(--accent-gold);
-  }
-
-  .contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    font-size: 1.1rem;
-  }
-
-  .contact-info a {
-    color: var(--accent-teal);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  .contact-info a:hover {
-    color: var(--accent-gold);
-  }
-
-  @media (max-width: 768px) {
-    .article-meta h1 {
-      font-size: 2rem;
-    }
-    
-    .article-content {
-      padding: 20px;
-    }
-    
-    .meta-info {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-
-</style>
+      </header>
+      <div class="article-content">
+        <slot />
+      </div>
+    </article>
+  </main>
+</Layout>
