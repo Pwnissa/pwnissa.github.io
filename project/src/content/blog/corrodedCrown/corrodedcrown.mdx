@@ -2,8 +2,8 @@
 title: "Corroded Crown: HTB Cyber Apocalpyse - The Salt Crown"
 date: 2026-08-20
 author: "AlexTheLlama"
-tags: ['pwn', 'heap', 'user after free', 'shellcode']
-image: "./images/cover.png"
+tags: ['pwn', 'heap', 'tcache poisoning', 'shellcode']
+image: "./images/cover.webp"
 ---
 import Callout from '../../../components/Callout.astro';
 
@@ -116,14 +116,14 @@ STEP 5: malloc() -> returns TARGET address!
 ```
 Then, we will likely end up writing shellcode since NX is disabled. Also, I'm a big fan of this photo, which contains the secret to unlocking the ultimate skill: **Pivoting Around Memory**
 
-![Pivoting around memory from https://blog.osiris.cyber.nyu.edu/2019/04/06/pivoting-around-memory/](./images/pivoting.png)
+![Pivoting around memory from https://blog.osiris.cyber.nyu.edu/2019/04/06/pivoting-around-memory/](./images/pivoting.webp)
 
 From here, we have all we need to define a strategy.
 
 First, we need a libc leak. We can obtain that by leaking a pointer to `main_arena`, an area of the libc that tracks and manages the memory heap of the main thread. Since chunks in the unsorted bin have their forward and backward pointers pointing to `main_arena`, we can first forge a relic (large enough to go into the unsorted bin), destroy it, and then the use-after-free vuln to inspect it.
 
 To better visualize it, I cast: unsorted bin representation ヽ(╬☉Д⊙)ﾉ\
-![i love to write cringe titles](./images/unsorted.png)
+![i love to write cringe titles](./images/unsorted.webp)
 
 
 ```Python
@@ -135,13 +135,13 @@ leak = u64(inspect(2).ljust(8,b'\x00'))
 
 In your exploit, this will work just fine, but if you are debugging it with, for example, pwndbg, it's better to stop before message is printed and look at the bins, then verify your assumptions with `vmmap`
 
-![pwndbg rules!](./images/pwntools.png)
+![pwndbg rules!](./images/pwntools.webp)
 
 _Cool, first leak obtained._
 
 Thanks to the secret knowledge from the image above, we know that we need `environ` to obtain a stack leak. But hey! What the hell is it? A 9th-level spell? An ultra-legendary sword? We must interrogate the Prophetic Unicorn!
 
-![The Prophetic Unicorn shares his knowledge](./images/unicornsay.png)
+![The Prophetic Unicorn shares his knowledge](./images/unicornsay.webp)
 
 
 *(TL;DR) is a variable in `libc` that contains a pointer to the stack. We can use it to leak the stack.*
@@ -171,7 +171,7 @@ stack_leak = u64(inspect(7).ljust(8,b"\x00"))
 *Note: Here we are writing the raw environ_addr directly into the freed chunk's forward pointer. This  works because our libc is older than 2.32. If Safe-Linking was enabled, we would have needed an additional heap leak to bypass the pointer mangling (XORing the pointer before writing it).*
 
 Inspecting it, will give us the contents of `environ`, our stack leak!
-![I'm always right](./images/stackleak.png)
+![I'm always right](./images/stackleak.webp)
 
 With our juicy stack leak, we can calculate the return address of inscribe, since it will be the last function called to write the shellcode, and use it later to return to `return_address+8`
 ```Python
